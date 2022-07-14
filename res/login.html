@@ -1,0 +1,267 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Amazon Asia Camera Lab</title>
+    <link rel="shortcut icon" href="dist/img/kisspng-amazon.png">
+
+    <!-- fraimwork - css include -->
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+
+    <!-- icon font - css include -->
+    <link rel="stylesheet" type="text/css" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/stroke-gap-icons.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/icofont.css">
+
+    <!-- animation - css include -->
+    <link rel="stylesheet" type="text/css" href="assets/css/animate.css">
+
+    <!-- carousel - css include -->
+    <link rel="stylesheet" type="text/css" href="assets/css/slick.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/slick-theme.css">
+
+    <!-- popup - css include -->
+    <link rel="stylesheet" type="text/css" href="assets/css/magnific-popup.css">
+
+    <!-- jquery-ui - css include -->
+    <link rel="stylesheet" type="text/css" href="assets/css/jquery-ui.css">
+
+    <!-- select option - css include -->
+    <link rel="stylesheet" type="text/css" href="assets/css/nice-select.css">
+
+    <!-- custom - css include -->
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+</head>
+
+
+<body>
+
+    <!-- body_wrap - start -->
+    <div class="body_wrap">
+
+        <!-- backtotop - start -->
+        <div class="backtotop">
+            <a href="#" class="scroll">
+                <i class="far fa-arrow-up"></i>
+            </a>
+        </div>
+        <!-- backtotop - end -->
+
+        <!-- preloader - start -->
+        <div id="preloader"></div>
+        <!-- preloader - end -->
+
+
+
+        <!-- main body - start
+        ================================================== -->
+        <main>
+
+            <!-- sidebar cart - start
+            ================================================== -->
+
+            <!-- sidebar cart - end
+            ================================================== -->
+
+            <!-- breadcrumb_section - start
+            ================================================== -->
+            <div class="breadcrumb_section">
+                <div class="container">
+                    <ul class="breadcrumb_nav ul_li">
+                        <li style="font-size: 26px; margin: auto">Welcome to Amazon Asia Camera Lab!</li>
+<!--                        <img src="dist/img/kisspng-amazon.png" width="20">-->
+
+<!--                        <li><a href="index.html">Home</a></li>-->
+<!--                        <li>Login/Register</li>-->
+                    </ul>
+                </div>
+            </div>
+            <!-- breadcrumb_section - end
+            ================================================== -->
+
+            <!-- register_section - start
+            ================================================== -->
+            <section class="register_section section_space">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+
+                            <ul class="nav register_tabnav ul_li_center" role="tablist">
+                                <li role="presentation">
+                                    <button class="active" data-bs-toggle="tab" data-bs-target="#signin_tab" type="button" role="tab" aria-controls="signin_tab" aria-selected="true">Sign In</button>
+                                </li>
+                                <li role="presentation">
+                                    <button data-bs-toggle="tab" data-bs-target="#signup_tab" type="button" role="tab" aria-controls="signup_tab" aria-selected="false">Change</button>
+                                </li>
+                            </ul>
+
+                            <div class="register_wrap tab-content">
+                                <div class="tab-pane fade show active" id="signin_tab" role="tabpanel">
+                                    <div class="form_item_wrap">
+                                        <h3 class="input_title">User Name*</h3>
+                                        <div class="form_item">
+                                            <label for="username_input"><i class="fas fa-user"></i></label>
+                                            <input onkeydown="key_enter0()" id="username_input" type="text" name="username" placeholder="User Name">
+                                        </div>
+                                    </div>
+
+                                    <div class="form_item_wrap">
+                                        <h3 class="input_title">Password*</h3>
+                                        <div class="form_item">
+                                            <label for="password_input"><i class="fas fa-lock"></i></label>
+                                            <input onkeydown="key_enter0()" id="password_input" type="password" name="password" placeholder="Password">
+                                        </div>
+<!--                                            <div class="checkbox_item">-->
+<!--                                                <input id="remember_checkbox" type="checkbox">-->
+<!--                                                <label for="remember_checkbox">Remember Me</label>-->
+<!--                                            </div>-->
+                                    </div>
+
+                                    <div class="form_item_wrap">
+                                        <button type="submit" class="btn btn_primary" onclick="validation()">Sign In</button>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane fade" id="signup_tab" role="tabpanel">
+                                    <div class="form_item_wrap">
+                                        <h3 class="input_title">User Name*</h3>
+                                        <div class="form_item">
+                                            <label for="username_input2"><i class="fas fa-user"></i></label>
+                                            <input onkeydown="key_enter4()" id="username_input2" type="text" name="username" placeholder="User Name">
+                                        </div>
+                                    </div>
+
+                                    <div class="form_item_wrap">
+                                        <h3 class="input_title">Password*</h3>
+                                        <div class="form_item">
+                                            <label for="password_input1"><i class="fas fa-lock"></i></label>
+                                            <input onkeydown="key_enter4()" id="password_input1" type="password" name="password" placeholder="Password">
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="form_item_wrap">
+                                        <h3 class="input_title">New Password*</h3>
+                                        <div class="form_item">
+                                            <label for="password_input21"><i class="fas fa-lock"></i></label>
+                                            <input onkeydown="key_enter4()" id="password_input21" type="password" name="password" placeholder="New Password">
+                                        </div>
+                                    </div>
+
+                                    <div class="form_item_wrap">
+                                        <h3 class="input_title">New Password*</h3>
+                                        <div class="form_item">
+                                            <label for="password_input22"><i class="fas fa-lock"></i></label>
+                                            <input onkeydown="key_enter4()" id="password_input22" type="password" name="password" placeholder="Type in new password again">
+                                        </div>
+                                    </div>
+
+                                    <div class="form_item_wrap">
+                                        <button type="submit" class="btn btn_secondary" onclick="change_pswd()">Change</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- register_section - end
+            ================================================== -->
+<!--            <div style="margin-left: 700px">-->
+<!--                <button type="submit" class="btn btn_primary" onclick="validation()">Sign In</button>-->
+<!--            </div>-->
+
+
+        </main>
+        <!-- main body - end
+        ================================================== -->
+
+        <!-- footer_section - start
+        ================================================== -->
+        <footer class="footer_section">
+            <div class="footer_widget_area breadcrumb_section">
+                <div class="container" style="margin: auto">
+                    <div class="row" style="margin-left: 150px">
+                        <div class="col col-lg-4 col-md-6 col-sm-6">
+                            <div class="footer_widget footer_about">
+                                <div class="brand_logo" style="margin-left: 20px; margin-top: 10px">
+                                    <a class="brand_link" href="/">
+                                        <img src="https://amazon-blogs-brightspot-lower.s3.amazonaws.com/about/00/92/0260aab44ee8a2faeafde18ee1da/amazon-logo-inverse.svg" alt="logo_not_found" width="150px">
+                                    </a>
+                                </div>
+                                <ul class="social_round ul_li">
+                                    <li><a href="#!"><i class="icofont-youtube-play"></i></a></li>
+                                    <li><a href="#!"><i class="icofont-instagram"></i></a></li>
+                                    <li><a href="#!"><i class="icofont-twitter"></i></a></li>
+                                    <li><a href="#!"><i class="icofont-facebook"></i></a></li>
+                                    <li><a href="#!"><i class="icofont-linkedin"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="col col-lg-2 col-md-3 col-sm-6">
+                            <div class="footer_widget footer_useful_links">
+                                <h3 class="footer_widget_title text-uppercase">Quick Links</h3>
+                                <ul class="ul_li_block">
+                                    <li><a href="about.html">About Us</a></li>
+                                    <li><a href="contact.html">Contact Us</a></li>
+                                    <li><a href="shop.html">Products</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="col col-lg-2 col-md-3 col-sm-6">
+                            <div class="footer_widget footer_useful_links">
+                                <h3 class="footer_widget_title text-uppercase">Custom area</h3>
+                                <ul class="ul_li_block">
+                                    <li><a href="#!">My Account</a></li>
+                                    <li><a href="#!">Tracking List</a></li>
+                                    <li><a href="#!">Privacy Policy</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="col col-lg-4 col-md-6 col-sm-6">
+                            <div class="footer_widget footer_contact">
+                                <h3 class="footer_widget_title text-uppercase">Contact Onfo</h3>
+                                <p>
+                                    xxx
+                                </p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+
+        </footer>
+        <!-- footer_section - end
+        ================================================== -->
+
+    </div>
+    <!-- body_wrap - end -->
+
+    <script src="script.js"></script>
+
+    <!-- fraimwork - jquery include -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+
+    <!-- carousel - jquery plugins collection -->
+    <script src="assets/js/jquery-plugins-collection.js"></script>
+
+    <!-- google map  -->
+    <script src="http://ditu.google.cn/maps/api/js?key=AIzaSyDk2HrmqE4sWSei0XdKGbOMOHN3Mm2Bf-M&ver=2.1.6"></script>
+    <script src="assets/js/gmaps.min.js"></script>
+
+    <!-- custom - main-js -->
+    <script src="assets/js/main.js"></script>
+    
+</body>
+</html>                
