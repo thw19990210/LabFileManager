@@ -9,8 +9,7 @@ We store the files in the database (here we simply use H2), using records of LOB
 4. Drag and drop files to upload and click on the files to download (by clicking on the folders, the corresponding zip file will be downloaded).
 
 ## About
-Masoud Taghavian (masoud.taghavian@gmail.com)  
+
 Enjoy!
 
-## Screenshots
-![screenshot1](images/screenshot.png "PC client")
+
