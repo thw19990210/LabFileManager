@@ -54,8 +54,8 @@ public class HttpInterceptor implements HandlerInterceptor {
             }
         }
 
-        if ("/project".equals(uri)) {
-            uri = "/project.html";
+        if ("/upload".equals(uri)) {
+            uri = "/upload.html";
         }
 
         if ("/sensor".equals(uri)) {

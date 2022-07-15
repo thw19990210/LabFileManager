@@ -108,3 +108,206 @@ CenteredItems {
     height: 60px;
     line-height: 50px;
 }
+
+
+/* all categories dropdown - start */
+.allcategories_dropdown {
+    position: absolute;
+    top: 0;
+    width: 300px;
+}
+@media (max-width: 1199px) {
+    .allcategories_dropdown {
+        width: 250px;
+    }
+}
+.allcategories_dropdown .card-body {
+    padding: 0;
+    border: none;
+    border: 1px solid #d8e1e685;
+    border-radius: 0;
+}
+
+.allcategories_btn {
+    width: 100%;
+    background: #d8e1e6;
+    display: block;
+    color: #252525;
+    line-height: 2em;
+    font-size: 16px;
+    padding: 12px 25px;
+    text-align: left;
+    font-weight: 500;
+    border-radius: 0;
+}
+.allcategories_btn svg, .allcategories_btn i {
+    margin-right: 5px;
+}
+
+.allcategories_collapse {
+    left: 0;
+    top: 100%;
+    width: 100%;
+    z-index: 99;
+    min-width: 280px;
+    position: absolute;
+    -webkit-box-shadow: 0 4px 10px 0 rgba(147, 159, 197, 0.16);
+    box-shadow: 0 4px 10px 0 rgba(147, 159, 197, 0.16);
+}
+@media (max-width: 1199px) {
+    .allcategories_collapse {
+        min-width: 250px;
+    }
+}
+
+.allcategories_list {
+    padding: 0 20px;
+}
+.allcategories_list > li:not(:last-child) {
+    border-bottom: 1px solid #ededed;
+}
+.allcategories_list > li:hover > a {
+    color: #f02757;
+}
+.allcategories_list > li:hover > a i {
+    color: #f02757;
+}
+.allcategories_list a {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    line-height: 1;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 12px 0;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    color: #252525;
+}
+.allcategories_list a i {
+    float: left;
+    width: 25px;
+    height: 25px;
+    font-size: 20px;
+    line-height: 25px;
+    margin-right: 10px;
+    text-align: center;
+    -webkit-transition: 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.allcategories_list > .has_child > a {
+    position: relative;
+}
+.allcategories_list > .has_child > a:after {
+    top: 50%;
+    right: 30px;
+    content: "";
+    font-weight: 700;
+    position: absolute;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    font-family: "Font Awesome 5 Pro";
+}
+
+.allcategories_collapse2 {
+    left: 0;
+    z-index: 99;
+    min-width: 300px;
+    position: absolute;
+    border: 1px solid #d7e1e6;
+}
+.allcategories_collapse2:not(.show) {
+    display: block;
+}
+.allcategories_collapse2 .card {
+    background-color: #fafafa;
+}
+.allcategories_collapse2 .allcategories_list {
+    padding: 21px 0;
+}
+.allcategories_collapse2 .allcategories_list > li {
+    border: none;
+}
+.allcategories_collapse2 .allcategories_list > li:hover > a {
+    color: #e23e1d;
+    background-color: #f4f4f4;
+}
+.allcategories_collapse2 .allcategories_list a {
+    display: block;
+    line-height: 1;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 15px 35px;
+    color: #252525;
+}
+.allcategories_collapse2 .dropdown {
+    position: relative;
+}
+.allcategories_collapse2 .dropdown-toggle:after {
+    float: right;
+    border: none;
+    content: "";
+    font-weight: 400;
+    margin-left: 10px;
+    vertical-align: middle;
+    font-family: "Font Awesome 5 Pro";
+}
+.allcategories_collapse2 .dropdown-menu {
+    border: none;
+    padding: 20px 0;
+    border-radius: 0;
+    position: static !important;
+    -webkit-transform: unset !important;
+    transform: unset !important;
+}
+.allcategories_collapse2 .dropdown-menu li:hover a {
+    color: #e23e1d;
+    background-color: rgba(199, 161, 122, 0.04);
+}
+
+@media screen and (min-width: 1025px) {
+    .allcategories_collapse2 .dropdown-menu {
+        top: 0;
+        left: 100%;
+        position: absolute !important;
+        -webkit-box-shadow: 0px 20px 60px 0px rgba(0, 0, 0, 0.15);
+        box-shadow: 0px 20px 60px 0px rgba(0, 0, 0, 0.15);
+    }
+    .allcategories_collapse2 .dropdown-menu.show {
+        left: 100% !important;
+    }
+    .allcategories_collapse2 .dropdown:hover .dropdown-menu {
+        display: block;
+        -webkit-animation: 0.3s ease-in-out 0s normal none 1 running fadeInUp;
+        animation: 0.3s ease-in-out 0s normal none 1 running fadeInUp;
+    }
+}
+/* all categories dropdown - end */
+
+.ul_li_block {
+    margin: 0px;
+    padding: 0px;
+    display: block;
+}
+.ul_li_block > li {
+    display: block;
+    list-style: none;
+}
+
+.container {
+    max-width: 1200px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.container .row {
+    margin-left: -15px;
+    margin-right: -15px;
+}
+.container .col {
+    -webkit-box-flex: unset;
+    -ms-flex: unset;
+    flex: unset;
+    padding-left: 15px;
+    padding-right: 15px;
+}

@@ -140,6 +140,7 @@ function display (data) {
 
         //image preview function
         var img;
+        var img_name = data[key].name;
         if (data[key].name.endsWith(".mp4") ||
             data[key].name.endsWith(".wmv") ||
             data[key].name.endsWith(".m4v") ||
@@ -148,12 +149,16 @@ function display (data) {
             data[key].name.endsWith(".mov") ) {
             img = document.createElement('video');
         }
+        else if (data[key].name.endsWith(".raw")) {
+            img = document.createElement('img');
+            img_name = img_name.slice(0, -4) + ".jpg";
+        }
         else {
             img = document.createElement('img');
         }
         img.style.width = "150px";
         img.style.height = "114px";
-        img.src = "/storage/" + data[key].name;
+        img.src = "/storage/" + img_name;
         img.alt = "  no image"
 
         //end
@@ -324,4 +329,30 @@ function change_pswd() {
     });
 }
 
-reload();
+$(document).ready(function(){
+    $.ajax({
+        url: "/api/general/get_token",
+        type: "GET",
+        error: function () {
+            alert("Sorry! Some error happened");
+        },
+        success: function (data) {
+            $("#welcome_slogan").append("<a class=\"d-block\">Welcome! " + data[1] + "</a>");
+            if (data[0] == "/") {
+                $("#upload_access_control").show();
+                $("#upload_alert").hide();
+            }
+            else {
+                $("#upload_access_control").hide();
+                $("#upload_alert").show();
+            }
+        }
+    });
+});
+
+
+// reload();
+// function show_user () {
+//     $.
+// }
+// show_user();

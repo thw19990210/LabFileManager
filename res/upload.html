@@ -39,6 +39,12 @@
     <!-- summernote -->
     <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
 
+
+
+    <!-- icon font - css include -->
+    <link rel="stylesheet" type="text/css" href="assets/css/stroke-gap-icons.css">
+
+
 </head>
 <body style="padding: 0;">
 
@@ -77,6 +83,8 @@
             <span class="brand-text font-weight-light">AmazonLab126</span>
         </a>
 
+
+
         <!-- Sidebar -->
         <div class="sidebar">
             <!-- Sidebar user panel (optional) -->
@@ -84,8 +92,8 @@
                 <div class="image">
                     <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
                 </div>
-                <div class="info">
-                    <a href="#" class="d-block">Welcome! </a>
+                <div id="welcome_slogan" class="info">
+
                 </div>
 
             </div>
@@ -117,7 +125,7 @@
 
                     </li>
                     <li class="nav-item ">
-                        <a href="/project" class="nav-link active">
+                        <a href="/upload" class="nav-link active">
                             <i class="nav-icon fas fa-copy"></i>
                             <p>
                                 Upload Files
@@ -190,9 +198,36 @@
         <!--            <img src="https://amazon-blogs-brightspot-lower.s3.amazonaws.com/about/00/92/0260aab44ee8a2faeafde18ee1da/amazon-logo-inverse.svg" alt="" width="260">-->
         <!--        </div>-->
 
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col col-md-3">
+                    <div class="allcategories_dropdown">
+                        <button style="border: none" class="allcategories_btn" type="button" data-bs-toggle="collapse" data-bs-target="#allcategories_collapse" aria-expanded="false" aria-controls="allcategories_collapse">
+                            <svg role="img" xmlns="http://www.w3.org/2000/svg" width="32px" height="32px" viewBox="0 0 24 24" aria-labelledby="statsIconTitle" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" color="#000">  <path d="M6 7L15 7M6 12L18 12M6 17L12 17"/> </svg>
+                            Choose Project Path
+                        </button>
+                        <div class="allcategories_collapse collapse" id="allcategories_collapse">
+                            <div style="margin-bottom: auto" class="card card-body">
+                                <ul class="allcategories_list ul_li_block">
+                                    <li style="margin-left: 20px; margin-right: 20px"><a href="#"><i class="icon icon-Starship"></i> Raspite</a></li>
+                                    <li style="margin-left: 20px; margin-right: 20px"><a href="#"><i class="icon icon-WorldWide"></i> Trona</a></li>
+                                    <li style="margin-left: 20px; margin-right: 20px"><a href="#"><i class="icon icon-Star"></i> Project 3</a></li>
+                                    <li style="margin-left: 20px; margin-right: 20px"><a href="#"><i class="icon icon-Phone"></i> Project 4</a></li>
+                                    <li style="margin-left: 20px; margin-right: 20px"><a href="#"><i class="icon icon-DesktopMonitor"></i> Project 5</a></li>
+                                    <li style="margin-left: 20px; margin-right: 20px"><a href="#"><i class="icon icon-Bulb"></i> Project 6</a></li>
+                                    <li style="margin-left: 20px; margin-right: 20px"><a href="#"><i class="icon icon-Car"></i> Project 7</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <progress id="js-progressbar" class="uk-progress CenteredItems" value="0" max="200" hidden></progress>
 
-        <div class="js-upload uk-placeholder uk-text-center" style="height: 500px">
+        <div id="upload_access_control" class="js-upload uk-placeholder uk-text-center" style="height: 500px; margin-top: 100px">
             <span uk-icon="icon: cloud-upload"></span>
             <span class="uk-text-middle">Drop your files here or</span>
             <div class="uk-form-custom">
@@ -200,6 +235,8 @@
                 <span style="cursor: pointer" class="uk-link">selecting files</span>
             </div>
         </div>
+
+        <div id="upload_alert" style="margin-left: 50px; margin-top: 100px">You have no access to upload files here.</div>
 
 
 
@@ -267,6 +304,20 @@
 
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard.js"></script>
+
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/popper.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+
+<!-- carousel - jquery plugins collection -->
+<script src="assets/js/jquery-plugins-collection.js"></script>
+
+<!-- google map  -->
+<script src="http://ditu.google.cn/maps/api/js?key=AIzaSyDk2HrmqE4sWSei0XdKGbOMOHN3Mm2Bf-M&ver=2.1.6"></script>
+<script src="assets/js/gmaps.min.js"></script>
+
+<!-- custom - main-js -->
+<script src="assets/js/main.js"></script>
 
 </body>
 </html>
