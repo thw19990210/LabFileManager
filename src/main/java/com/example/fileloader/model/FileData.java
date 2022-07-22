@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @Table(name = "FileDatas")
 public class FileData extends BaseModel {
 
-    public static final int MAX_SIZE = 10000000;
+    public static final int MAX_SIZE = 100000000;
 
     @Lob
     private byte data[];

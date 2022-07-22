@@ -20,6 +20,9 @@ public class FileEntry extends BaseModel {
     @Column(unique = true)
     private String name;
 
+    @Column(unique = true)
+    private String path;
+
     @Column
     private Long length;
 

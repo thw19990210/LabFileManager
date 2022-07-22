@@ -17,6 +17,7 @@ import java.io.IOException;
 public class LoginController {
     public static boolean success;
     public static String token;
+    public static String work_path;
 }
 
 

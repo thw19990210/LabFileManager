@@ -5,10 +5,12 @@ import com.example.fileloader.dao.FileEntryDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -41,21 +43,42 @@ public class HttpInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String uri = request.getRequestURI();
 
-        LoginController status = new LoginController();
-
-        if (status.success) {
-            if ("".equals(uri) || "/".equals(uri)) {
-                uri = "/index.html";
+        // get cookie
+        String login_status = "fail";
+        Cookie[] cookies = request.getCookies();
+        if(cookies != null){
+            for(Cookie cookie : cookies){
+                if(cookie.getName().equals("login_status")){
+                    login_status = cookie.getValue();
+                }
             }
         }
-        else {
-            if ("".equals(uri) || "/".equals(uri)) {
+
+//        LoginController status = new LoginController();
+//        if (!login_status.equals("success!")) {
+//            uri = "/login.html";
+//        }
+
+
+//        login_status = login_status.replaceAll("\\p{C}", "");
+
+
+        if ("/".equals(uri) || "/".equals(uri)) {
+            if (login_status.equals("success!")) {
+                uri = "/index.html";
+            }
+            else {
                 uri = "/login.html";
             }
         }
 
         if ("/upload".equals(uri)) {
-            uri = "/upload.html";
+            if (login_status.equals("success!")) {
+                uri = "/upload.html";
+            }
+            else {
+                uri = "/login.html";
+            }
         }
 
         if ("/sensor".equals(uri)) {
@@ -64,13 +87,21 @@ public class HttpInterceptor implements HandlerInterceptor {
 
         if ("/login".equals(uri)) {
             uri = "/login.html";
-            status.success=false;
+            Cookie cookie1=new Cookie("login_status","");
+            cookie1.setPath("/");
+            response.addCookie(cookie1);
+
+            Cookie cookie2=new Cookie("token","");
+            cookie2.setPath("/");
+            response.addCookie(cookie2);
         }
 
         if (!uri.startsWith("/api/")) {
+
             returnFile(request, response, uri);
             return false;
         }
+
         return true;
     }
 
@@ -81,6 +112,8 @@ public class HttpInterceptor implements HandlerInterceptor {
         response.setHeader("Access-Control-Allow-Credentials", "" + true);
         //response.setHeader("Access-Control-Max-Age", "" + 600);
         //response.setHeader("Cache-Control", "max-age=3600");
+
+
 
         File file = new File(HttpInterceptor.resourcePath + uri);
         if (!uri.contains("/../") && file.exists()) {

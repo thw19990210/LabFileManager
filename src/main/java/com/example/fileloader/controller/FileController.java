@@ -1,5 +1,6 @@
 package com.example.fileloader.controller;
 
+
 import com.example.fileloader.misc.StreamUtils;
 import com.example.fileloader.model.FileEntry;
 import com.example.fileloader.service.FileEntryService;
@@ -13,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.zeroturnaround.zip.ZipUtil;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -49,8 +51,8 @@ public class FileController {
         }
     }
 
-    @GetMapping(value = "/files/download/{name}")
-    public ResponseEntity<InputStreamResource> download(HttpServletRequest request, HttpServletResponse response, @PathVariable String name) {
+    @GetMapping(value = "/files/download")
+    public ResponseEntity<InputStreamResource> download(HttpServletRequest request, HttpServletResponse response, @RequestParam("file_path") String name) {
 
         final File originalFile = new File("res/storage/" + name);
         File sendFile = null;
@@ -91,15 +93,27 @@ public class FileController {
     @PostMapping(value = "/files/upload")
     @ResponseBody
     public void uploadFile(HttpServletRequest request, @RequestParam("file") MultipartFile[] files) {
+
+
+        String work_path = "";
+        Cookie[] cookies = request.getCookies();
+        if(cookies != null){
+            for(Cookie cookie : cookies){
+                if(cookie.getName().equals("work_path")){
+                    work_path = cookie.getValue();
+                }
+            }
+        }
+
         for (MultipartFile file : files) {
 
             //save file's property to database
-            record_file(file.getOriginalFilename());
+            record_file(work_path, file.getOriginalFilename());
 
 
             File fileObj = new File(file.getOriginalFilename());
             try {
-                FileOutputStream os = new FileOutputStream("res/storage/"+fileObj);
+                FileOutputStream os = new FileOutputStream("res/storage/" + work_path + "/" + fileObj);
                 StreamUtils.copy(file.getInputStream(), os, false, true);
             } catch (Exception e) {
                 fileObj.delete();
@@ -213,9 +227,10 @@ public class FileController {
             // 展开结果集数据库
             while(rs.next()){
                 String file_route = rs.getString("file_path");
-                file_route = "./res/storage/" + file_route;
-                File file = new File(file_route);
+                String file_path  = "./res/storage/" + file_route;
+                File file = new File(file_path);
                 FileEntry ent = new FileEntry();
+                ent.setPath(file_route);
                 ent.setName(file.getName());
                 ent.setIsDirectory(file.isDirectory());
                 ent.setLength(file.length());
@@ -276,16 +291,17 @@ public class FileController {
             // 执行查询
             stmt = conn.createStatement();
             String sql;
-            sql = "select file_path from files where file_path like \'%" + content +"%\' order by file_path";
+            sql = "select file_path from files where file_path like \'%" + content +"%\' order by file_name";
 
             ResultSet rs = stmt.executeQuery(sql);
 
             // 展开结果集数据库
             while(rs.next()){
                 String file_route = rs.getString("file_path");
-                file_route = "./res/storage/" + file_route;
-                File file = new File(file_route);
+                String file_path  = "./res/storage/" + file_route;
+                File file = new File(file_path);
                 FileEntry ent = new FileEntry();
+                ent.setPath(file_route);
                 ent.setName(file.getName());
                 ent.setIsDirectory(file.isDirectory());
                 ent.setLength(file.length());
@@ -320,7 +336,7 @@ public class FileController {
     }
 
     @GetMapping(value = "/login")
-    public String validation_demo(@RequestParam("username") String username, @RequestParam("password") String password) {
+    public String validation(@RequestParam("username") String username, @RequestParam("password") String password, HttpServletResponse response) {
         String massage = "fail to log in!";
         String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost:3306/amazon_lab126?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
@@ -356,6 +372,16 @@ public class FileController {
                     massage = "success!";
                     status.success = true;
                     status.token = token;
+
+                    // use cookie to control login status
+                    Cookie cookie1=new Cookie("login_status",massage);
+                    cookie1.setPath("/");
+                    response.addCookie(cookie1);
+
+                    Cookie cookie2=new Cookie("token",token);
+                    cookie2.setPath("/");
+                    response.addCookie(cookie2);
+
                     return massage;
                 }
             }
@@ -384,11 +410,12 @@ public class FileController {
         return massage;
     }
 
-    public void record_file(String file_name) {
-
+    public void record_file(String work_path, String file_name) {
 
         String[] property = file_name.split("_");
-        String file_type= file_name.substring(file_name.lastIndexOf(".")+1);
+        String file_type= file_name.substring(file_name.lastIndexOf(".") + 1);
+
+        String file_path = work_path + "/" + file_name;
 
         String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost:3306/amazon_lab126?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
@@ -423,7 +450,8 @@ public class FileController {
                           + property[6] + "\',\'"
                           + property[7] + "\',\'"
                           + file_type   + "\',\'"
-                          + file_name + "\')";
+                          + file_name + "\',\'"
+                          + file_path + "\'  )";
             stmt.execute(sql2);
 
             stmt.close();
@@ -482,7 +510,7 @@ public class FileController {
             // 展开结果集数据库
             while(rs.next()){
                 String pswd = rs.getString("password");
-                System.out.println(pswd);
+
                 if (password.equals(pswd)) {
                     correct_pswd = true;
                     massage = "success!";
@@ -516,12 +544,21 @@ public class FileController {
     }
 
     @GetMapping(value = "/get_token")
-    public List<String> get_token() {
+    public List<String> get_token(HttpServletRequest request) {
         List<String> returnData = new ArrayList<>();
 
-        LoginController status = new LoginController();
-        String token = status.token;
+        String token = "";
+        Cookie[] cookies = request.getCookies();
+        if(cookies != null){
+            for(Cookie cookie : cookies){
+                if(cookie.getName().equals("token")){
+                    token = cookie.getValue();
+                }
+            }
+        }
 
+//        LoginController status = new LoginController();
+//        String token = status.token;
         String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost:3306/amazon_lab126?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
 
@@ -574,5 +611,57 @@ public class FileController {
             }
         }
         return returnData;
+    }
+
+    @GetMapping(value = "/save_work_path")
+    public void save_work_path(HttpServletResponse response, @RequestParam("work_path") String work_path) {
+        Cookie cookie = new Cookie("work_path",work_path);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+    }
+
+    @RequestMapping(value = "/setCookies",method = RequestMethod.GET)
+    public String setCookies(HttpServletResponse response){
+        //HttpServerletRequest 装请求信息类
+        //HttpServerletRespionse 装相应信息的类
+        Cookie cookie=new Cookie("login_status","CookieTestInfo");
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        return "添加cookies信息成功";
+    }
+
+    @RequestMapping(value = "/getCookies",method = RequestMethod.GET)
+    public String getCookies(HttpServletRequest request){
+        //HttpServletRequest 装请求信息类
+        //HttpServletRespionse 装相应信息的类
+        //   Cookie cookie=new Cookie("sessionId","CookieTestInfo");
+        String res = "fail";
+        Cookie[] cookies = request.getCookies();
+        if(cookies != null){
+            for(Cookie cookie : cookies){
+                if(cookie.getName().equals("login_status")){
+                    res = cookie.getValue();
+                }
+            }
+        }
+
+        return res;
+    }
+
+    @RequestMapping("/testCookieValue")
+    public String testCookieValue(@CookieValue("login_status") String sessionId ) {
+        //前提是已经创建了或者已经存在cookie了，那么下面这个就直接把对应的key值拿出来了。
+        System.out.println("testCookieValue,sessionId="+sessionId);
+
+
+        return "SUCCESS";
+    }
+    @RequestMapping("/testCookie")
+    public String testCookieValue2(@CookieValue("token") String sessionId ) {
+        //前提是已经创建了或者已经存在cookie了，那么下面这个就直接把对应的key值拿出来了。
+        System.out.println(sessionId);
+
+
+        return sessionId;
     }
 }

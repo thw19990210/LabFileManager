@@ -1,9 +1,11 @@
 
+
 var bar = document.getElementById('js-progressbar');
 UIkit.upload('.js-upload', {
     url: '/api/general/files/upload',
     multiple: true,
     name: "file",
+    params: {work_path: document.getElementById("work_path").value},
     beforeSend: function () {
         console.log('beforeSend', arguments);
     },
@@ -41,7 +43,6 @@ UIkit.upload('.js-upload', {
         setTimeout(function () {
             bar.setAttribute('hidden', 'hidden');
         }, 1000);
-
         alert("Successfully Uploaded!");
     }
 });
@@ -139,8 +140,9 @@ function display (data) {
         var copy = document.createElement('a');
 
         //image preview function
+        console.log(data[key].name);
         var img;
-        var img_name = data[key].name;
+        var img_name = data[key].path;
         if (data[key].name.endsWith(".mp4") ||
             data[key].name.endsWith(".wmv") ||
             data[key].name.endsWith(".m4v") ||
@@ -179,8 +181,8 @@ function display (data) {
         div.append(fileIcon);
 
         var fileLink = document.createElement('a');
-        fileLink.appendChild(document.createTextNode(data[key].name));
-        fileLink.href = "/api/general/files/download/" + data[key].name;
+        fileLink.appendChild(document.createTextNode(data[key].path));
+        fileLink.href = "/api/general/files/download?file_path=" + data[key].path;
         // fileLink.classList.add("HeaderHeight");
         fileLink.style.marginTop = "46px"
         fileLink.classList.add("FileEntryName");
@@ -241,6 +243,8 @@ function key_enter0(e) {
     var evt = window.event || e;
     if (evt.keyCode == 13) {
         validation();
+        get_token();
+        save_work_path()
     }
 }
 
@@ -255,6 +259,14 @@ function key_enter4(e) {
     var evt = window.event || e;
     if (evt.keyCode == 13) {
         change_pswd();
+    }
+}
+
+function key_enter5(e) {
+    var evt = window.event || e;
+    if (evt.keyCode == 13) {
+        get_token();
+        save_work_path();
     }
 }
 
@@ -290,6 +302,7 @@ function validation() {
         success: function (data) {
             if (data == "success!") {
                 location.href="/";
+                get_token();
             }
             else {
                 alert(data);
@@ -329,16 +342,28 @@ function change_pswd() {
     });
 }
 
-$(document).ready(function(){
+
+function get_token(){
+    var work_path = document.getElementById("work_path").value;
     $.ajax({
         url: "/api/general/get_token",
         type: "GET",
         error: function () {
-            alert("Sorry! Some error happened");
+
         },
         success: function (data) {
+            $("#welcome_slogan").empty();
             $("#welcome_slogan").append("<a class=\"d-block\">Welcome! " + data[1] + "</a>");
-            if (data[0] == "/") {
+
+            var access = data[0].split(',');
+            var permitted = 0;
+            for (key in access) {
+                var path = "/" + work_path;
+                if (path.startsWith(access[key])) {
+                    permitted = 1;
+                }
+            }
+            if (permitted == 1) {
                 $("#upload_access_control").show();
                 $("#upload_alert").hide();
             }
@@ -348,9 +373,25 @@ $(document).ready(function(){
             }
         }
     });
+}
+
+function save_work_path(){
+    var work_path = document.getElementById("work_path").value;
+    $.ajax({
+        url: "/api/general/save_work_path?work_path=" + work_path,
+        type: "GET",
+        error: function () {
+
+        },
+        success: function () {
+
+        }
+    });
+}
+
+$(document).ready(function (){
+    get_token();
 });
-
-
 // reload();
 // function show_user () {
 //     $.
