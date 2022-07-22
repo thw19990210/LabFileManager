@@ -376,10 +376,12 @@ public class FileController {
                     // use cookie to control login status
                     Cookie cookie1=new Cookie("login_status",massage);
                     cookie1.setPath("/");
+                    cookie1.setMaxAge(3600);
                     response.addCookie(cookie1);
 
                     Cookie cookie2=new Cookie("token",token);
                     cookie2.setPath("/");
+                    cookie2.setMaxAge(3600);
                     response.addCookie(cookie2);
 
                     return massage;
