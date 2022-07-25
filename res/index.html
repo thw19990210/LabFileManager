@@ -1,3 +1,4 @@
+
 <html>
 <head>
     <title>Amazon Asia Camera Lab</title>
@@ -80,7 +81,7 @@
         <!-- Brand Logo -->
         <a class="brand-link">
             <img src="dist/img/amazon_logo.png" alt="Amazon Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-            <span class="brand-text font-weight-light">AmazonLab126</span>
+            <span class="brand-text font-weight-light">Amazon Lab126</span>
         </a>
 
         <!-- Sidebar -->
@@ -114,7 +115,7 @@
                     <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
                     <li class="nav-item menu-open">
-                        <a href="/" class="nav-link active">
+                        <a href="/" onclick="get_token()" class="nav-link active">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>
                                 Dashboard
@@ -123,7 +124,7 @@
 
                     </li>
                     <li class="nav-item ">
-                        <a href="/upload" class="nav-link ">
+                        <a href="/upload" onclick="get_token()" class="nav-link ">
                             <i class="nav-icon fas fa-copy"></i>
                             <p>
                                 Upload Files
@@ -264,8 +265,11 @@
             </div>
         </div>
 
+        <div id="work_path"></div>
 
-<!--        <div class="js-upload uk-placeholder uk-text-center">-->
+
+
+        <!--        <div class="js-upload uk-placeholder uk-text-center">-->
 <!--            <span uk-icon="icon: cloud-upload"></span>-->
 <!--            <span class="uk-text-middle">Drop your files here or</span>-->
 <!--            <div class="uk-form-custom">-->
@@ -284,6 +288,7 @@
         <!--</form>-->
 
         <progress id="js-progressbar" class="uk-progress CenteredItems" value="0" max="200" hidden></progress>
+
         <div id="downloadList" class="CenteredItems" style="overflow: auto; overflow-x: hidden; height: 750px;">
         </div>
     </div>
@@ -341,6 +346,7 @@
 
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard.js"></script>
+
 
 
 

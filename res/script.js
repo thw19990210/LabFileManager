@@ -127,6 +127,11 @@ function search() {
 function display (data) {
     $("#Spinner").hide();
     $("#downloadList").fadeIn(500);
+
+    if ($.isEmptyObject(data)) {
+        alert ("no file found for the searching!");
+    }
+
     for (var key in data) {
         var div = document.createElement('div');
         div.classList.add("CenteredItems");
@@ -375,6 +380,21 @@ function get_token(){
     });
 }
 
+function display_name() {
+    $.ajax({
+        url: "/api/general/get_token",
+        type: "GET",
+        error: function () {
+
+        },
+        success: function (data) {
+            $("#welcome_slogan1").empty();
+            $("#welcome_slogan1").append("<a class=\"d-block\">Welcome! " + data[1] + "</a>");
+            alert(data[1]);
+        }
+    });
+}
+
 function save_work_path(){
     var work_path = document.getElementById("work_path").value;
     $.ajax({
@@ -392,6 +412,8 @@ function save_work_path(){
 $(document).ready(function (){
     get_token();
 });
+
+
 // reload();
 // function show_user () {
 //     $.

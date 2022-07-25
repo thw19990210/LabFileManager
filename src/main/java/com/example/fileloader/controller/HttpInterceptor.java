@@ -63,7 +63,7 @@ public class HttpInterceptor implements HandlerInterceptor {
 //        login_status = login_status.replaceAll("\\p{C}", "");
 
 
-        if ("/".equals(uri) || "/".equals(uri)) {
+        if ("".equals(uri) || "/".equals(uri) || "/index.html".equals(uri)) {
             if (login_status.equals("success!")) {
                 uri = "/index.html";
             }
@@ -72,7 +72,7 @@ public class HttpInterceptor implements HandlerInterceptor {
             }
         }
 
-        if ("/upload".equals(uri)) {
+        if ("/upload".equals(uri) || "/upload.html".equals(uri)) {
             if (login_status.equals("success!")) {
                 uri = "/upload.html";
             }
