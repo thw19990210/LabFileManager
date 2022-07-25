@@ -180,7 +180,7 @@ public class FileController {
             // 执行查询
             stmt = conn.createStatement();
             String sql;
-            sql = "select file_path from files";
+            sql = "select file_path, file_name from files";
             String s1 = " where ";
             String s0 = " and ";
             String t = "\'";
@@ -222,6 +222,7 @@ public class FileController {
                 else {sql = sql + s1 + "file_type="+ t +file_type + t;strt=true;}
             }
 
+            sql = sql + " order by file_name";
             ResultSet rs = stmt.executeQuery(sql);
 
             // 展开结果集数据库
