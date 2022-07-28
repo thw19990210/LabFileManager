@@ -338,7 +338,7 @@ public class FileController {
 
     @GetMapping(value = "/login")
     public String validation(@RequestParam("username") String username, @RequestParam("password") String password, HttpServletResponse response) {
-        String massage = "fail to log in!";
+        String massage = "Username or Password is incorrect!";
         String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost:3306/amazon_lab126?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
 
@@ -443,18 +443,25 @@ public class FileController {
 
             String sql1 = "SET @ID= (select MAX(id) as id_max from files)";
             stmt.execute(sql1);
-            String sql2 = "insert into files values (@ID+1,\'"
-                          + property[0] +"\',\'"
-                          + property[1] + "\',"
-                          + property[2] + ","
-                          + property[3] + ","
-                          + property[4] + ","
-                          + property[5] + ",\'"
-                          + property[6] + "\',\'"
-                          + property[7] + "\',\'"
-                          + file_type   + "\',\'"
-                          + file_name + "\',\'"
-                          + file_path + "\'  )";
+//            String sql2 = "insert into files  " +
+//                          "values (@ID+1,\'"
+//                          + property[0] +"\',\'"
+//                          + property[1] + "\',"
+//                          + property[2] + ","
+//                          + property[3] + ","
+//                          + property[4] + ","
+//                          + property[5] + ",\'"
+//                          + property[6] + "\',\'"
+//                          + property[7] + "\',\'"
+//                          + file_type   + "\',\'"
+//                          + file_name + "\',\'"
+//                          + file_path + "\'  )";
+
+            String sql2 = "insert into files (id, file_type, file_name, file_path ) " +
+                    "values (@ID+1,\'"
+                    + file_type   + "\',\'"
+                    + file_name + "\',\'"
+                    + file_path + "\'  )";
             stmt.execute(sql2);
 
             stmt.close();
@@ -583,14 +590,16 @@ public class FileController {
             stmt = conn.createStatement();
 
             String sql;
-            sql = "select access, name from account_info where token=\'"+token+"\'";
+            sql = "select access, name, prof_pic_path from account_info where token=\'"+token+"\'";
             ResultSet rs = stmt.executeQuery(sql);
             // 展开结果集数据库
             while(rs.next()){
                 String access = rs.getString("access");
                 String name = rs.getString("name");
+                String photo = rs.getString("prof_pic_path");
                 returnData.add(access);
                 returnData.add(name);
+                returnData.add(photo);
             }
 
             stmt.close();
@@ -614,6 +623,206 @@ public class FileController {
             }
         }
         return returnData;
+    }
+
+    @GetMapping(value = "/get_PDP_access")
+    public List<String> get_PDP_access(HttpServletRequest request) {
+        List<String> returnData = new ArrayList<>();
+
+        String token = "";
+        Cookie[] cookies = request.getCookies();
+        if(cookies != null){
+            for(Cookie cookie : cookies){
+                if(cookie.getName().equals("token")){
+                    token = cookie.getValue();
+                }
+            }
+        }
+
+        String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost:3306/amazon_lab126?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+
+        // 数据库的用户名与密码，需要根据自己的设置
+        String USER = "root";
+        String PASS = "dbuserdbuser";
+
+
+        Connection conn = null;
+        Statement stmt = null;
+
+        try{
+            // 注册 JDBC 驱动
+            Class.forName(JDBC_DRIVER);
+
+            // 打开链接
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+            stmt = conn.createStatement();
+
+            String sql;
+            sql = "select PDP_access from account_info where token=\'"+token+"\'";
+            ResultSet rs = stmt.executeQuery(sql);
+            // 展开结果集数据库
+            while(rs.next()){
+                String PDP_access = rs.getString("PDP_access");
+                returnData.add(PDP_access);
+            }
+
+
+            stmt.close();
+            conn.close();
+        }catch(SQLException se){
+            // 处理 JDBC 错误
+            se.printStackTrace();
+        }catch(Exception e){
+            // 处理 Class.forName 错误
+            e.printStackTrace();
+        }finally{
+            // 关闭资源
+            try{
+                if(stmt!=null) stmt.close();
+            }catch(SQLException se2){
+            }// 什么都不做
+            try{
+                if(conn!=null) conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+        return returnData;
+    }
+
+    @GetMapping(value = "/display_PDP_table")
+    public List<List<String>> display_PDP_table(HttpServletRequest request) {
+        List<List<String>> returnData = new ArrayList<>();
+
+
+        String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost:3306/amazon_lab126?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+
+        // 数据库的用户名与密码，需要根据自己的设置
+        String USER = "root";
+        String PASS = "dbuserdbuser";
+
+
+        Connection conn = null;
+        Statement stmt = null;
+
+        try{
+            // 注册 JDBC 驱动
+            Class.forName(JDBC_DRIVER);
+
+            // 打开链接
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+            stmt = conn.createStatement();
+
+            String sql;
+            sql = "select * from PDP where project='Raspite'";
+            ResultSet rs = stmt.executeQuery(sql);
+            // 展开结果集数据库
+
+
+            List<String> row = new ArrayList<>();
+            while(rs.next()){
+
+                row.clear();
+
+                row.add(rs.getString("id"));
+                row.add(rs.getString("item"));
+                row.add(rs.getString("priority"));
+                row.add(rs.getString("EVT3"));
+                row.add(rs.getString("EVT3_status"));
+                row.add(rs.getString("DVT"));
+                row.add(rs.getString("DVT_status"));
+
+
+                returnData.add(new ArrayList<>(row));
+            }
+
+
+            stmt.close();
+            conn.close();
+        }catch(SQLException se){
+            // 处理 JDBC 错误
+            se.printStackTrace();
+        }catch(Exception e){
+            // 处理 Class.forName 错误
+            e.printStackTrace();
+        }finally{
+            // 关闭资源
+            try{
+                if(stmt!=null) stmt.close();
+            }catch(SQLException se2){
+            }// 什么都不做
+            try{
+                if(conn!=null) conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+        return returnData;
+    }
+
+    @GetMapping(value = "/save_PDP_table")
+    public void save_PDP_table(@RequestParam("serial_num") String serial_num, @RequestParam("PDP_type") String PDP_type, @RequestParam("PDP_content") String PDP_content, @RequestParam("PDP_color") String PDP_color) {
+
+        String PDP_project = "Raspite";
+
+
+        int sn = Integer.parseInt(serial_num);
+        sn--;
+
+        String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost:3306/amazon_lab126?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+
+        // 数据库的用户名与密码，需要根据自己的设置
+        String USER = "root";
+        String PASS = "dbuserdbuser";
+
+
+        Connection conn = null;
+        Statement stmt = null;
+
+        try{
+            // 注册 JDBC 驱动
+            Class.forName(JDBC_DRIVER);
+
+            // 打开链接
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+            stmt = conn.createStatement();
+
+            String sql = "SET @ID= (select id from PDP where project = \'"+PDP_project+"\' order by id limit "+sn+",1)";
+            stmt.execute(sql);
+
+            String sql1 = "update PDP set " + PDP_type +" = \'" + PDP_content + "\' where id = @ID";
+            if (!PDP_content.equals("")) stmt.execute(sql1);
+
+            String sql2 = "update PDP set " + PDP_type + "_status = \'" + PDP_color + "\' where id = @ID";
+            if (PDP_color.equals("green") || PDP_color.equals("yellow") || PDP_color.equals("red")) stmt.execute(sql2);
+
+
+            stmt.close();
+            conn.close();
+        }catch(SQLException se){
+            // 处理 JDBC 错误
+            se.printStackTrace();
+        }catch(Exception e){
+            // 处理 Class.forName 错误
+            e.printStackTrace();
+        }finally{
+            // 关闭资源
+            try{
+                if(stmt!=null) stmt.close();
+            }catch(SQLException se2){
+            }// 什么都不做
+            try{
+                if(conn!=null) conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
     }
 
     @GetMapping(value = "/save_work_path")

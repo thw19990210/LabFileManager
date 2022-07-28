@@ -5,7 +5,6 @@ UIkit.upload('.js-upload', {
     url: '/api/general/files/upload',
     multiple: true,
     name: "file",
-    params: {work_path: document.getElementById("work_path").value},
     beforeSend: function () {
         console.log('beforeSend', arguments);
     },
@@ -129,7 +128,7 @@ function display (data) {
     $("#downloadList").fadeIn(500);
 
     if ($.isEmptyObject(data)) {
-        alert ("no file found for the searching!");
+        $("#downloadList").append("<a>no file found for the searching!</a>");
     }
 
     for (var key in data) {
@@ -359,6 +358,8 @@ function get_token(){
         success: function (data) {
             $("#welcome_slogan").empty();
             $("#welcome_slogan").append("<a class=\"d-block\">Welcome! " + data[1] + "</a>");
+            $("#welcome_user_photo").empty();
+            $("#welcome_user_photo").append("<img src=\"" + data[2] + "\" class=\"img-circle elevation-2\" alt=\"User Image\">");
 
             var access = data[0].split(',');
             var permitted = 0;
@@ -388,9 +389,10 @@ function display_name() {
 
         },
         success: function (data) {
-            $("#welcome_slogan1").empty();
-            $("#welcome_slogan1").append("<a class=\"d-block\">Welcome! " + data[1] + "</a>");
-            alert(data[1]);
+            $("#welcome_user_photo").empty();
+            $("#welcome_user_photo").append("<img src=\"" + data[2] + "\" class=\"img-circle elevation-2\" alt=\"User Image\">");
+            $("#welcome_slogan").empty();
+            $("#welcome_slogan").append("<a class=\"d-block\">Welcome! " + data[1] + "</a>");
         }
     });
 }
@@ -409,8 +411,140 @@ function save_work_path(){
     });
 }
 
+function  get_PDP_access(){
+    $.ajax({
+        url: "/api/general/get_PDP_access",
+        type: "GET",
+        error: function () {
+
+        },
+        success: function (data) {
+            var PDP_access = data[0].split(',');
+            var permitted = 0;
+            for (key in PDP_access) {
+                if (true) {
+                    permitted = 1;
+                }
+            }
+            if (permitted == 1) {
+                display_PDP_table();
+                $("#PDP_table").show();
+                $("#PDP-controller").show();
+                $("#PDP_access_alert").hide();
+            }
+            else {
+                $("#PDP_table").hide();
+                $("#PDP-controller").hide();
+                $("#PDP_access_alert").show();
+            }
+        }
+    });
+}
+
+function display_PDP_table(){
+
+    $.ajax({
+        url: "/api/general/display_PDP_table",
+        type: "GET",
+        error: function () {
+
+        },
+        success: function (data) {
+            $("#PDP_table_body").empty();
+            for (key in data) {
+                var row = data[key];
+                var no = parseInt(key) + 1;
+                $("#PDP_table_body").append("<tr>");
+                $("#PDP_table_body").append("<td>"+no+"</td>");
+                $("#PDP_table_body").append("<td>"+row[1]+"</td>");
+                $("#PDP_table_body").append("<td>"+row[2]+"</td>");
+                $("#PDP_table_body").append("<td bgcolor='"+row[4]+"'>"+row[3]+"</td>");
+                $("#PDP_table_body").append("<td bgcolor='"+row[6]+"'>"+row[5]+"</td>");
+                $("#PDP_table_body").append("</tr>");
+            }
+        }
+    });
+}
+
+function save_PDP_table() {
+    var serial_num=document.getElementById("serial_num").value;
+    var PDP_type =document.getElementById("PDP_type").value;
+    var PDP_content =document.getElementById("PDP_content").value;
+    var PDP_color =document.getElementById("PDP_color").value;
+
+    var updatedStr = "serial_num="+serial_num+"&PDP_type="+PDP_type+"&PDP_content="+PDP_content+"&PDP_color="+PDP_color;
+    $.ajax({
+        url: "/api/general/save_PDP_table?"+updatedStr,
+        type:"GET",
+        error: function () {
+            alert("some error happened!")
+        },
+        success: function () {
+            alert("successfully changed!")
+            display_PDP_table();
+            document.getElementById("serial_num").value='';
+            document.getElementById("PDP_type").value='';
+            document.getElementById("PDP_content").value='';
+            document.getElementById("PDP_color").value='';
+        }
+    });
+}
+
+function display_pie_chart(){
+    // 基于准备好的dom，初始化echarts实例
+    var myChart_high = echarts.init(document.getElementById('chart_high'));
+    var myChart_mid  = echarts.init(document.getElementById('chart_mid'));
+    var myChart_low  = echarts.init(document.getElementById('chart_low'));
+
+    // 指定图表的配置项和数据
+    var option = {
+        series: [
+            {
+                type: 'pie',
+                data: [
+                    {
+                        value: 1,
+                        name: '1/10' + ' fail but have rootcause and ongoing actions'
+                    },
+                    {
+                        value: 8,
+                        name: '8/10' + ' pass or OK'
+                    },
+                    {
+                        value: 1,
+                        name: '1/10' + ' fail and no rootcause'
+                    }
+                ],
+                radius: '50%',
+                color: [
+                    '#eedd78',
+                    '#91ca8c',
+                    '#dd6b66',
+                    '#73a373',
+                    '#759aa0',
+                    '#e69d87',
+                    '#8dc1a9',
+                    '#ea7e53',
+                    '#eedd78',
+                    '#73b9bc',
+                    '#7289ab',
+                    '#f49f42'
+                ]
+            }
+        ]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart_high.setOption(option);
+    myChart_mid.setOption(option);
+    myChart_low.setOption(option);
+}
+
 $(document).ready(function (){
     get_token();
+    $("#PDP_table").hide();
+    $("#PDP-controller").hide();
+    display_pie_chart();
 });
 
 

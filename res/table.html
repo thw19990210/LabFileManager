@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>ECharts</title>
+  <!-- 引入刚刚下载的 ECharts 文件 -->
+  <script src="echarts.js"></script>
+</head>
+<body>
+<!-- 为 ECharts 准备一个定义了宽高的 DOM -->
+<div id="main_chart" style="width: 600px;height:400px;"></div>
+<script type="text/javascript">
+  // 基于准备好的dom，初始化echarts实例
+  var myChart = echarts.init(document.getElementById('main_chart'));
+
+  // 指定图表的配置项和数据
+  var option = {
+    series: [
+      {
+        type: 'pie',
+        data: [
+          {
+            value: 335,
+            name: '直接访问'
+          },
+          {
+            value: 234,
+            name: '联盟广告'
+          },
+          {
+            value: 1548,
+            name: '搜索引擎'
+          }
+        ],
+        radius: '50%',
+        color: [
+          '#91ca8c',
+          '#dd6b66',
+          '#eedd78',
+          '#73a373',
+          '#759aa0',
+          '#e69d87',
+          '#8dc1a9',
+          '#ea7e53',
+          '#eedd78',
+          '#73b9bc',
+          '#7289ab',
+          '#f49f42'
+        ]
+      }
+    ]
+  };
+
+  // 使用刚指定的配置项和数据显示图表。
+  myChart.setOption(option);
+</script>
+</body>
+</html>

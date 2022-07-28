@@ -81,6 +81,15 @@ public class HttpInterceptor implements HandlerInterceptor {
             }
         }
 
+        if ("/PDP".equals(uri) || "/PDP.html".equals(uri)) {
+            if (login_status.equals("success!")) {
+                uri = "/PDP.html";
+            }
+            else {
+                uri = "/login.html";
+            }
+        }
+
         if ("/sensor".equals(uri)) {
             uri = "/sensor.html";
         }
