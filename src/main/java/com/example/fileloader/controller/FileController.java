@@ -735,6 +735,18 @@ public class FileController {
                 row.add(rs.getString("EVT3_status"));
                 row.add(rs.getString("DVT"));
                 row.add(rs.getString("DVT_status"));
+                row.add(rs.getString("PVT"));
+                row.add(rs.getString("PVT_status"));
+                row.add(rs.getString("MP"));
+                row.add(rs.getString("MP_status"));
+                row.add(rs.getString("_EVT3"));
+                row.add(rs.getString("_EVT3_status"));
+                row.add(rs.getString("_DVT"));
+                row.add(rs.getString("_DVT_status"));
+                row.add(rs.getString("_PVT"));
+                row.add(rs.getString("_PVT_status"));
+                row.add(rs.getString("_MP"));
+                row.add(rs.getString("_MP_status"));
 
 
                 returnData.add(new ArrayList<>(row));

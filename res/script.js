@@ -144,7 +144,6 @@ function display (data) {
         var copy = document.createElement('a');
 
         //image preview function
-        console.log(data[key].name);
         var img;
         var img_name = data[key].path;
         if (data[key].name.endsWith(".mp4") ||
@@ -273,6 +272,7 @@ function key_enter5(e) {
         save_work_path();
     }
 }
+
 
 function search_pro() {
     var content = document.getElementById("pro").value;
@@ -451,17 +451,62 @@ function display_PDP_table(){
         },
         success: function (data) {
             $("#PDP_table_body").empty();
+            $("#PDP_table_body_s2").empty();
+            var high = [0,0,0];
+            var mid  = [0,0,0];
+            var low  = [0,0,0];
+            var cnt = 0;
+
             for (key in data) {
+
                 var row = data[key];
                 var no = parseInt(key) + 1;
+
+
+
+                if ($.trim(row[2]) == 'High') {
+                    for (i in row) {
+                        if (row[i] == 'yellow') high[0]++;
+                        if (row[i] == 'green') high[1]++;
+                        if (row[i] == 'red') high[2]++;
+                    }
+                }
+                else if ($.trim(row[2]) == 'Mid') {
+                    cnt++;
+                    for (i in row) {
+                        if (row[i] == 'yellow') mid[0]++;
+                        if (row[i] == 'green') mid[1]++;
+                        if (row[i] == 'red') mid[2]++;
+                    }
+                }
+                if ($.trim(row[2]) == 'Low') {
+                    for (i in row) {
+                        if (row[i] == 'yellow') low[0]++;
+                        if (row[i] == 'green') low[1]++;
+                        if (row[i] == 'red') low[2]++;
+                    }
+                }
+
+
+
                 $("#PDP_table_body").append("<tr>");
                 $("#PDP_table_body").append("<td>"+no+"</td>");
-                $("#PDP_table_body").append("<td>"+row[1]+"</td>");
+                $("#PDP_table_body").append("<td><a href='/upload'>"+row[1]+"</a></td>");
                 $("#PDP_table_body").append("<td>"+row[2]+"</td>");
-                $("#PDP_table_body").append("<td bgcolor='"+row[4]+"'>"+row[3]+"</td>");
-                $("#PDP_table_body").append("<td bgcolor='"+row[6]+"'>"+row[5]+"</td>");
+                $("#PDP_table_body").append("<td bgcolor='"+row[4]+"'><div contenteditable='true'>"+row[3]+"</div></td>");
+                $("#PDP_table_body").append("<td bgcolor='"+row[6]+"'><div contenteditable='true'>"+row[5]+"</div></td>");
+                $("#PDP_table_body").append("<td bgcolor='"+row[8]+"'><div contenteditable='true'>"+row[7]+"</div></td>");
+                $("#PDP_table_body").append("<td bgcolor='"+row[10]+"'><div contenteditable='true'>"+row[9]+"</div></td>");
+                $("#PDP_table_body").append("<td bgcolor='"+row[12]+"'><div contenteditable='true'>"+row[11]+"</div></td>");
+                $("#PDP_table_body").append("<td bgcolor='"+row[14]+"'><div contenteditable='true'>"+row[13]+"</div></td>");
+                $("#PDP_table_body").append("<td bgcolor='"+row[16]+"'><div contenteditable='true'>"+row[15]+"</div></td>");
+                $("#PDP_table_body").append("<td bgcolor='"+row[18]+"'><div contenteditable='true'>"+row[17]+"</div></td>");
                 $("#PDP_table_body").append("</tr>");
+
             }
+
+            var matrix = [high, mid, low];
+            display_pie_chart(matrix);
         }
     });
 }
@@ -490,29 +535,37 @@ function save_PDP_table() {
     });
 }
 
-function display_pie_chart(){
+function display_pie_chart(matrix){
     // 基于准备好的dom，初始化echarts实例
     var myChart_high = echarts.init(document.getElementById('chart_high'));
     var myChart_mid  = echarts.init(document.getElementById('chart_mid'));
     var myChart_low  = echarts.init(document.getElementById('chart_low'));
 
+    let high = matrix[0][0] + matrix[0][1] + matrix[0][2];
+    let mid  = matrix[1][0] + matrix[1][1] + matrix[1][2];
+    let low  = matrix[2][0] + matrix[2][1] + matrix[2][2];
+
     // 指定图表的配置项和数据
-    var option = {
+    var option1 = {
+        title: {
+            text: 'High',
+            x: 'center'
+        },
         series: [
             {
                 type: 'pie',
                 data: [
                     {
-                        value: 1,
-                        name: '1/10' + ' fail but have rootcause and ongoing actions'
+                        value: matrix[0][0],
+                        name: matrix[0][0]+'/'+high+"  "
                     },
                     {
-                        value: 8,
-                        name: '8/10' + ' pass or OK'
+                        value: matrix[0][1],
+                        name: matrix[0][1]+'/'+high+" "
                     },
                     {
-                        value: 1,
-                        name: '1/10' + ' fail and no rootcause'
+                        value: matrix[0][2],
+                        name: matrix[0][2]+'/'+high
                     }
                 ],
                 radius: '50%',
@@ -521,30 +574,87 @@ function display_pie_chart(){
                     '#91ca8c',
                     '#dd6b66',
                     '#73a373',
-                    '#759aa0',
-                    '#e69d87',
-                    '#8dc1a9',
-                    '#ea7e53',
+                ]
+            }
+        ]
+    };
+    var option2 = {
+        title: {
+            text: 'Mid',
+            x: 'center'
+        },
+        series: [
+            {
+                type: 'pie',
+                data: [
+                    {
+                        value: matrix[1][0],
+                        name: matrix[1][0]+'/'+mid+"  "
+                    },
+                    {
+                        value: matrix[1][1],
+                        name: matrix[1][1]+'/'+mid+" "
+                    },
+                    {
+                        value: matrix[1][2],
+                        name: matrix[1][2]+'/'+mid
+                    }
+                ],
+                radius: '50%',
+                color: [
                     '#eedd78',
-                    '#73b9bc',
-                    '#7289ab',
-                    '#f49f42'
+                    '#91ca8c',
+                    '#dd6b66',
+                    '#73a373',
+                ]
+            }
+        ]
+    };
+    var option3 = {
+        title: {
+            text: 'Low',
+            x: 'center'
+        },
+        series: [
+            {
+                type: 'pie',
+                data: [
+                    {
+                        value: matrix[2][0],
+                        name: matrix[2][0]+'/'+low+"  "
+                    },
+                    {
+                        value: matrix[2][1],
+                        name: matrix[2][1]+'/'+low+" "
+                    },
+                    {
+                        value: matrix[2][2],
+                        name: matrix[2][2]+'/'+low
+                    }
+                ],
+                radius: '50%',
+                color: [
+                    '#eedd78',
+                    '#91ca8c',
+                    '#dd6b66',
+                    '#73a373'
                 ]
             }
         ]
     };
 
     // 使用刚指定的配置项和数据显示图表。
-    myChart_high.setOption(option);
-    myChart_mid.setOption(option);
-    myChart_low.setOption(option);
+    myChart_high.setOption(option1);
+    myChart_mid.setOption(option2);
+    myChart_low.setOption(option3);
+    $("#pie_chart").show();
 }
 
 $(document).ready(function (){
     get_token();
     $("#PDP_table").hide();
     $("#PDP-controller").hide();
-    display_pie_chart();
+    $("#pie_chart").hide();
 });
 
 
