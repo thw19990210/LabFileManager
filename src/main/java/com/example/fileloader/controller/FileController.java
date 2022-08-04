@@ -55,6 +55,8 @@ public class FileController {
     public ResponseEntity<InputStreamResource> download(HttpServletRequest request, HttpServletResponse response, @RequestParam("file_path") String name) {
 
         final File originalFile = new File("res/storage/" + name);
+
+
         File sendFile = null;
         try {
             if (!originalFile.exists()) {
@@ -418,6 +420,33 @@ public class FileController {
         String[] property = file_name.split("_");
         String file_type= file_name.substring(file_name.lastIndexOf(".") + 1);
 
+        // get the property
+        String project = "";
+        String sensor = "";
+        String CT = "-1";
+        String illuminance = "-1";
+        String serialNum = "-1";
+        String ISO = "-1";
+        String HW_v = "";
+        String SW_v = "";
+        for (String p : property) {
+            if (p.startsWith("Prj-")) {
+                project = p.substring(4);
+            }
+            if (p.startsWith("sensor-")) {
+                project = p.substring(7);
+            }
+            if (p.startsWith("CT-")) {
+                CT = p.substring(3);
+            }
+            if (p.startsWith("Lux-")) {
+                illuminance = p.substring(4);
+            }
+            if (p.startsWith("ISO-")) {
+                ISO = p.substring(4);
+            }
+        }
+
         String file_path = work_path + "/" + file_name;
 
         String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
@@ -443,25 +472,21 @@ public class FileController {
 
             String sql1 = "SET @ID= (select MAX(id) as id_max from files)";
             stmt.execute(sql1);
-//            String sql2 = "insert into files  " +
-//                          "values (@ID+1,\'"
-//                          + property[0] +"\',\'"
-//                          + property[1] + "\',"
-//                          + property[2] + ","
-//                          + property[3] + ","
-//                          + property[4] + ","
-//                          + property[5] + ",\'"
-//                          + property[6] + "\',\'"
-//                          + property[7] + "\',\'"
-//                          + file_type   + "\',\'"
-//                          + file_name + "\',\'"
-//                          + file_path + "\'  )";
+            String sql2 = "insert into files  (id, project, sensor, color_temperature, illuminance, ISO, serial_number, hardware_version, software_version, file_type, file_name, file_path)" +
+                          "values (@ID+1,\'"
+                          + project +"\',\'"
+                          + sensor + "\',"
+                          + CT + ","
+                          + illuminance + ","
+                          + ISO + ","
+                          + serialNum + ",\'"
+                          + HW_v + "\',\'"
+                          + SW_v + "\',\'"
+                          + file_type + "\',\'"
+                          + file_name + "\',\'"
+                          + file_path + "\'  )";
 
-            String sql2 = "insert into files (id, file_type, file_name, file_path ) " +
-                    "values (@ID+1,\'"
-                    + file_type   + "\',\'"
-                    + file_name + "\',\'"
-                    + file_path + "\'  )";
+
             stmt.execute(sql2);
 
             stmt.close();

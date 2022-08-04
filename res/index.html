@@ -132,24 +132,16 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" onclick="display_name()" class="nav-link">
+                        <a href="/folders" onclick="display_name()" class="nav-link">
                             <i class="nav-icon fas fa-th"></i>
                             <p>
-
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" onclick="display_name()" class="nav-link">
-                            <i class="nav-icon fas fa-chart-pie"></i>
-                            <p>
-
+                                Folders
                             </p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="/PDP" onclick="display_name()" class="nav-link">
-                            <i class="nav-icon fas fa-edit"></i>
+                            <i class="nav-icon fas fa-chart-pie"></i>
                             <p>
                                 PDP
                             </p>
@@ -157,9 +149,17 @@
                     </li>
                     <li class="nav-item">
                         <a href="#" onclick="display_name()" class="nav-link">
-                            <i class="nav-icon fas fa-table"></i>
+                            <i class="nav-icon fas fa-edit"></i>
                             <p>
 
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/compare" onclick="display_name()" class="nav-link">
+                            <i class="nav-icon fas fa-table"></i>
+                            <p>
+                                Compare
                             </p>
                         </a>
                     </li>
@@ -289,7 +289,18 @@
 
         <progress id="js-progressbar" class="uk-progress CenteredItems" value="0" max="200" hidden></progress>
 
-        <div id="downloadList" class="CenteredItems" style="overflow: auto; overflow-x: hidden; height: 750px;">
+
+
+        <div class="CenteredItems" style=" height: 40px;">
+
+            <button style="margin-left: 966px" onclick="download()">Download</button>
+
+
+            <input id="select_all" type="checkbox" onclick="swapCheck()"/>
+        </div>
+
+        <div id="downloadList" class="CenteredItems" style="overflow: auto; overflow-x: hidden; height: 1000px;">
+
         </div>
     </div>
     <!-- /.content-wrapper -->
@@ -346,6 +357,73 @@
 
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard.js"></script>
+
+<script type="text/javascript">
+    var isCheckAll = false;
+    function swapCheck() {
+        $("input[type='checkbox']").each(function() {
+            this.checked = !isCheckAll;
+        });
+        isCheckAll = !isCheckAll;
+    }
+    function listenCheckbox(){
+        $("input[type='checkbox']").on('change',function(){
+            //总量
+            var total=$("input[type='checkbox']").length;
+            ////实际被选中的
+            var exact=$("input[type='checkbox']:checked").length;
+            ////检测所有的check选项的有多少与总量进行对比
+            $("select_all").checked=(total==exact); //true or false
+        })
+    }
+    listenCheckbox();
+    function download(){
+        $("input[type='checkbox']:checked").each(function (){
+            var lk_id = "#link" + $(this).attr("id").substring(8);
+            // autoclick(lk_id);
+            // console.log($(lk_id).attr("href"));
+            // window.location.href = $(lk_id).attr("href");
+            // location.href = link;
+
+
+            alert("$(lk_id)[0].id");
+            $(lk_id)[0].click();
+
+
+        });
+
+    }
+
+    function autoclick(name)
+
+    {
+
+        if(document.all)
+
+        {
+
+//alert(1);
+
+            document.getElementById(name).click();
+
+        }
+
+        else
+
+        {
+
+            var evt = document.createEvent("MouseEvents");
+
+            evt.initEvent("click", true, true);
+
+//alert(2);
+
+            document.getElementById(name).dispatchEvent(evt);
+
+        }
+
+    }
+</script>
 
 
 

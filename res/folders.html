@@ -40,23 +40,6 @@
     <!-- summernote -->
     <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
 
-    <style>
-        CenteredItems_adjust {
-        }
-        @media only screen and (max-width: 700px) {
-            .CenteredItems_adjust {
-                width: 90% !important;
-                margin-left: 0% !important;
-            }
-        }
-        @media only screen and (min-width: 700px) {
-            .CenteredItems_adjust {
-                width: 630px !important;
-                margin-left: calc(10% - 75px); !important;
-            }
-        }
-    </style>
-
 </head>
 <body style="padding: 0;">
 
@@ -149,7 +132,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/folders" onclick="display_name()" class="nav-link">
+                        <a href="/folders" onclick="display_name()" class="nav-link active">
                             <i class="nav-icon fas fa-th"></i>
                             <p>
                                 Folders
@@ -173,7 +156,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/compare" onclick="display_name()" class="nav-link active">
+                        <a href="/compare" onclick="display_name()" class="nav-link">
                             <i class="nav-icon fas fa-table"></i>
                             <p>
                                 Compare
@@ -195,12 +178,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Compare</h1>
+                        <h1 class="m-0">Folders</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="/">Home</a></li>
-                            <li class="breadcrumb-item active">Compare</li>
+                            <li class="breadcrumb-item active">Folders</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -213,77 +196,12 @@
 <!--        <div style="text-align:center;margin-top: 30px">-->
 <!--            <img src="https://amazon-blogs-brightspot-lower.s3.amazonaws.com/about/00/92/0260aab44ee8a2faeafde18ee1da/amazon-logo-inverse.svg" alt="" width="260">-->
 <!--        </div>-->
+
         <div class="form-inline">
-            <div id="search-controller1" style="margin:auto" class="input-group">
-                <input onkeydown="key_enter_l(event)" id="p11" list="list1" class="form-control" type="search" placeholder="project" aria-label="Search1">
-                <input onkeydown="key_enter_l(event)" id="p21" list="list2" class="form-control" type="search" placeholder="sensor" aria-label="Search1">
-                <input onkeydown="key_enter_l(event)" id="p31" list="list3" class="form-control" type="search" placeholder="color temperature" aria-label="Search1">
-                <input onkeydown="key_enter_l(event)" id="p41" list="list4" class="form-control" type="search" placeholder="illuminance" aria-label="Search1">
-                <input onkeydown="key_enter_l(event)" id="p51" list="list5" class="form-control" type="search" placeholder="ISO" aria-label="Search1">
-                <input onkeydown="key_enter_l(event)" id="p61" list="list6" class="form-control" type="search" placeholder="serial number" aria-label="Search1">
-                <input onkeydown="key_enter_l(event)" id="p71" list="list7" class="form-control" type="search" placeholder="hardware version" aria-label="Search1">
-                <input onkeydown="key_enter_l(event)" id="p81" list="list8" class="form-control" type="search" placeholder="software version" aria-label="Search1">
-                <input onkeydown="key_enter_l(event)" id="p91" list="list9" class="form-control" type="search" placeholder="file type" aria-label="Search1">
+            <div id="search-pro-controller" style="margin:auto; margin-bottom: 50px" class="input-group">
+                <input id="pro" onkeydown="key_enter(event)" STYLE="width: 880px" class="form-control" type="search" placeholder="Please type in searching content" aria-label="Search1">
                 <div class="input-group-append">
-                    <button class="btn" onclick="search_l()">
-                        <i class="fas fa-search fa-fw"></i>
-                    </button>
-                </div>
-                <datalist id="list1">
-                    <option>Trona</option>
-                    <option>Raspite</option>
-                </datalist>
-                <datalist id="list2">
-                    <option>sensor1</option>
-                    <option>sensor2</option>
-                </datalist>
-                <datalist id="list3">
-                    <option>25</option>
-                    <option>30</option>
-                </datalist>
-                <datalist id="list4">
-                    <option>20</option>
-                    <option>50</option>
-                    <option>100</option>
-                    <option>200</option>
-                </datalist>
-                <datalist id="list5">
-                    <option>0.5</option>
-                </datalist>
-                <datalist id="list6">
-                    <option>336</option>
-                    <option>337</option>
-                </datalist>
-                <datalist id="list7">
-                    <option>HW-v5</option>
-                    <option>HW-v6</option>
-                </datalist>
-                <datalist id="list8">
-                    <option>SW-v6</option>
-                    <option>SW-v7</option>
-                </datalist>
-                <datalist id="list9">
-                    <option>raw</option>
-                    <option>png</option>
-                    <option>jpg</option>
-                    <option>mp4</option>
-                </datalist>
-            </div>
-        </div>
-        <br>
-        <div class="form-inline">
-            <div id="search-controller2" style="margin:auto" class="input-group">
-                <input onkeydown="key_enter_r(event)" id="p12" list="list1" class="form-control" type="search" placeholder="project" aria-label="Search1">
-                <input onkeydown="key_enter_r(event)" id="p22" list="list2" class="form-control" type="search" placeholder="sensor" aria-label="Search1">
-                <input onkeydown="key_enter_r(event)" id="p32" list="list3" class="form-control" type="search" placeholder="color temperature" aria-label="Search1">
-                <input onkeydown="key_enter_r(event)" id="p42" list="list4" class="form-control" type="search" placeholder="illuminance" aria-label="Search1">
-                <input onkeydown="key_enter_r(event)" id="p52" list="list5" class="form-control" type="search" placeholder="ISO" aria-label="Search1">
-                <input onkeydown="key_enter_r(event)" id="p62" list="list6" class="form-control" type="search" placeholder="serial number" aria-label="Search1">
-                <input onkeydown="key_enter_r(event)" id="p72" list="list7" class="form-control" type="search" placeholder="hardware version" aria-label="Search1">
-                <input onkeydown="key_enter_r(event)" id="p82" list="list8" class="form-control" type="search" placeholder="software version" aria-label="Search1">
-                <input onkeydown="key_enter_r(event)" id="p92" list="list9" class="form-control" type="search" placeholder="file type" aria-label="Search1">
-                <div class="input-group-append">
-                    <button class="btn" onclick="search_r()">
+                    <button class="btn" onclick="search_pro()">
                         <i class="fas fa-search fa-fw"></i>
                     </button>
                 </div>
@@ -315,9 +233,17 @@
         <progress id="js-progressbar" class="uk-progress CenteredItems" value="0" max="200" hidden></progress>
 
 
-        <div>
-            <div id="downloadList1" class="CenteredItems_adjust" style="margin-top: 20px ;float:left ; width:50%;overflow: auto; overflow-x: hidden; height: 1000px;"></div>
-            <div id="downloadList2" class="CenteredItems_adjust" style="margin-top: 20px ;float:left ; width:50%;overflow: auto; overflow-x: hidden; height: 1000px;"></div>
+
+        <div class="CenteredItems" style=" height: 40px;">
+
+            <button style="margin-left: 966px" onclick="download()">Download</button>
+
+
+            <input id="select_all" type="checkbox" onclick="swapCheck()"/>
+        </div>
+
+        <div id="downloadList" class="CenteredItems" style="overflow: auto; overflow-x: hidden; height: 1000px;">
+
         </div>
     </div>
     <!-- /.content-wrapper -->
@@ -340,8 +266,6 @@
 
 
 <script src="script.js"></script>
-
-<script src="compare.js"></script>
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
@@ -376,7 +300,6 @@
 
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard.js"></script>
-
 
 
 

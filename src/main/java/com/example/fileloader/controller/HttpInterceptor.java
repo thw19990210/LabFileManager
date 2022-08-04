@@ -90,8 +90,22 @@ public class HttpInterceptor implements HandlerInterceptor {
             }
         }
 
-        if ("/sensor".equals(uri)) {
-            uri = "/sensor.html";
+        if ("/compare".equals(uri) || "/compare.html".equals(uri)) {
+            if (login_status.equals("success!")) {
+                uri = "/compare.html";
+            }
+            else {
+                uri = "/login.html";
+            }
+        }
+
+        if ("/folders".equals(uri) || "/folders.html".equals(uri)) {
+            if (login_status.equals("success!")) {
+                uri = "/folders.html";
+            }
+            else {
+                uri = "/login.html";
+            }
         }
 
         if ("/login".equals(uri)) {

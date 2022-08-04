@@ -190,6 +190,7 @@ function display (data) {
         fileLink.style.marginTop = "46px"
         fileLink.classList.add("FileEntryName");
         fileLink.classList.add("BCLinkBlue");
+        fileLink.id = "link"+key;
         div.append(fileLink);
 
         if (!data[key].isDirectory) {
@@ -217,7 +218,14 @@ function display (data) {
         // fileDelete.onclick = function () {
         //     sendGet(this.data);
         // };
-        div.append(fileDelete);
+        // div.append(fileDelete);
+
+        var checkBox = document.createElement('input');
+        checkBox.type = "checkbox";
+        checkBox.style.marginLeft = "10px";
+        checkBox.style.marginRight = "10px";
+        checkBox.id = "checkbox"+key;
+        div.append(checkBox);
 
         div.style.marginBottom = "15px";
 

@@ -69,7 +69,7 @@ function display_l (data) {
 
         div.append(img);
 
-        div.append(fileIcon);
+        // div.append(fileIcon);
 
         var fileLink = document.createElement('a');
         fileLink.appendChild(document.createTextNode(data[key].path));
@@ -80,15 +80,15 @@ function display_l (data) {
         fileLink.classList.add("BCLinkBlue");
         div.append(fileLink);
 
-        if (!data[key].isDirectory) {
-            var fileSize = document.createElement('span');
-            // fileSize.classList.add("HeaderHeight");
-            fileSize.classList.add("FileEntrySize");
-            fileSize.classList.add("BCCLightGray");
-            fileSize.style.marginTop = "46px";
-            fileSize.appendChild(document.createTextNode("" + humanFileSize(data[key].length)));
-            div.append(fileSize);
-        }
+        // if (!data[key].isDirectory) {
+        //     var fileSize = document.createElement('span');
+        //     // fileSize.classList.add("HeaderHeight");
+        //     fileSize.classList.add("FileEntrySize");
+        //     fileSize.classList.add("BCCLightGray");
+        //     fileSize.style.marginTop = "46px";
+        //     fileSize.appendChild(document.createTextNode("" + humanFileSize(data[key].length)));
+        //     div.append(fileSize);
+        // }
 
         var fileDelete = document.createElement('a');
         fileDelete.innerHTML = "&nbsp";
@@ -108,6 +108,7 @@ function display_l (data) {
         // div.append(fileDelete);
 
         div.style.marginBottom = "15px";
+        div.style.marginLeft = "1px";
 
         $("#downloadList1").append(div);
 
@@ -171,7 +172,7 @@ function display_r (data) {
 
         div.append(img);
 
-        div.append(fileIcon);
+        // div.append(fileIcon);
 
         var fileLink = document.createElement('a');
         fileLink.appendChild(document.createTextNode(data[key].path));
@@ -182,15 +183,15 @@ function display_r (data) {
         fileLink.classList.add("BCLinkBlue");
         div.append(fileLink);
 
-        if (!data[key].isDirectory) {
-            var fileSize = document.createElement('span');
-            // fileSize.classList.add("HeaderHeight");
-            fileSize.classList.add("FileEntrySize");
-            fileSize.classList.add("BCCLightGray");
-            fileSize.style.marginTop = "46px";
-            fileSize.appendChild(document.createTextNode("" + humanFileSize(data[key].length)));
-            div.append(fileSize);
-        }
+        // if (!data[key].isDirectory) {
+        //     var fileSize = document.createElement('span');
+        //     // fileSize.classList.add("HeaderHeight");
+        //     fileSize.classList.add("FileEntrySize");
+        //     fileSize.classList.add("BCCLightGray");
+        //     fileSize.style.marginTop = "46px";
+        //     fileSize.appendChild(document.createTextNode("" + humanFileSize(data[key].length)));
+        //     div.append(fileSize);
+        // }
 
         var fileDelete = document.createElement('a');
         fileDelete.innerHTML = "&nbsp";
@@ -210,6 +211,7 @@ function display_r (data) {
         // div.append(fileDelete);
 
         div.style.marginBottom = "15px";
+        div.style.marginLeft = "1px";
 
         $("#downloadList2").append(div);
 
