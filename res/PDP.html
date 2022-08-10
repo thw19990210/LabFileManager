@@ -330,6 +330,19 @@
         </div>
 
 
+        <div id="PDP_upload_access_control" class="js-upload uk-placeholder uk-text-center" style="height: 100px; margin-top: 70px">
+            <span uk-icon="icon: cloud-upload"></span>
+            <span class="uk-text-middle">Drop your files here or</span>
+            <div class="uk-form-custom">
+                <input style="font-size: 0" type="file" multiple>
+                <span style="cursor: pointer" class="uk-link">selecting files</span>
+            </div>
+        </div>
+
+
+        <div id="PDP_List" class="CenteredItems" style="overflow: auto; overflow-x: hidden; height: 550px;">
+
+
 
         <!--&lt;!&ndash; The form &ndash;&gt;-->
         <!--<form class="example" action="http://localhost:63300/search">-->
@@ -414,6 +427,14 @@
 <script src="echarts.js"></script>
 
 
-
+<script>
+    $(document).ready(function (){
+        get_token();
+        $("#PDP_table").hide();
+        $("#PDP-controller").hide();
+        $("#pie_chart").hide();
+        $("#PDP_upload_access_control").hide();
+    });
+</script>
 </body>
 </html>

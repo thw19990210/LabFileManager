@@ -60,7 +60,7 @@ public class FileController {
         File sendFile = null;
         try {
             if (!originalFile.exists()) {
-                throw new RuntimeException("File not found! Name = " + name);
+                throw new RuntimeException("Cannot find file: " + name);
             }
             if (originalFile.isDirectory()) {
                 sendFile = new File(originalFile.getName() + ".zip");
@@ -137,11 +137,12 @@ public class FileController {
     }
 
     @GetMapping("/files/list")
-    public List<FileEntry> list(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        File[] files = new File(".").listFiles();
+    public List<FileEntry> list(HttpServletRequest request, HttpServletResponse response, @RequestParam("path") String path) throws IOException {
+        File[] files = new File("./res/storage/" + path).listFiles();
         List<FileEntry> list = new ArrayList<>();
         for (File file : files) {
             FileEntry ent = new FileEntry();
+            ent.setPath(path+"/"+file.getName());
             ent.setName(file.getName());
             ent.setIsDirectory(file.isDirectory());
             ent.setLength(file.length());

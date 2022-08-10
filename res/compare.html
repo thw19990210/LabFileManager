@@ -316,8 +316,8 @@
 
 
         <div>
-            <div id="downloadList1" class="CenteredItems_adjust" style="margin-top: 20px ;float:left ; width:50%;overflow: auto; overflow-x: hidden; height: 1000px;"></div>
-            <div id="downloadList2" class="CenteredItems_adjust" style="margin-top: 20px ;float:left ; width:50%;overflow: auto; overflow-x: hidden; height: 1000px;"></div>
+            <div id="downloadList1" class="CenteredItems_adjust" style="margin-top: 20px ;float:left ; width:50%;overflow: auto; overflow-x: hidden; height: 600px;"></div>
+            <div id="downloadList2" class="CenteredItems_adjust" style="margin-top: 20px ;float:left ; width:50%;overflow: auto; overflow-x: hidden; height: 600px;"></div>
         </div>
     </div>
     <!-- /.content-wrapper -->
@@ -377,7 +377,11 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard.js"></script>
 
-
+<script>
+    $(document).ready(function (){
+        get_token();
+    });
+</script>
 
 
 </body>

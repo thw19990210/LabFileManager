@@ -95,6 +95,8 @@ function reload() {
     });
 }
 
+
+
 function search() {
     var project   = document.getElementById("p1").value;
     var sensor    = document.getElementById("p2").value;
@@ -166,6 +168,8 @@ function display (data) {
         img.src = "/storage/" + img_name;
         img.alt = "  no image"
 
+        div.append(img);
+
         //end
 
         fileIcon.style.width = "28px";
@@ -179,7 +183,7 @@ function display (data) {
             copy_name(this.data);
         };
 
-        div.append(img);
+
 
         div.append(fileIcon);
 
@@ -281,6 +285,12 @@ function key_enter5(e) {
     }
 }
 
+function key_enter6(e) {
+    var evt = window.event || e;
+    if (evt.keyCode == 13) {
+        folders_list();
+    }
+}
 
 function search_pro() {
     var content = document.getElementById("pro").value;
@@ -451,6 +461,9 @@ function  get_PDP_access(){
 
 function display_PDP_table(){
 
+    $("#PDP_List").hide();
+    $("#PDP_upload_access_control").hide();
+
     $.ajax({
         url: "/api/general/display_PDP_table",
         type: "GET",
@@ -499,7 +512,7 @@ function display_PDP_table(){
 
                 $("#PDP_table_body").append("<tr>");
                 $("#PDP_table_body").append("<td>"+no+"</td>");
-                $("#PDP_table_body").append("<td><a href='/upload'>"+row[1]+"</a></td>");
+                $("#PDP_table_body").append("<td><a onclick='reload_PDP("+no+")' class='uk-link'>"+row[1]+"</a></td>");
                 $("#PDP_table_body").append("<td>"+row[2]+"</td>");
                 $("#PDP_table_body").append("<td bgcolor='"+row[4]+"'><div contenteditable='true'>"+row[3]+"</div></td>");
                 $("#PDP_table_body").append("<td bgcolor='"+row[6]+"'><div contenteditable='true'>"+row[5]+"</div></td>");
@@ -658,12 +671,254 @@ function display_pie_chart(matrix){
     $("#pie_chart").show();
 }
 
-$(document).ready(function (){
-    get_token();
+function reload_PDP(path) {
+    $("#PDP_access_alert").hide();
     $("#PDP_table").hide();
-    $("#PDP-controller").hide();
     $("#pie_chart").hide();
-});
+    $("#PDP_upload_access_control").show();
+
+    $("#PDP_List").empty();
+    // $("#PDP_List").hide();
+    var project = "Test";
+
+    $.ajax({
+        url: "/api/general/files/list?path="+project+"/PDP/item"+path,
+        type: "GET",
+        error: function (data, status) {
+            onerror(data);
+        },
+        success: function (data, status) {
+            $("#PDP_List").fadeIn(500);
+            for (var key in data) {
+                var div = document.createElement('div');
+                div.classList.add("CenteredItems");
+                div.style.display = "inline-flex";
+                div.style.flexDirection = "row";
+
+                var clipboard = document.createElement('div');
+                // clipboard.data-clipboard-text = data[key].name;
+                var fileIcon = document.createElement('img');
+                fileIcon.src = data[key].isDirectory ? "folder.svg" : "file.svg";
+                var copy = document.createElement('a');
+
+                //image preview function
+                var img;
+                var img_name = data[key].path;
+                if (data[key].name.endsWith(".mp4") ||
+                    data[key].name.endsWith(".wmv") ||
+                    data[key].name.endsWith(".m4v") ||
+                    data[key].name.endsWith(".avi") ||
+                    data[key].name.endsWith(".rm") ||
+                    data[key].name.endsWith(".mov") ) {
+                    img = document.createElement('video');
+                }
+                else if (data[key].name.endsWith(".raw")) {
+                    img = document.createElement('img');
+                    img_name = img_name.slice(0, -4) + ".jpg";
+                }
+                else {
+                    img = document.createElement('img');
+                }
+                img.style.width = "150px";
+                img.style.height = "114px";
+
+                img.src = data[key].isDirectory ? "" : "/storage/" + img_name;
+                img.alt = "  no image";
+
+                div.append(img);
+
+                //end
+
+                fileIcon.style.width = "28px";
+                fileIcon.style.paddingLeft = "5px";
+                fileIcon.style.paddingRight = "5px";
+                fileIcon.style.marginRight = "7px";
+                fileIcon.style.marginLeft = "15px";
+                fileIcon.data = data[key].name;
+                fileIcon.style.cursor = "pointer";
+                fileIcon.onclick = function () {
+                    copy_name(this.data);
+                };
+
+
+
+                div.append(fileIcon);
+
+                var fileLink = document.createElement('a');
+                fileLink.appendChild(document.createTextNode(data[key].name));
+                fileLink.href = "/api/general/files/download?file_path=" + data[key].path;
+                // fileLink.classList.add("HeaderHeight");
+                fileLink.style.marginTop = "46px"
+                fileLink.classList.add("FileEntryName");
+                fileLink.classList.add("BCLinkBlue");
+                fileLink.id = "link"+key;
+                div.append(fileLink);
+
+                if (!data[key].isDirectory) {
+                    var fileSize = document.createElement('span');
+                    // fileSize.classList.add("HeaderHeight");
+                    fileSize.classList.add("FileEntrySize");
+                    fileSize.classList.add("BCCLightGray");
+                    fileSize.style.marginTop = "46px";
+                    fileSize.appendChild(document.createTextNode("" + humanFileSize(data[key].length)));
+                    div.append(fileSize);
+                }
+
+                var fileDelete = document.createElement('a');
+                fileDelete.innerHTML = "&nbsp";
+                fileDelete.classList.add("HeaderHeight");
+                fileDelete.classList.add("FileEntryDelete");
+                var deleteIcon = document.createElement('img');
+                deleteIcon.src = "delete.svg";
+                deleteIcon.style.width = "15px";
+                deleteIcon.style.height = "15px";
+                deleteIcon.style.marginTop = "50px"
+                fileDelete.style.textDecoration = "none";
+                fileDelete.appendChild(deleteIcon);
+                fileDelete.data = "/api/general/files/delete/" + data[key].name;
+                // fileDelete.onclick = function () {
+                //     sendGet(this.data);
+                // };
+                // div.append(fileDelete);
+
+                var checkBox = document.createElement('input');
+                checkBox.type = "checkbox";
+                checkBox.style.marginLeft = "10px";
+                checkBox.style.marginRight = "10px";
+                checkBox.id = "checkbox"+key;
+                div.append(checkBox);
+
+                div.style.marginBottom = "15px";
+
+                $("#PDP_List").append(div);
+            }
+        }
+    });
+}
+
+function folders_list() {
+    var list_path = document.getElementById("folders-list-search").value;
+
+    $("#folders_list").empty();
+    $("#folders_list").hide();
+
+    $.ajax({
+        url: "/api/general/files/list?path="+list_path,
+        type: "GET",
+        error: function (data, status) {
+            onerror(data);
+        },
+        success: function (data, status) {
+            $("#folders_list").fadeIn(500);
+            for (var key in data) {
+                var div = document.createElement('div');
+                div.classList.add("CenteredItems");
+                div.style.display = "inline-flex";
+                div.style.flexDirection = "row";
+
+                var clipboard = document.createElement('div');
+                // clipboard.data-clipboard-text = data[key].name;
+                var fileIcon = document.createElement('img');
+                fileIcon.src = data[key].isDirectory ? "folder.svg" : "file.svg";
+                var copy = document.createElement('a');
+
+                //image preview function
+                var img;
+                var img_name = data[key].path;
+                if (data[key].name.endsWith(".mp4") ||
+                    data[key].name.endsWith(".wmv") ||
+                    data[key].name.endsWith(".m4v") ||
+                    data[key].name.endsWith(".avi") ||
+                    data[key].name.endsWith(".rm") ||
+                    data[key].name.endsWith(".mov") ) {
+                    img = document.createElement('video');
+                }
+                else if (data[key].name.endsWith(".raw")) {
+                    img = document.createElement('img');
+                    img_name = img_name.slice(0, -4) + ".jpg";
+                }
+                else {
+                    img = document.createElement('img');
+                }
+                img.style.width = "150px";
+                img.style.height = "114px";
+                img.style.marginLeft = "3px";
+
+                if (data[key].isDirectory) img.style.opacity = "0";
+
+                img.src = data[key].isDirectory ? "" : "/storage/" + img_name;
+                img.alt = "  no image";
+
+                div.append(img);
+
+                //end
+
+                fileIcon.style.width = "28px";
+                fileIcon.style.paddingLeft = "5px";
+                fileIcon.style.paddingRight = "5px";
+                fileIcon.style.marginRight = "7px";
+                fileIcon.style.marginLeft = "15px";
+                fileIcon.data = data[key].name;
+                fileIcon.style.cursor = "pointer";
+                fileIcon.onclick = function () {
+                    copy_name(this.data);
+                };
+
+
+
+                div.append(fileIcon);
+
+                var fileLink = document.createElement('a');
+                fileLink.appendChild(document.createTextNode(data[key].name));
+                fileLink.href = "/api/general/files/download?file_path=" + data[key].path;
+                // fileLink.classList.add("HeaderHeight");
+                fileLink.style.marginTop = "46px"
+                fileLink.classList.add("FileEntryName");
+                fileLink.classList.add("BCLinkBlue");
+                fileLink.id = "link"+key;
+                div.append(fileLink);
+
+                if (!data[key].isDirectory) {
+                    var fileSize = document.createElement('span');
+                    // fileSize.classList.add("HeaderHeight");
+                    fileSize.classList.add("FileEntrySize");
+                    fileSize.classList.add("BCCLightGray");
+                    fileSize.style.marginTop = "46px";
+                    fileSize.appendChild(document.createTextNode("" + humanFileSize(data[key].length)));
+                    div.append(fileSize);
+                }
+
+                var fileDelete = document.createElement('a');
+                fileDelete.innerHTML = "&nbsp";
+                fileDelete.classList.add("HeaderHeight");
+                fileDelete.classList.add("FileEntryDelete");
+                var deleteIcon = document.createElement('img');
+                deleteIcon.src = "delete.svg";
+                deleteIcon.style.width = "15px";
+                deleteIcon.style.height = "15px";
+                deleteIcon.style.marginTop = "50px"
+                fileDelete.style.textDecoration = "none";
+                fileDelete.appendChild(deleteIcon);
+                fileDelete.data = "/api/general/files/delete/" + data[key].name;
+                // fileDelete.onclick = function () {
+                //     sendGet(this.data);
+                // };
+                // div.append(fileDelete);
+
+                var checkBox = document.createElement('input');
+                checkBox.type = "checkbox";
+                checkBox.style.marginLeft = "10px";
+                checkBox.style.marginRight = "10px";
+                checkBox.id = "checkbox"+key;
+                div.append(checkBox);
+
+                div.style.marginBottom = "15px";
+
+                $("#folders_list").append(div);
+            }
+        }
+    });
+}
 
 
 // reload();

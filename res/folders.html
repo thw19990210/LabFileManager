@@ -198,10 +198,10 @@
 <!--        </div>-->
 
         <div class="form-inline">
-            <div id="search-pro-controller" style="margin:auto; margin-bottom: 50px" class="input-group">
-                <input id="pro" onkeydown="key_enter(event)" STYLE="width: 880px" class="form-control" type="search" placeholder="Please type in searching content" aria-label="Search1">
+            <div id="folders-list-search-controller" style="margin:auto; margin-bottom: 50px" class="input-group">
+                <input id="folders-list-search" onkeydown="key_enter6(event)" STYLE="width: 880px" class="form-control" type="search" placeholder="Please type in file path" aria-label="Search1">
                 <div class="input-group-append">
-                    <button class="btn" onclick="search_pro()">
+                    <button class="btn" onclick="folders_list()">
                         <i class="fas fa-search fa-fw"></i>
                     </button>
                 </div>
@@ -209,6 +209,10 @@
         </div>
 
         <div id="work_path"></div>
+
+        <div id="folders_list" class="CenteredItems" style="overflow: auto; overflow-x: hidden; height: 700px;">
+
+
 
 
 
@@ -233,14 +237,6 @@
         <progress id="js-progressbar" class="uk-progress CenteredItems" value="0" max="200" hidden></progress>
 
 
-
-        <div class="CenteredItems" style=" height: 40px;">
-
-            <button style="margin-left: 966px" onclick="download()">Download</button>
-
-
-            <input id="select_all" type="checkbox" onclick="swapCheck()"/>
-        </div>
 
         <div id="downloadList" class="CenteredItems" style="overflow: auto; overflow-x: hidden; height: 1000px;">
 
@@ -300,6 +296,13 @@
 
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard.js"></script>
+
+<script>
+    $(document).ready(function (){
+        get_token();
+        $("#folders_list").hide();
+    });
+</script>
 
 
 

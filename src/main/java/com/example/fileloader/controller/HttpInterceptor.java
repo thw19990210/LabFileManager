@@ -90,6 +90,7 @@ public class HttpInterceptor implements HandlerInterceptor {
             }
         }
 
+
         if ("/compare".equals(uri) || "/compare.html".equals(uri)) {
             if (login_status.equals("success!")) {
                 uri = "/compare.html";
@@ -107,6 +108,8 @@ public class HttpInterceptor implements HandlerInterceptor {
                 uri = "/login.html";
             }
         }
+
+
 
         if ("/login".equals(uri)) {
             uri = "/login.html";
