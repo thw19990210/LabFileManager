@@ -294,6 +294,14 @@
 
 
         <div style="text-align: center; margin-top: 60px" id="PDP_access_alert">You have no access to edit this project!</div>
+
+        <div id="PDP_checkbox">
+            <label style="margin-left: 50px">EVT3</label><input id="EVT3_checkbox" type="checkbox" checked onclick="PDP_checkbox()"/>
+            <label style="margin-left: 50px">DVT</label> <input id="DVT_checkbox"  type="checkbox" checked onclick="PDP_checkbox()"/>
+            <label style="margin-left: 50px">PVT</label> <input id="PVT_checkbox"  type="checkbox" checked onclick="PDP_checkbox()"/>
+            <label style="margin-left: 50px">MP</label>  <input id="MP_checkbox"   type="checkbox" checked onclick="PDP_checkbox()"/>
+        </div>
+
         <div style="margin-left: 30px" id="PDP_table">
             <table class="styled-table">
                 <thead>
@@ -301,14 +309,14 @@
                     <th>No.</th>
                     <th>Item</th>
                     <th>Priority</th>
-                    <th>EVT3(S1)</th>
-                    <th>DVT(S1)</th>
-                    <th>PVT(S1)</th>
-                    <th>MP(S1)</th>
-                    <th>EVT3(S2)</th>
-                    <th>DVT(S2)</th>
-                    <th>PVT(S2)</th>
-                    <th>MP(S2)</th>
+                    <th class="EVT3">EVT3(S1)</th>
+                    <th class="DVT">DVT(S1)</th>
+                    <th class="PVT">PVT(S1)</th>
+                    <th class="MP">MP(S1)</th>
+                    <th class="EVT3">EVT3(S2)</th>
+                    <th class="DVT">DVT(S2)</th>
+                    <th class="PVT">PVT(S2)</th>
+                    <th class="MP">MP(S2)</th>
                 </tr>
                 </thead>
                 <tbody id="PDP_table_body">
@@ -434,6 +442,7 @@
         $("#PDP-controller").hide();
         $("#pie_chart").hide();
         $("#PDP_upload_access_control").hide();
+        $("#PDP_checkbox").hide();
     });
 </script>
 </body>

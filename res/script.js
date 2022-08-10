@@ -100,13 +100,16 @@ function reload() {
 function search() {
     var project   = document.getElementById("p1").value;
     var sensor    = document.getElementById("p2").value;
-    var color_tem = document.getElementById("p3").value;
+    // var color_tem = document.getElementById("p3").value;
     var illumin   = document.getElementById("p4").value;
     var ISO       = document.getElementById("p5").value;
     var serial_n  = document.getElementById("p6").value;
     var HW_v      = document.getElementById("p7").value;
     var SW_v      = document.getElementById("p8").value;
     var file_type = document.getElementById("p9").value;
+
+    var color_tem = document.getElementById("p31").value + "~" + document.getElementById("p32").value;
+
     var str = "project="+project+"&"+"sensor="+sensor+"&"+"color_tem="+color_tem+"&"+"illumin="+illumin+"&"+"ISO="+ISO+"&"+"serial_n="+serial_n+"&"+"HW_v="+HW_v+"&"+"SW_v="+SW_v+"&"+"file_type="+file_type;
     $("#downloadList").empty();
     $("#downloadList").hide();
@@ -464,6 +467,8 @@ function display_PDP_table(){
     $("#PDP_List").hide();
     $("#PDP_upload_access_control").hide();
 
+    $("#PDP_checkbox").show();
+
     $.ajax({
         url: "/api/general/display_PDP_table",
         type: "GET",
@@ -514,14 +519,14 @@ function display_PDP_table(){
                 $("#PDP_table_body").append("<td>"+no+"</td>");
                 $("#PDP_table_body").append("<td><a onclick='reload_PDP("+no+")' class='uk-link'>"+row[1]+"</a></td>");
                 $("#PDP_table_body").append("<td>"+row[2]+"</td>");
-                $("#PDP_table_body").append("<td bgcolor='"+row[4]+"'><div contenteditable='true'>"+row[3]+"</div></td>");
-                $("#PDP_table_body").append("<td bgcolor='"+row[6]+"'><div contenteditable='true'>"+row[5]+"</div></td>");
-                $("#PDP_table_body").append("<td bgcolor='"+row[8]+"'><div contenteditable='true'>"+row[7]+"</div></td>");
-                $("#PDP_table_body").append("<td bgcolor='"+row[10]+"'><div contenteditable='true'>"+row[9]+"</div></td>");
-                $("#PDP_table_body").append("<td bgcolor='"+row[12]+"'><div contenteditable='true'>"+row[11]+"</div></td>");
-                $("#PDP_table_body").append("<td bgcolor='"+row[14]+"'><div contenteditable='true'>"+row[13]+"</div></td>");
-                $("#PDP_table_body").append("<td bgcolor='"+row[16]+"'><div contenteditable='true'>"+row[15]+"</div></td>");
-                $("#PDP_table_body").append("<td bgcolor='"+row[18]+"'><div contenteditable='true'>"+row[17]+"</div></td>");
+                $("#PDP_table_body").append("<td class='EVT3' bgcolor='"+row[4]+"'><div contenteditable='true'>"+row[3]+"</div></td>");
+                $("#PDP_table_body").append("<td class='DVT'  bgcolor='"+row[6]+"'><div contenteditable='true'>"+row[5]+"</div></td>");
+                $("#PDP_table_body").append("<td class='PVT'  bgcolor='"+row[8]+"'><div contenteditable='true'>"+row[7]+"</div></td>");
+                $("#PDP_table_body").append("<td class='MP'   bgcolor='"+row[10]+"'><div contenteditable='true'>"+row[9]+"</div></td>");
+                $("#PDP_table_body").append("<td class='EVT3' bgcolor='"+row[12]+"'><div contenteditable='true'>"+row[11]+"</div></td>");
+                $("#PDP_table_body").append("<td class='DVT'  bgcolor='"+row[14]+"'><div contenteditable='true'>"+row[13]+"</div></td>");
+                $("#PDP_table_body").append("<td class='PVT'  bgcolor='"+row[16]+"'><div contenteditable='true'>"+row[15]+"</div></td>");
+                $("#PDP_table_body").append("<td class='MP'   bgcolor='"+row[18]+"'><div contenteditable='true'>"+row[17]+"</div></td>");
                 $("#PDP_table_body").append("</tr>");
 
             }
@@ -675,6 +680,7 @@ function reload_PDP(path) {
     $("#PDP_access_alert").hide();
     $("#PDP_table").hide();
     $("#pie_chart").hide();
+    $("#PDP_checkbox").hide();
     $("#PDP_upload_access_control").show();
 
     $("#PDP_List").empty();
@@ -794,6 +800,33 @@ function reload_PDP(path) {
             }
         }
     });
+}
+
+function PDP_checkbox() {
+    if ($("#EVT3_checkbox").is(":checked")) {
+        $(".EVT3").show();
+    }
+    else {
+        $(".EVT3").hide();
+    }
+    if ($("#DVT_checkbox").is(":checked")) {
+        $(".DVT").show();
+    }
+    else {
+        $(".DVT").hide();
+    }
+    if ($("#PVT_checkbox").is(":checked")) {
+        $(".PVT").show();
+    }
+    else {
+        $(".PVT").hide();
+    }
+    if ($("#MP_checkbox").is(":checked")) {
+        $(".MP").show();
+    }
+    else {
+        $(".MP").hide();
+    }
 }
 
 function folders_list() {

@@ -187,6 +187,7 @@ public class FileController {
             String s1 = " where ";
             String s0 = " and ";
             String t = "\'";
+            String CT = "";
             Boolean strt = false;
             if (!project.equals("")) {
                 if (strt) sql = sql + s0 + "project="+ t +project + t;
@@ -196,9 +197,19 @@ public class FileController {
                 if (strt) sql = sql + s0 + "sensor="+ t +sensor + t;
                 else {sql = sql + s1 + "sensor="+ t +sensor + t;strt=true;}
             }
-            if (!color_tem.equals("")) {
-                if (strt) sql = sql + s0 + "color_temperature="+color_tem;
-                else {sql = sql + s1 + "color_temperature=" +color_tem;strt=true;}
+            if (!color_tem.equals("~")) {
+                if (color_tem.startsWith("~")) {
+                    CT = "color_temperature <= " + color_tem.substring(1);
+                }
+                else if (color_tem.endsWith("~")) {
+                    CT = "color_temperature >= " + color_tem.substring(0, color_tem.length()-1);
+                }
+                else {
+                    String[] p = color_tem.split("~");
+                    CT = "color_temperature >= " + p[0] + " and " + " color_temperature <= " + p[1];
+                }
+                if (strt) sql = sql + s0 + CT;
+                else {sql = sql + s1 + CT;strt=true;}
             }
             if (!illumin.equals("")) {
                 if (strt) sql = sql + s0 + "illuminance="+illumin;
@@ -226,6 +237,7 @@ public class FileController {
             }
 
             sql = sql + " order by file_name";
+//            System.out.println(sql);
             ResultSet rs = stmt.executeQuery(sql);
 
             // 展开结果集数据库
