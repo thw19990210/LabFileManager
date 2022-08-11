@@ -155,7 +155,7 @@ public class FileController {
     @GetMapping(value = "/search")
     public List<FileEntry> search(@RequestParam("project") String project, @RequestParam("sensor") String sensor,
                                   @RequestParam("color_tem") String color_tem, @RequestParam("illumin") String illumin,
-                                  @RequestParam("ISO") String ISO, @RequestParam("serial_n") String serial_n,
+                                  @RequestParam("ISO") String iso, @RequestParam("ET") String et,
                                   @RequestParam("HW_v") String HW_v, @RequestParam("SW_v") String SW_v,
                                   @RequestParam("file_type") String file_type) {
 
@@ -188,6 +188,9 @@ public class FileController {
             String s0 = " and ";
             String t = "\'";
             String CT = "";
+            String ET = "";
+            String Lux = "";
+            String ISO = "";
             Boolean strt = false;
             if (!project.equals("")) {
                 if (strt) sql = sql + s0 + "project="+ t +project + t;
@@ -206,23 +209,57 @@ public class FileController {
                 }
                 else {
                     String[] p = color_tem.split("~");
-                    CT = "color_temperature >= " + p[0] + " and " + " color_temperature <= " + p[1];
+                    CT = "color_temperature >= " + p[0] + " and " + "color_temperature <= " + p[1];
                 }
                 if (strt) sql = sql + s0 + CT;
                 else {sql = sql + s1 + CT;strt=true;}
             }
-            if (!illumin.equals("")) {
-                if (strt) sql = sql + s0 + "illuminance="+illumin;
-                else {sql = sql + s1 + "illuminance="+ illumin;strt=true;}
+            if (!illumin.equals("~")) {
+                if (illumin.startsWith("~")) {
+                    Lux = "illuminance <= " + illumin.substring(1);
+                }
+                else if (illumin.endsWith("~")) {
+                    Lux = "illuminance >= " + illumin.substring(0, illumin.length()-1);
+                }
+                else {
+                    String[] p = illumin.split("~");
+                    Lux = "illuminance >= " + p[0] + " and " + "illuminance <= " + p[1];
+                }
+                if (strt) sql = sql + s0 + Lux;
+                else {sql = sql + s1 + Lux;strt=true;}
             }
-            if (!ISO.equals("")) {
-                if (strt) sql = sql + s0 + "ISO=" +ISO;
-                else {sql = sql + s1 + "ISO=" +ISO;strt=true;}
+            if (!iso.equals("~")) {
+                if (iso.startsWith("~")) {
+                    ISO = "ISO <= " + iso.substring(1);
+                }
+                else if (iso.endsWith("~")) {
+                    ISO = "ISO >= " + iso.substring(0, iso.length()-1);
+                }
+                else {
+                    String[] p = iso.split("~");
+                    ISO = "ISO >= " + p[0] + " and " + "ISO <= " + p[1];
+                }
+                if (strt) sql = sql + s0 + ISO;
+                else {sql = sql + s1 + ISO;strt=true;}
             }
-            if (!serial_n.equals("")) {
-                if (strt) sql = sql + s0 + "serial_number=" +serial_n;
-                else {sql = sql + s1 + "serial_number=" +serial_n ;strt=true;}
+            if (!et.equals("~")) {
+                if (et.startsWith("~")) {
+                    ET = "ET <= " + et.substring(1);
+                }
+                else if (et.endsWith("~")) {
+                    ET = "ET >= " + et.substring(0, et.length()-1);
+                }
+                else {
+                    String[] p = et.split("~");
+                    ET = "ET >= " + p[0] + " and " + "ET <= " + p[1];
+                }
+                if (strt) sql = sql + s0 + ET;
+                else {sql = sql + s1 + ET;strt=true;}
             }
+//            if (!serial_n.equals("")) {
+//                if (strt) sql = sql + s0 + "serial_number=" +serial_n;
+//                else {sql = sql + s1 + "serial_number=" +serial_n ;strt=true;}
+//            }
             if (!HW_v.equals("")) {
                 if (strt) sql = sql + s0 + "hardware_version="+ t +HW_v + t;
                 else {sql = sql + s1 + "hardware_version="+ t +HW_v + t;strt=true;}
@@ -237,7 +274,7 @@ public class FileController {
             }
 
             sql = sql + " order by file_name";
-//            System.out.println(sql);
+            System.out.println(sql);
             ResultSet rs = stmt.executeQuery(sql);
 
             // 展开结果集数据库

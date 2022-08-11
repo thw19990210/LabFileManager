@@ -101,16 +101,19 @@ function search() {
     var project   = document.getElementById("p1").value;
     var sensor    = document.getElementById("p2").value;
     // var color_tem = document.getElementById("p3").value;
-    var illumin   = document.getElementById("p4").value;
-    var ISO       = document.getElementById("p5").value;
-    var serial_n  = document.getElementById("p6").value;
+    // var illumin   = document.getElementById("p4").value;
+    // var ISO       = document.getElementById("p5").value;
+    // var serial_n  = document.getElementById("p6").value;
     var HW_v      = document.getElementById("p7").value;
     var SW_v      = document.getElementById("p8").value;
     var file_type = document.getElementById("p9").value;
 
     var color_tem = document.getElementById("p31").value + "~" + document.getElementById("p32").value;
+    var illumin   = document.getElementById("p41").value + "~" + document.getElementById("p42").value;
+    var ISO       = document.getElementById("p51").value + "~" + document.getElementById("p52").value;
+    var ET        = document.getElementById("p61").value + "~" + document.getElementById("p62").value;
 
-    var str = "project="+project+"&"+"sensor="+sensor+"&"+"color_tem="+color_tem+"&"+"illumin="+illumin+"&"+"ISO="+ISO+"&"+"serial_n="+serial_n+"&"+"HW_v="+HW_v+"&"+"SW_v="+SW_v+"&"+"file_type="+file_type;
+    var str = "project="+project+"&"+"sensor="+sensor+"&"+"color_tem="+color_tem+"&"+"illumin="+illumin+"&"+"ISO="+ISO+"&"+"ET="+ET+"&"+"HW_v="+HW_v+"&"+"SW_v="+SW_v+"&"+"file_type="+file_type;
     $("#downloadList").empty();
     $("#downloadList").hide();
     $("#Spinner").show();
@@ -133,7 +136,7 @@ function display (data) {
     $("#downloadList").fadeIn(500);
 
     if ($.isEmptyObject(data)) {
-        $("#downloadList").append("<a>no file found for the searching!</a>");
+        $("#downloadList").append("<a style='text-align: center'>no file found for the searching!</a>");
     }
 
     for (var key in data) {

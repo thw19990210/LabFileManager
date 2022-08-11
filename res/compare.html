@@ -207,87 +207,101 @@
             </div><!-- /.container-fluid -->
         </div>
         <!-- /.content-header -->
-
+        <div id="compare_checkbox">
+            <label style="margin-left: 50px">List1</label><input id="List1_checkbox" type="checkbox" checked/>
+            <label style="margin-left: 50px">List2</label><input id="List2_checkbox" type="checkbox" checked/>
+        </div>
 
         <!-- Main content -->
 <!--        <div style="text-align:center;margin-top: 30px">-->
 <!--            <img src="https://amazon-blogs-brightspot-lower.s3.amazonaws.com/about/00/92/0260aab44ee8a2faeafde18ee1da/amazon-logo-inverse.svg" alt="" width="260">-->
 <!--        </div>-->
-        <div class="form-inline">
-            <div id="search-controller1" style="margin:auto" class="input-group">
-                <input onkeydown="key_enter_l(event)" id="p11" list="list1" class="form-control" type="search" placeholder="project" aria-label="Search1">
-                <input onkeydown="key_enter_l(event)" id="p21" list="list2" class="form-control" type="search" placeholder="sensor" aria-label="Search1">
-                <input onkeydown="key_enter_l(event)" id="p31" list="list3" class="form-control" type="search" placeholder="color temperature" aria-label="Search1">
-                <input onkeydown="key_enter_l(event)" id="p41" list="list4" class="form-control" type="search" placeholder="illuminance" aria-label="Search1">
-                <input onkeydown="key_enter_l(event)" id="p51" list="list5" class="form-control" type="search" placeholder="ISO" aria-label="Search1">
-                <input onkeydown="key_enter_l(event)" id="p61" list="list6" class="form-control" type="search" placeholder="serial number" aria-label="Search1">
-                <input onkeydown="key_enter_l(event)" id="p71" list="list7" class="form-control" type="search" placeholder="hardware version" aria-label="Search1">
-                <input onkeydown="key_enter_l(event)" id="p81" list="list8" class="form-control" type="search" placeholder="software version" aria-label="Search1">
-                <input onkeydown="key_enter_l(event)" id="p91" list="list9" class="form-control" type="search" placeholder="file type" aria-label="Search1">
-                <div class="input-group-append">
-                    <button class="btn" onclick="search_l()">
-                        <i class="fas fa-search fa-fw"></i>
-                    </button>
-                </div>
-                <datalist id="list1">
-                    <option>Trona</option>
-                    <option>Raspite</option>
-                </datalist>
-                <datalist id="list2">
-                    <option>sensor1</option>
-                    <option>sensor2</option>
-                </datalist>
-                <datalist id="list3">
-                    <option>25</option>
-                    <option>30</option>
-                </datalist>
-                <datalist id="list4">
-                    <option>20</option>
-                    <option>50</option>
-                    <option>100</option>
-                    <option>200</option>
-                </datalist>
-                <datalist id="list5">
-                    <option>0.5</option>
-                </datalist>
-                <datalist id="list6">
-                    <option>336</option>
-                    <option>337</option>
-                </datalist>
-                <datalist id="list7">
-                    <option>HW-v5</option>
-                    <option>HW-v6</option>
-                </datalist>
-                <datalist id="list8">
-                    <option>SW-v6</option>
-                    <option>SW-v7</option>
-                </datalist>
-                <datalist id="list9">
-                    <option>raw</option>
-                    <option>png</option>
-                    <option>jpg</option>
-                    <option>mp4</option>
-                </datalist>
-            </div>
-        </div>
-        <br>
-        <div class="form-inline">
-            <div id="search-controller2" style="margin:auto" class="input-group">
-                <input onkeydown="key_enter_r(event)" id="p12" list="list1" class="form-control" type="search" placeholder="project" aria-label="Search1">
-                <input onkeydown="key_enter_r(event)" id="p22" list="list2" class="form-control" type="search" placeholder="sensor" aria-label="Search1">
-                <input onkeydown="key_enter_r(event)" id="p32" list="list3" class="form-control" type="search" placeholder="color temperature" aria-label="Search1">
-                <input onkeydown="key_enter_r(event)" id="p42" list="list4" class="form-control" type="search" placeholder="illuminance" aria-label="Search1">
-                <input onkeydown="key_enter_r(event)" id="p52" list="list5" class="form-control" type="search" placeholder="ISO" aria-label="Search1">
-                <input onkeydown="key_enter_r(event)" id="p62" list="list6" class="form-control" type="search" placeholder="serial number" aria-label="Search1">
-                <input onkeydown="key_enter_r(event)" id="p72" list="list7" class="form-control" type="search" placeholder="hardware version" aria-label="Search1">
-                <input onkeydown="key_enter_r(event)" id="p82" list="list8" class="form-control" type="search" placeholder="software version" aria-label="Search1">
-                <input onkeydown="key_enter_r(event)" id="p92" list="list9" class="form-control" type="search" placeholder="file type" aria-label="Search1">
-                <div class="input-group-append">
-                    <button class="btn" onclick="search_r()">
-                        <i class="fas fa-search fa-fw"></i>
-                    </button>
+        <div id="search-controller-c">
+            <div class="form-inline">
+                <div id="search-controller1-c" style="margin:auto" class="input-group">
+                    <input onkeydown="key_enter_lr(event)" id="p1c" list="list1" class="form-control" type="search" placeholder="project" aria-label="Search1">
+                    <input onkeydown="key_enter_lr(event)" id="p2c" list="list2" class="form-control" type="search" placeholder="sensor" aria-label="Search1">
+
+                    <!--                    <input onkeydown="key_enter2(event)" id="p6" list="list6" class="form-control" type="search" placeholder="serial number" aria-label="Search1">-->
+                    <input onkeydown="key_enter_lr(event)" id="p7c" list="list7" class="form-control" type="search" placeholder="hardware version" aria-label="Search1">
+                    <input onkeydown="key_enter_lr(event)" id="p8c" list="list8" class="form-control" type="search" placeholder="software version" aria-label="Search1">
+                    <input onkeydown="key_enter_lr(event)" id="p9c" list="list9" class="form-control" type="search" placeholder="file type" aria-label="Search1">
+
+                    <div class="input-group-append">
+                        <button class="btn" onclick="search_lr()">
+                            <i class="fas fa-search fa-fw"></i>
+                        </button>
+                    </div>
+
+                    <datalist id="list1">
+                        <option>Trona</option>
+                        <option>Raspite</option>
+                    </datalist>
+                    <datalist id="list2">
+                        <option>sensor1</option>
+                        <option>sensor2</option>
+                    </datalist>
+                    <datalist id="list3">
+                        <option>25</option>
+                        <option>30</option>
+                    </datalist>
+                    <datalist id="list4">
+                        <option>20</option>
+                        <option>50</option>
+                        <option>100</option>
+                        <option>200</option>
+                    </datalist>
+                    <datalist id="list5">
+                        <option>0.5</option>
+                    </datalist>
+                    <datalist id="list6">
+                        <option>336</option>
+                        <option>337</option>
+                    </datalist>
+                    <datalist id="list7">
+                        <option>HW-v5</option>
+                        <option>HW-v6</option>
+                    </datalist>
+                    <datalist id="list8">
+                        <option>SW-v6</option>
+                        <option>SW-v7</option>
+                    </datalist>
+                    <datalist id="list9">
+                        <option>raw</option>
+                        <option>png</option>
+                        <option>jpg</option>
+                        <option>mp4</option>
+                    </datalist>
                 </div>
             </div>
+            <br>
+            <div class="form-inline">
+                <div id="search-controller2-c" style="margin:auto" class="input-group">
+                    <label style="margin-right: 14px">CT :</label>
+                    <input onkeydown="key_enter_lr(event)" id="p31c" class="form-control" type="search" placeholder="from" aria-label="Search1">
+                    <input onkeydown="key_enter_lr(event)" id="p32c" class="form-control" type="search" placeholder="to" aria-label="Search1">
+
+                    <label style="margin-right: 8px; margin-left: 88px">Lux:</label>
+                    <input onkeydown="key_enter_lr(event)" id="p41c" class="form-control" type="search" placeholder="from" aria-label="Search1">
+                    <input onkeydown="key_enter_lr(event)" id="p42c" class="form-control" type="search" placeholder="to" aria-label="Search1">
+
+                </div>
+            </div>
+            <br>
+            <div class="form-inline">
+                <div id="search-controller3-c" style="margin:auto" class="input-group">
+
+                    <label style="margin-right: 10px">ISO:</label>
+                    <input onkeydown="key_enter_lr(event)" id="p51c" class="form-control" type="search" placeholder="from" aria-label="Search1">
+                    <input onkeydown="key_enter_lr(event)" id="p52c" class="form-control" type="search" placeholder="to" aria-label="Search1">
+
+                    <label style="margin-right: 12px; margin-left: 88px">ET :</label>
+                    <input onkeydown="key_enter_lr(event)" id="p61c" class="form-control" type="search" placeholder="from" aria-label="Search1">
+                    <input onkeydown="key_enter_lr(event)" id="p62c" class="form-control" type="search" placeholder="to" aria-label="Search1">
+
+                </div>
+            </div>
+            <br>
         </div>
 
         <div id="work_path"></div>

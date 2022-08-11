@@ -1,16 +1,10 @@
-function key_enter_l(e) {
+function key_enter_lr(e) {
     var evt = window.event || e;
     if (evt.keyCode == 13) {
-        search_l();
+        search_lr();
     }
 }
 
-function key_enter_r(e) {
-    var evt = window.event || e;
-    if (evt.keyCode == 13) {
-        search_r();
-    }
-}
 
 function display_l (data) {
     $("#downloadList1").fadeIn(500);
@@ -218,19 +212,26 @@ function display_r (data) {
     }
 }
 
-function search_l() {
-    var project   = document.getElementById("p11").value;
-    var sensor    = document.getElementById("p21").value;
-    var color_tem = document.getElementById("p31").value;
-    var illumin   = document.getElementById("p41").value;
-    var ISO       = document.getElementById("p51").value;
-    var serial_n  = document.getElementById("p61").value;
-    var HW_v      = document.getElementById("p71").value;
-    var SW_v      = document.getElementById("p81").value;
-    var file_type = document.getElementById("p91").value;
-    var str = "project="+project+"&"+"sensor="+sensor+"&"+"color_tem="+color_tem+"&"+"illumin="+illumin+"&"+"ISO="+ISO+"&"+"serial_n="+serial_n+"&"+"HW_v="+HW_v+"&"+"SW_v="+SW_v+"&"+"file_type="+file_type;
-    $("#downloadList1").empty();
-    $("#downloadList1").hide();
+
+function search_lr() {
+    var project   = document.getElementById("p1c").value;
+    var sensor    = document.getElementById("p2c").value;
+    // var color_tem = document.getElementById("p3").value;
+    // var illumin   = document.getElementById("p4").value;
+    // var ISO       = document.getElementById("p5").value;
+    // var serial_n  = document.getElementById("p6").value;
+    var HW_v      = document.getElementById("p7c").value;
+    var SW_v      = document.getElementById("p8c").value;
+    var file_type = document.getElementById("p9c").value;
+
+    var color_tem = document.getElementById("p31c").value + "~" + document.getElementById("p32c").value;
+    var illumin   = document.getElementById("p41c").value + "~" + document.getElementById("p42c").value;
+    var ISO       = document.getElementById("p51c").value + "~" + document.getElementById("p52c").value;
+    var ET        = document.getElementById("p61c").value + "~" + document.getElementById("p62c").value;
+
+    var str = "project="+project+"&"+"sensor="+sensor+"&"+"color_tem="+color_tem+"&"+"illumin="+illumin+"&"+"ISO="+ISO+"&"+"ET="+ET+"&"+"HW_v="+HW_v+"&"+"SW_v="+SW_v+"&"+"file_type="+file_type;
+
+    $("#Spinner").show();
 
     $.ajax({
         url: "/api/general/search?"+str,
@@ -240,34 +241,14 @@ function search_l() {
             alert("Sorry! Some error happened");
         },
         success: function (data) {
-            display_l(data);
-        }
-    });
-}
-
-function search_r() {
-    var project   = document.getElementById("p12").value;
-    var sensor    = document.getElementById("p22").value;
-    var color_tem = document.getElementById("p32").value;
-    var illumin   = document.getElementById("p42").value;
-    var ISO       = document.getElementById("p52").value;
-    var serial_n  = document.getElementById("p62").value;
-    var HW_v      = document.getElementById("p72").value;
-    var SW_v      = document.getElementById("p82").value;
-    var file_type = document.getElementById("p92").value;
-    var str = "project="+project+"&"+"sensor="+sensor+"&"+"color_tem="+color_tem+"&"+"illumin="+illumin+"&"+"ISO="+ISO+"&"+"serial_n="+serial_n+"&"+"HW_v="+HW_v+"&"+"SW_v="+SW_v+"&"+"file_type="+file_type;
-    $("#downloadList2").empty();
-    $("#downloadList2").hide();
-
-    $.ajax({
-        url: "/api/general/search?"+str,
-        type: "GET",
-        // data: {project: project, color_tem: color_tem},
-        error: function () {
-            alert("Sorry! Some error happened");
-        },
-        success: function (data) {
-            display_r(data);
+            if ($("#List1_checkbox").is(":checked")) {
+                $("#downloadList1").empty();
+                display_l(data);
+            }
+            if ($("#List2_checkbox").is(":checked")) {
+                $("#downloadList2").empty();
+                display_r(data);
+            }
         }
     });
 }
