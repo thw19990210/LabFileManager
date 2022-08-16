@@ -152,7 +152,7 @@
                         <a href="/folders" onclick="display_name()" class="nav-link">
                             <i class="nav-icon fas fa-th"></i>
                             <p>
-                                Folders
+                                Folder Path
                             </p>
                         </a>
                     </li>
@@ -165,18 +165,18 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" onclick="display_name()" class="nav-link">
-                            <i class="nav-icon fas fa-edit"></i>
-                            <p>
-
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a href="/compare" onclick="display_name()" class="nav-link active">
                             <i class="nav-icon fas fa-table"></i>
                             <p>
                                 Compare
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" onclick="display_name()" class="nav-link">
+                            <i class="nav-icon fas fa-edit"></i>
+                            <p>
+
                             </p>
                         </a>
                     </li>
@@ -223,9 +223,9 @@
                     <input onkeydown="key_enter_lr(event)" id="p2c" list="list2" class="form-control" type="search" placeholder="sensor" aria-label="Search1">
 
                     <!--                    <input onkeydown="key_enter2(event)" id="p6" list="list6" class="form-control" type="search" placeholder="serial number" aria-label="Search1">-->
-                    <input onkeydown="key_enter_lr(event)" id="p7c" list="list7" class="form-control" type="search" placeholder="hardware version" aria-label="Search1">
-                    <input onkeydown="key_enter_lr(event)" id="p8c" list="list8" class="form-control" type="search" placeholder="software version" aria-label="Search1">
-                    <input onkeydown="key_enter_lr(event)" id="p9c" list="list9" class="form-control" type="search" placeholder="file type" aria-label="Search1">
+                    <input onkeydown="key_enter_lr(event)" id="p7c" list="list3" class="form-control" type="search" placeholder="hardware version" aria-label="Search1">
+                    <input onkeydown="key_enter_lr(event)" id="p8c" list="list4" class="form-control" type="search" placeholder="software version" aria-label="Search1">
+                    <input onkeydown="key_enter_lr(event)" id="p9c" list="list5" class="form-control" type="search" placeholder="file type" aria-label="Search1">
 
                     <div class="input-group-append">
                         <button class="btn" onclick="search_lr()">
@@ -253,24 +253,6 @@
                     </datalist>
                     <datalist id="list5">
                         <option>0.5</option>
-                    </datalist>
-                    <datalist id="list6">
-                        <option>336</option>
-                        <option>337</option>
-                    </datalist>
-                    <datalist id="list7">
-                        <option>HW-v5</option>
-                        <option>HW-v6</option>
-                    </datalist>
-                    <datalist id="list8">
-                        <option>SW-v6</option>
-                        <option>SW-v7</option>
-                    </datalist>
-                    <datalist id="list9">
-                        <option>raw</option>
-                        <option>png</option>
-                        <option>jpg</option>
-                        <option>mp4</option>
                     </datalist>
                 </div>
             </div>
@@ -389,11 +371,12 @@
 <!-- AdminLTE for demo purposes -->
 
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="dist/js/pages/dashboard.js"></script>
+<!--<script src="dist/js/pages/dashboard.js"></script>-->
 
 <script>
     $(document).ready(function (){
         get_token();
+        display_options();
     });
 </script>
 

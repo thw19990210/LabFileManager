@@ -152,6 +152,30 @@ public class FileController {
         return list;
     }
 
+    @GetMapping("/files/directory")
+    public List<String> directory(HttpServletRequest request, HttpServletResponse response, @RequestParam("path") String path) throws IOException {
+        File[] files = new File("./res/storage/" + path).listFiles();
+        List<String> list = new ArrayList<>();
+        for (File file : files) {
+            if (file.isDirectory()) {
+                list.add(file.getName());
+            }
+        }
+        Collections.sort(list);
+        return list;
+    }
+
+    @GetMapping("/create_folder")
+    public void create_folder(HttpServletRequest request, HttpServletResponse response, @RequestParam("path") String path, @RequestParam("name") String name) throws IOException {
+
+        if (name.equals("null") || name.equals("")) return;
+        else {
+            File file = new File("./res/storage/" + path + name);
+            file.mkdir();
+        }
+
+    }
+
     @GetMapping(value = "/search")
     public List<FileEntry> search(@RequestParam("project") String project, @RequestParam("sensor") String sensor,
                                   @RequestParam("color_tem") String color_tem, @RequestParam("illumin") String illumin,
@@ -274,7 +298,7 @@ public class FileController {
             }
 
             sql = sql + " order by file_name";
-            System.out.println(sql);
+//            System.out.println(sql);
             ResultSet rs = stmt.executeQuery(sql);
 
             // 展开结果集数据库
@@ -475,25 +499,28 @@ public class FileController {
         String sensor = "";
         String CT = "-1";
         String illuminance = "-1";
-        String serialNum = "-1";
+        String ET = "-1";
         String ISO = "-1";
         String HW_v = "";
         String SW_v = "";
-        for (String p : property) {
-            if (p.startsWith("Prj-")) {
-                project = p.substring(4);
+        for (int i = 0; i < property.length-1; i++) {
+            if (property[i].startsWith("PROJ")) {
+                project = property[i+1];
             }
-            if (p.startsWith("sensor-")) {
-                project = p.substring(7);
+            if (property[i].startsWith("Sensor")) {
+                sensor = property[i+1];
             }
-            if (p.startsWith("CT-")) {
-                CT = p.substring(3);
+            if (property[i].startsWith("CT")) {
+                CT = property[i+1];
             }
-            if (p.startsWith("Lux-")) {
-                illuminance = p.substring(4);
+            if (property[i].startsWith("Lux")) {
+                illuminance = property[i+1];
             }
-            if (p.startsWith("ISO-")) {
-                ISO = p.substring(4);
+            if (property[i].startsWith("ISO")) {
+                ISO = property[i+1];
+            }
+            if (property[i].startsWith("ET")) {
+                ET = property[i+1].substring(0,property[i+1].length()-2);
             }
         }
 
@@ -522,14 +549,14 @@ public class FileController {
 
             String sql1 = "SET @ID= (select MAX(id) as id_max from files)";
             stmt.execute(sql1);
-            String sql2 = "insert into files  (id, project, sensor, color_temperature, illuminance, ISO, serial_number, hardware_version, software_version, file_type, file_name, file_path)" +
+            String sql2 = "insert into files  (id, project, sensor, color_temperature, illuminance, ISO, ET, hardware_version, software_version, file_type, file_name, file_path)" +
                           "values (@ID+1,\'"
                           + project +"\',\'"
                           + sensor + "\',"
                           + CT + ","
                           + illuminance + ","
                           + ISO + ","
-                          + serialNum + ",\'"
+                          + ET + ",\'"
                           + HW_v + "\',\'"
                           + SW_v + "\',\'"
                           + file_type + "\',\'"
@@ -919,48 +946,186 @@ public class FileController {
         response.addCookie(cookie);
     }
 
-    @RequestMapping(value = "/setCookies",method = RequestMethod.GET)
-    public String setCookies(HttpServletResponse response){
-        //HttpServerletRequest 装请求信息类
-        //HttpServerletRespionse 装相应信息的类
-        Cookie cookie=new Cookie("login_status","CookieTestInfo");
-        cookie.setPath("/");
-        response.addCookie(cookie);
-        return "添加cookies信息成功";
+//    @RequestMapping(value = "/setCookies",method = RequestMethod.GET)
+//    public String setCookies(HttpServletResponse response){
+//        //HttpServerletRequest 装请求信息类
+//        //HttpServerletRespionse 装相应信息的类
+//        Cookie cookie=new Cookie("login_status","CookieTestInfo");
+//        cookie.setPath("/");
+//        response.addCookie(cookie);
+//        return "添加cookies信息成功";
+//    }
+//
+//    @RequestMapping(value = "/getCookies",method = RequestMethod.GET)
+//    public String getCookies(HttpServletRequest request){
+//        //HttpServletRequest 装请求信息类
+//        //HttpServletRespionse 装相应信息的类
+//        //   Cookie cookie=new Cookie("sessionId","CookieTestInfo");
+//        String res = "fail";
+//        Cookie[] cookies = request.getCookies();
+//        if(cookies != null){
+//            for(Cookie cookie : cookies){
+//                if(cookie.getName().equals("login_status")){
+//                    res = cookie.getValue();
+//                }
+//            }
+//        }
+//
+//        return res;
+//    }
+//
+//    @RequestMapping("/testCookieValue")
+//    public String testCookieValue(@CookieValue("login_status") String sessionId ) {
+//        //前提是已经创建了或者已经存在cookie了，那么下面这个就直接把对应的key值拿出来了。
+//        System.out.println("testCookieValue,sessionId="+sessionId);
+//
+//
+//        return "SUCCESS";
+//    }
+//    @RequestMapping("/testCookie")
+//    public String testCookieValue2(@CookieValue("token") String sessionId ) {
+//        //前提是已经创建了或者已经存在cookie了，那么下面这个就直接把对应的key值拿出来了。
+//        System.out.println(sessionId);
+//
+//
+//        return sessionId;
+//    }
+
+    @GetMapping(value = "/display_options")
+    public List display_options(HttpServletResponse response, @RequestParam("option") String option, @RequestParam("list") String list) {
+
+        List<String> returnData = new ArrayList<>();
+
+        returnData.add(list);
+
+        String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost:3306/amazon_lab126?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+
+        // 数据库的用户名与密码，需要根据自己的设置
+        String USER = "root";
+        String PASS = "dbuserdbuser";
+
+
+        Connection conn = null;
+        Statement stmt = null;
+
+        try{
+            // 注册 JDBC 驱动
+            Class.forName(JDBC_DRIVER);
+
+            // 打开链接
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+            stmt = conn.createStatement();
+
+            String sql;
+            sql = "select distinct "+option+" from files";
+            ResultSet rs = stmt.executeQuery(sql);
+            // 展开结果集数据库
+            while(rs.next()){
+                String v_option = rs.getString(option);
+                if (v_option != null) {
+                    if (! v_option.equals("")) {
+                        returnData.add(v_option);
+                    }
+                }
+            }
+
+
+            stmt.close();
+            conn.close();
+        }catch(SQLException se){
+            // 处理 JDBC 错误
+            se.printStackTrace();
+        }catch(Exception e){
+            // 处理 Class.forName 错误
+            e.printStackTrace();
+        }finally{
+            // 关闭资源
+            try{
+                if(stmt!=null) stmt.close();
+            }catch(SQLException se2){
+            }// 什么都不做
+            try{
+                if(conn!=null) conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+        return returnData;
     }
 
-    @RequestMapping(value = "/getCookies",method = RequestMethod.GET)
-    public String getCookies(HttpServletRequest request){
-        //HttpServletRequest 装请求信息类
-        //HttpServletRespionse 装相应信息的类
-        //   Cookie cookie=new Cookie("sessionId","CookieTestInfo");
-        String res = "fail";
+    @GetMapping(value = "/account_info")
+    public List accnt_info(HttpServletResponse response, HttpServletRequest request) {
+
+        String token = "";
         Cookie[] cookies = request.getCookies();
         if(cookies != null){
             for(Cookie cookie : cookies){
-                if(cookie.getName().equals("login_status")){
-                    res = cookie.getValue();
+                if(cookie.getName().equals("token")){
+                    token = cookie.getValue();
                 }
             }
         }
 
-        return res;
-    }
-
-    @RequestMapping("/testCookieValue")
-    public String testCookieValue(@CookieValue("login_status") String sessionId ) {
-        //前提是已经创建了或者已经存在cookie了，那么下面这个就直接把对应的key值拿出来了。
-        System.out.println("testCookieValue,sessionId="+sessionId);
+        List<String> returnData = new ArrayList<>();
 
 
-        return "SUCCESS";
-    }
-    @RequestMapping("/testCookie")
-    public String testCookieValue2(@CookieValue("token") String sessionId ) {
-        //前提是已经创建了或者已经存在cookie了，那么下面这个就直接把对应的key值拿出来了。
-        System.out.println(sessionId);
+        String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost:3306/amazon_lab126?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+
+        // 数据库的用户名与密码，需要根据自己的设置
+        String USER = "root";
+        String PASS = "dbuserdbuser";
 
 
-        return sessionId;
+        Connection conn = null;
+        Statement stmt = null;
+
+        try{
+            // 注册 JDBC 驱动
+            Class.forName(JDBC_DRIVER);
+
+            // 打开链接
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+            stmt = conn.createStatement();
+
+            String sql;
+            sql = "select * from account_info where token = '" + token + "'";
+            ResultSet rs = stmt.executeQuery(sql);
+            // 展开结果集数据库
+            while(rs.next()){
+
+                returnData.add(rs.getString("user_name"));
+                returnData.add(rs.getString("password"));
+                returnData.add(rs.getString("name"));
+                returnData.add(rs.getString("access"));
+                returnData.add(rs.getString("PDP_access"));
+
+            }
+
+
+            stmt.close();
+            conn.close();
+        }catch(SQLException se){
+            // 处理 JDBC 错误
+            se.printStackTrace();
+        }catch(Exception e){
+            // 处理 Class.forName 错误
+            e.printStackTrace();
+        }finally{
+            // 关闭资源
+            try{
+                if(stmt!=null) stmt.close();
+            }catch(SQLException se2){
+            }// 什么都不做
+            try{
+                if(conn!=null) conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+        return returnData;
     }
 }

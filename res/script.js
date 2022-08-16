@@ -833,7 +833,7 @@ function PDP_checkbox() {
 }
 
 function folders_list() {
-    var list_path = document.getElementById("folders-list-search").value;
+    var list_path = document.getElementById("path_string").innerHTML;
 
     $("#folders_list").empty();
     $("#folders_list").hide();
@@ -957,6 +957,79 @@ function folders_list() {
 }
 
 
+function display_options() {
+    var to_display = ["project", "sensor", "hardware_version", "software_version", "file_type"];
+    // var list_to_display = ["#list1", "#list2", "#list3", "#list4", "#list5"];
+    var list_to_display = ["list1", "list2", "list3", "list4", "list5"];
+    for (var i = 0; i < to_display.length; i++) {
+        $.ajax({
+            url: "/api/general/display_options?option="+to_display[i]+"&list="+list_to_display[i],
+            type: "GET",
+            error: function (data) {
+                onerror(data);
+            },
+            success: function (data) {
+
+                for (var key in data) {
+                    if (key > 0) {
+                        var option = document.createElement('option');
+                        var ele = "#" + data[0];
+                        option.innerHTML = data[key];
+                        $(ele).append(option);
+                    }
+                }
+            }
+        });
+    }
+}
+
+function new_folder_access() {
+    $.ajax({
+        url: "/api/general/get_token",
+        type: "GET",
+        error: function () {
+
+        },
+        success: function (data) {
+
+            var access = data[0].split(',');
+            var permitted = 0;
+            for (key in access) {
+                var path = "/" + document.getElementById('path_string').innerHTML;
+                if (path.startsWith(access[key])) {
+                    permitted = 1;
+                }
+            }
+            if (permitted == 1) {
+                new_folder();
+            }
+            else {
+                alert("Sorry, you have no access to edit this path!")
+            }
+        }
+    });
+
+}
+
+function new_folder() {
+    var path = document.getElementById('path_string').innerHTML;
+    var folder_name = prompt("Please add the folder's name:");
+    if (folder_name == null) return;
+    if (folder_name == "") alert("name cannot be empty!");
+    $.ajax({
+        url: "/api/general/create_folder?path="+path+"&name="+folder_name,
+        type: "GET",
+        error: function (data) {
+            onerror(data);
+        },
+        success: function (data) {
+
+        }
+    });
+
+    folders_list();
+    choose_path(document.getElementById("path_string").innerHTML);
+}
 // reload();
 // function show_user () {
 //     $.
