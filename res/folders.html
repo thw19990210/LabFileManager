@@ -47,7 +47,7 @@
 
     <!-- Preloader -->
     <div class="preloader flex-column justify-content-center align-items-center">
-        <img class="animation__shake" src="https://amazon-blogs-brightspot-lower.s3.amazonaws.com/about/00/92/0260aab44ee8a2faeafde18ee1da/amazon-logo-inverse.svg"  alt="Amazon Logo" width="300">
+        <img class="animation__shake" src="dist/img/icons8-amazon-1000.png"  alt="Amazon Logo" width="350">
     </div>
 
     <!-- Navbar -->
@@ -115,7 +115,7 @@
                     <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
                     <li class="nav-item">
-                        <a href="/" onclick="display_name()" class="nav-link">
+                        <a href="/dashboard" onclick="display_name()" class="nav-link">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>
                                 Dashboard
@@ -196,16 +196,34 @@
 <!--        <div style="text-align:center;margin-top: 30px">-->
 <!--            <img src="https://amazon-blogs-brightspot-lower.s3.amazonaws.com/about/00/92/0260aab44ee8a2faeafde18ee1da/amazon-logo-inverse.svg" alt="" width="260">-->
 <!--        </div>-->
-        <div>
-            <button style="margin-left: 20px;margin-bottom: 20px" onclick="go_back()">Back</button>
-            <select id="folder_path_selector">
+        <div style="margin-bottom: 20px">
+            <div style="float:left; width:70%;">
+                <a onclick="go_back()" class="btn btn_primary" style="margin-left: 30px;margin-bottom: 3px">Back</a>
+                <select id="folder_path_selector" style="height: 37px; width: 250px">
 
-            </select>
-            <a id="path_string"></a>
+                </select>
+                <a id="path_string" style="font-size: 20px"></a>
+            </div>
+
+
+            <div style="float:left; width:28%; text-align: right">
+                <a style="text-align: right" onclick="folders_list()" class="btn btn_primary" style="margin-right: 20px;margin-bottom: 3px">Refresh</a>
+
+                <a style="text-align: right" onclick="get_upload_access()" class="btn btn_primary" style="margin-right: 20px;margin-bottom: 3px">Upload Files</a>
+
+                <a style="text-align: right" onclick="new_folder_access()" class="btn btn_primary" style="margin-right: 20px;margin-bottom: 3px">Create Folder</a>
+            </div>
         </div>
-        <div>
-            <button style="margin-left: 20px;margin-bottom: 20px" onclick="new_folder_access()">Create a new folder under this path</button>
+
+        <div id="upload_access_control" class="js-upload uk-placeholder uk-text-center" style="height: 100px; margin-top: 55px">
+            <span uk-icon="icon: cloud-upload"></span>
+            <span class="uk-text-middle">Drop your files here or</span>
+            <div class="uk-form-custom">
+                <input style="font-size: 0" type="file" multiple>
+                <span style="cursor: pointer" class="uk-link">selecting files</span>
+            </div>
         </div>
+
 
 
 <!--        <div class="form-inline">-->
@@ -218,10 +236,10 @@
 <!--                </div>-->
 <!--            </div>-->
 <!--        </div>-->
+        <progress id="js-progressbar" class="uk-progress CenteredItems" value="0" max="200" hidden></progress>
 
 
-
-        <div id="folders_list" class="CenteredItems" style="overflow: auto; overflow-x: hidden; height: 700px;">
+        <div id="folders_list" class="CenteredItems" style="overflow: auto; overflow-x: hidden; height: 750px; margin-top: 70px">
 
 
 
@@ -247,7 +265,7 @@
         <!--    <button type="submit"></button>-->
         <!--</form>-->
 
-        <progress id="js-progressbar" class="uk-progress CenteredItems" value="0" max="200" hidden></progress>
+
 
 
 
@@ -312,7 +330,7 @@
 
 <script>
     $(document).ready(function (){
-        get_token();
+        display_name();
         $("#folders_list").hide();
         $("#folder_path_selector").on("change", function () {
             let path = document.getElementById("path_string").innerHTML + $('select option:selected').val() + "/";
@@ -321,11 +339,12 @@
         });
         choose_path("");
         folders_list();
+        $("#upload_access_control").hide();
     });
 
     function choose_path (path) {
         $("#folder_path_selector").empty();
-        $("#folder_path_selector").append("<option>Choose Path</option>");
+        $("#folder_path_selector").append("<option>--------------  Choose Path  --------------</option>");
         document.getElementById("path_string").innerHTML = path;
         $.ajax({
             url: "/api/general/files/directory?path="+path,
@@ -339,6 +358,8 @@
                 }
             }
         });
+        save_work_path_2();
+        $("#upload_access_control").hide();
     }
 
     function go_back () {

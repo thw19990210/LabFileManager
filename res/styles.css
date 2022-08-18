@@ -90,16 +90,16 @@ form.example::after {
 
 CenteredItems {
 }
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1500px) {
     .CenteredItems {
         width: 90% !important;
         margin-left: 5% !important;
     }
 }
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 1500px) {
     .CenteredItems {
-        width: 1080px !important;
-        margin-left: calc(50% - 540px); !important;
+        width: 1350px !important;
+        margin-left: calc(50% - 675px); !important;
     }
 }
 
@@ -310,4 +310,92 @@ CenteredItems {
     flex: unset;
     padding-left: 15px;
     padding-right: 15px;
+}
+
+
+.btn {
+    outline: none;
+    color: #ffffff;
+    font-size: 54px;
+    font-weight: 600;
+    border-radius: 50px;
+    display: inline-block;
+    padding: 10px 33px 7px;
+    -webkit-transition: 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.btn:focus {
+    outline: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+.btn:hover {
+    color: #ffffff;
+}
+.btn.btn_primary {
+    border-color: #f02757;
+    background-color: #f02757;
+    color: #ffffff;
+}
+.btn.btn_primary:hover {
+    color: #f02757;
+    background-color: transparent;
+}
+.btn.btn_secondary {
+    border-color: #051d43;
+    background-color: #051d43;
+}
+.btn.btn_secondary:hover {
+    color: #051d43;
+    background-color: transparent;
+}
+.btn.btn_danger {
+    border-color: #e23e1d;
+    background-color: #e23e1d;
+}
+.btn.btn_danger:hover {
+    color: #e23e1d;
+    background-color: transparent;
+}
+.btn.btn_dark {
+    border-color: #252525;
+    background-color: #252525;
+}
+.btn.btn_dark:hover {
+    color: #252525;
+    background-color: transparent;
+}
+.btn.btn_gray {
+    color: #252525;
+    border-color: #f4f4f4;
+    background-color: #f4f4f4;
+}
+.btn.btn_gray:hover {
+    color: #ffffff;
+    border-color: #f02757;
+    background-color: #f02757;
+}
+.btn.border_primary {
+    color: #636363;
+    border-color: #f02757;
+}
+.btn.border_primary:hover {
+    color: #ffffff;
+    background-color: #f02757;
+}
+.btn.border_white {
+    color: #ffffff;
+    border-color: #ffffff;
+}
+.btn.border_white:hover {
+    color: #e23e1d;
+    background-color: #ffffff;
+}
+.btn.border_black {
+    color: #252525;
+    border-color: #252525;
+}
+.btn.border_black:hover {
+    color: #ffffff;
+    background-color: #252525;
 }

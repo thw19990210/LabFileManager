@@ -136,7 +136,12 @@ function display (data) {
     $("#downloadList").fadeIn(500);
 
     if ($.isEmptyObject(data)) {
-        $("#downloadList").append("<a style='text-align: center'>no file found for the searching!</a>");
+        $("#no-file-alert").show();
+        $("#download-button-area").hide();
+    }
+    else {
+        $("#no-file-alert").hide();
+        $("#download-button-area").show();
     }
 
     for (var key in data) {
@@ -171,6 +176,7 @@ function display (data) {
         }
         img.style.width = "150px";
         img.style.height = "114px";
+        img.style.marginLeft = "3px";
         img.src = "/storage/" + img_name;
         img.alt = "  no image"
 
@@ -405,6 +411,35 @@ function get_token(){
     });
 }
 
+function get_upload_access() {
+    var work_path = document.getElementById("path_string").innerHTML;
+    $.ajax({
+        url: "/api/general/get_token",
+        type: "GET",
+        error: function () {
+
+        },
+        success: function (data) {
+
+            var access = data[0].split(',');
+            var permitted = 0;
+            for (key in access) {
+                var path = "/" + work_path;
+                if (path.startsWith(access[key])) {
+                    permitted = 1;
+                }
+            }
+            if (permitted == 1) {
+                $("#upload_access_control").show();
+            }
+            else {
+                $("#upload_access_control").hide();
+                alert("Access Denied!");
+            }
+        }
+    });
+}
+
 function display_name() {
     $.ajax({
         url: "/api/general/get_token",
@@ -423,6 +458,22 @@ function display_name() {
 
 function save_work_path(){
     var work_path = document.getElementById("work_path").value;
+    $.ajax({
+        url: "/api/general/save_work_path?work_path=" + work_path,
+        type: "GET",
+        error: function () {
+
+        },
+        success: function () {
+
+        }
+    });
+}
+
+function save_work_path_2(){
+    var work_path = document.getElementById("path_string").innerHTML;
+    work_path = work_path.substring(0, work_path.length - 1);
+    
     $.ajax({
         url: "/api/general/save_work_path?work_path=" + work_path,
         type: "GET",
@@ -837,6 +888,7 @@ function folders_list() {
 
     $("#folders_list").empty();
     $("#folders_list").hide();
+    $("#upload_access_control").hide();
 
     $.ajax({
         url: "/api/general/files/list?path="+list_path,

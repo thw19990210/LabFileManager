@@ -943,6 +943,7 @@ public class FileController {
     public void save_work_path(HttpServletResponse response, @RequestParam("work_path") String work_path) {
         Cookie cookie = new Cookie("work_path",work_path);
         cookie.setPath("/");
+        cookie.setMaxAge(3600);
         response.addCookie(cookie);
     }
 

@@ -47,7 +47,7 @@
 
     <!-- Preloader -->
     <div class="preloader flex-column justify-content-center align-items-center">
-        <img class="animation__shake" src="https://amazon-blogs-brightspot-lower.s3.amazonaws.com/about/00/92/0260aab44ee8a2faeafde18ee1da/amazon-logo-inverse.svg"  alt="Amazon Logo" width="300">
+        <img class="animation__shake" src="dist/img/icons8-amazon-1000.png"  alt="Amazon Logo" width="350">
     </div>
 
     <!-- Navbar -->
@@ -115,7 +115,7 @@
                     <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
                     <li class="nav-item">
-                        <a href="/" onclick="display_name()" class="nav-link active">
+                        <a href="/dashboard" onclick="display_name()" class="nav-link active">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>
                                 Dashboard
@@ -191,8 +191,15 @@
         </div>
         <!-- /.content-header -->
 
-        <button type="button" STYLE="border: none" onclick="sel_search()">by property</button>
-        <button type="button" STYLE="border: none" onclick="sel_search_pro()">by name</button>
+
+
+        <div style="margin-bottom: 15px; text-align: center">
+            <button id="switch-btn-2" type="button" STYLE="border: none; background-color: #f4f6f9; font-size: 19px" onclick="sel_search_pro()">by name</button>
+            <a style="font-size: 19px">|</a>
+            <button id="switch-btn-1" type="button" STYLE="border: none; background-color: #f4f6f9; font-size: 19px" onclick="sel_search()">by property</button>
+        </div>
+
+
 
         <!-- Main content -->
 <!--        <div style="text-align:center;margin-top: 30px">-->
@@ -200,6 +207,7 @@
 <!--        </div>-->
         <div id="search-controller">
             <div class="form-inline">
+
                 <div id="search-controller1" style="margin:auto" class="input-group">
                     <input onkeydown="key_enter2(event)" id="p1" list="list1" class="form-control" type="search" placeholder="project" aria-label="Search1">
                     <input onkeydown="key_enter2(event)" id="p2" list="list2" class="form-control" type="search" placeholder="sensor" aria-label="Search1">
@@ -298,17 +306,18 @@
 
 
 
-        <div class="CenteredItems" style=" height: 40px;">
+        <div id="download-button-area" class="CenteredItems" style=" height: 40px;">
 
-            <button style="margin-left: 966px" onclick="download()">Download</button>
+            <a class="btn btn_primary" style="margin-left: 1226px; margin-bottom: 5px" onclick="download()">Download</a>
 
 
             <input id="select_all" type="checkbox" onclick="swapCheck()"/>
         </div>
 
-        <div id="downloadList" class="CenteredItems" style="overflow: auto; overflow-x: hidden; height: 600px;">
+        <div id="no-file-alert" style='text-align: center; margin-top: 50px'>no file found for the searching!</div>
 
-        </div>
+        <div id="downloadList" class="CenteredItems" style="overflow: auto; overflow-x: hidden; height: 550px; margin-top: 20px"></div>
+
     </div>
     <!-- /.content-wrapper -->
 
@@ -401,52 +410,30 @@
 
     }
 
-    function autoclick(name)
 
-    {
-
-        if(document.all)
-
-        {
-
-//alert(1);
-
-            document.getElementById(name).click();
-
-        }
-
-        else
-
-        {
-
-            var evt = document.createEvent("MouseEvents");
-
-            evt.initEvent("click", true, true);
-
-//alert(2);
-
-            document.getElementById(name).dispatchEvent(evt);
-
-        }
-
-    }
 </script>
 
 <script>
     $(document).ready(function (){
         get_token();
-        sel_search();
+        sel_search_pro();
         display_options();
+        $("#no-file-alert").hide();
+        $("#download-button-area").hide();
     });
 
     function sel_search() {
         $("#search-controller").show();
         $("#search-pro-controller").hide();
+        document.getElementById('switch-btn-1').style.color = "#f02757";
+        document.getElementById('switch-btn-2').style.color = "black";
     }
 
     function sel_search_pro() {
         $("#search-controller").hide();
         $("#search-pro-controller").show();
+        document.getElementById('switch-btn-1').style.color = "black";
+        document.getElementById('switch-btn-2').style.color = "#f02757";
     }
 </script>
 
