@@ -389,7 +389,7 @@ function get_token(){
             $("#welcome_slogan").empty();
             $("#welcome_slogan").append("<a class=\"d-block\">Welcome! " + data[1] + "</a>");
             $("#welcome_user_photo").empty();
-            $("#welcome_user_photo").append("<img src=\"" + data[2] + "\" class=\"img-circle elevation-2\" alt=\"User Image\">");
+            $("#welcome_user_photo").append("<img src='https://internal-cdn.amazon.com/badgephotos.amazon.com/?uid=" + data[3] + "' class=\"img-circle elevation-2\" alt=\"User Image\">");
 
             var access = data[0].split(',');
             var permitted = 0;
@@ -440,6 +440,8 @@ function get_upload_access() {
     });
 }
 
+
+
 function display_name() {
     $.ajax({
         url: "/api/general/get_token",
@@ -448,10 +450,10 @@ function display_name() {
 
         },
         success: function (data) {
-            $("#welcome_user_photo").empty();
-            $("#welcome_user_photo").append("<img src=\"" + data[2] + "\" class=\"img-circle elevation-2\" alt=\"User Image\">");
             $("#welcome_slogan").empty();
             $("#welcome_slogan").append("<a class=\"d-block\">Welcome! " + data[1] + "</a>");
+            $("#welcome_user_photo").empty();
+            $("#welcome_user_photo").append("<img src='https://internal-cdn.amazon.com/badgephotos.amazon.com/?uid=" + data[2] + "' class=\"img-circle elevation-2\" alt=\"User Image\">");
         }
     });
 }
@@ -472,6 +474,9 @@ function save_work_path(){
 
 function save_work_path_2(){
     var work_path = document.getElementById("path_string").innerHTML;
+
+    if (work_path == "") work_path = "empty_path/";
+
     work_path = work_path.substring(0, work_path.length - 1);
 
     $.ajax({
@@ -1056,7 +1061,7 @@ function new_folder_access() {
                 new_folder();
             }
             else {
-                alert("Sorry, you have no access to edit this path!")
+                alert("Access Denied!")
             }
         }
     });

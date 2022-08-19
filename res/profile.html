@@ -1,3 +1,4 @@
+
 <html>
 <head>
     <title>Amazon Asia Camera Lab</title>
@@ -39,45 +40,6 @@
     <!-- summernote -->
     <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
 
-
-
-    <!-- icon font - css include -->
-    <link rel="stylesheet" type="text/css" href="assets/css/stroke-gap-icons.css">
-
-<style>
-
-    .styled-table {
-        border-collapse: collapse;
-        font-size: 0.9em;
-        font-family: sans-serif;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-    }
-    .styled-table thead tr {
-        background-color: #009879;
-        color: #ffffff;
-        text-align: left;
-    }
-    .styled-table th,
-    .styled-table td {
-        padding: 12px 15px;
-        border: 10px black;
-    }
-    .styled-table tbody tr {
-        border-bottom: 1px solid #dddddd;
-    }
-
-    .styled-table tbody tr:nth-of-type(even) {
-        background-color: #f3f3f3;
-    }
-
-    .styled-table tbody tr.active-row {
-        font-weight: bold;
-        color: #009879;
-    }
-    .styled-table tbody td {
-        border: 10px black;
-    }
-</style>
 </head>
 <body style="padding: 0;">
 
@@ -104,6 +66,9 @@
             <li class="nav-item d-none d-sm-inline-block">
                 <a href="login" class="nav-link">Sign Out</a>
             </li>
+            <!--            <div class="add-cart-area">-->
+            <!--                <button class="add-to-cart">sign out</button>-->
+            <!--            </div>-->
         </ul>
 
         <!-- Right navbar links -->
@@ -119,8 +84,6 @@
             <span class="brand-text font-weight-light">Amazon Lab126</span>
         </a>
 
-
-
         <!-- Sidebar -->
         <div class="sidebar">
             <!-- Sidebar user panel (optional) -->
@@ -128,7 +91,7 @@
                 <div id="welcome_user_photo" class="image">
 
                 </div>
-                <div id="welcome_slogan"  style="margin-top: 6px"  class="info">
+                <div id="welcome_slogan"  style="margin-top: 6px" class="info">
 
                 </div>
 
@@ -161,7 +124,7 @@
 
                     </li>
                     <li class="nav-item ">
-                        <a href="/upload" onclick="display_name()" class="nav-link">
+                        <a href="/upload" onclick="display_name()" class="nav-link ">
                             <i class="nav-icon fas fa-copy"></i>
                             <p>
                                 Upload Files
@@ -177,7 +140,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/PDP" onclick="display_name()" class="nav-link active">
+                        <a href="/PDP" onclick="display_name()" class="nav-link">
                             <i class="nav-icon fas fa-chart-pie"></i>
                             <p>
                                 PDP
@@ -193,7 +156,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/profile" onclick="display_name()" class="nav-link">
+                        <a href="/profile" onclick="display_name()" class="nav-link active">
                             <i class="nav-icon fas fa-edit"></i>
                             <p>
                                 Profile
@@ -208,147 +171,51 @@
         <!-- /.sidebar -->
     </aside>
 
-
-
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-
         <!-- Content Header (Page header) -->
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">PDP</h1>
+                        <h1 class="m-0">Profile</h1>
                     </div><!-- /.col -->
-
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="/">Home</a></li>
-                            <li class="breadcrumb-item active">PDP</li>
+                            <li class="breadcrumb-item active">Profile</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
         </div>
         <!-- /.content-header -->
+        <div>
+            <a id="badge-photo" class="col-md-3" style="margin-left: 20px; height: 200px"></a>
 
-
-        <!-- Main content -->
-        <!--        <div style="text-align:center;margin-top: 30px">-->
-        <!--            <img src="https://amazon-blogs-brightspot-lower.s3.amazonaws.com/about/00/92/0260aab44ee8a2faeafde18ee1da/amazon-logo-inverse.svg" alt="" width="260">-->
-        <!--        </div>-->
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col col-md-3">
-                    <div class="allcategories_dropdown">
-                        <button style="border: none" class="allcategories_btn" type="button" data-bs-toggle="collapse" data-bs-target="#allcategories_collapse" aria-expanded="false" aria-controls="allcategories_collapse">
-                            <svg role="img" xmlns="http://www.w3.org/2000/svg" width="32px" height="32px" viewBox="0 0 24 24" aria-labelledby="statsIconTitle" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" color="#000">  <path d="M6 7L15 7M6 12L18 12M6 17L12 17"/> </svg>
-                            Project Menu
-                        </button>
-                        <div class="allcategories_collapse collapse" id="allcategories_collapse">
-                            <div style="margin-bottom: auto" class="card card-body">
-                                <ul class="allcategories_list ul_li_block">
-                                    <li onclick="get_PDP_access()" style="margin-left: 20px; margin-right: 20px"><a href="#"><i class="icon icon-Starship"></i> Raspite</a></li>
-                                    <li onclick="get_PDP_access()" style="margin-left: 20px; margin-right: 20px"><a href="#"><i class="icon icon-WorldWide"></i> Trona</a></li>
-                                    <li onclick="get_PDP_access()" style="margin-left: 20px; margin-right: 20px"><a href="#"><i class="icon icon-Star"></i> Project 3</a></li>
-                                    <li onclick="get_PDP_access()" style="margin-left: 20px; margin-right: 20px"><a href="#"><i class="icon icon-Phone"></i> Project 4</a></li>
-                                    <li onclick="get_PDP_access()" style="margin-left: 20px; margin-right: 20px"><a href="#"><i class="icon icon-DesktopMonitor"></i> Project 5</a></li>
-                                    <li onclick="get_PDP_access()" style="margin-left: 20px; margin-right: 20px"><a href="#"><i class="icon icon-Bulb"></i> Project 6</a></li>
-                                    <li onclick="get_PDP_access()" style="margin-left: 20px; margin-right: 20px"><a href="#"><i class="icon icon-Car"></i> Project 7</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-inline">
-            <div id="PDP-controller" style="margin-left: 800px" class="input-group">
-                <input id="serial_num" class="form-control" type="search" placeholder="No." aria-label="Search">
-                <input id="PDP_type" list="list_type" class="form-control" type="search" placeholder="Type" aria-label="Search">
-                <input id="PDP_content" class="form-control" type="search" placeholder="Change to" aria-label="Search">
-                <input id="PDP_color" list="list_color" class="form-control" type="search" placeholder="Change color" aria-label="Search">
-                <datalist id="list_type">
-                    <option>EVT3</option>
-                    <option>DVT</option>
-                    <option>PVT</option>
-                    <option>MP</option>
-                </datalist>
-                <datalist id="list_color">
-                    <option>green</option>
-                    <option>yellow</option>
-                    <option>red</option>
-                </datalist>
-                <div class="input-group-append">
-                    <button id="save_table_button" style="border: none" onclick="save_PDP_table()">Save</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="pie_chart" style="margin-top: 60px;" class="row">
-            <div class="col-3" id="chart_high" style="width: 600px;height:400px; padding-top: 0px"></div>
-            <div class="col-3" id="chart_mid" style="width: 600px;height:400px;"></div>
-            <div class="col-3" id="chart_low" style="width: 600px;height:400px;"></div>
-        </div>
-
-
-        <div style="text-align: center; margin-top: 60px" id="PDP_access_alert">You have no access to edit this project!</div>
-
-        <div id="PDP_checkbox">
-            <label style="margin-left: 50px">EVT3</label><input id="EVT3_checkbox" type="checkbox" checked onclick="PDP_checkbox()"/>
-            <label style="margin-left: 50px">DVT</label> <input id="DVT_checkbox"  type="checkbox" checked onclick="PDP_checkbox()"/>
-            <label style="margin-left: 50px">PVT</label> <input id="PVT_checkbox"  type="checkbox" checked onclick="PDP_checkbox()"/>
-            <label style="margin-left: 50px">MP</label>  <input id="MP_checkbox"   type="checkbox" checked onclick="PDP_checkbox()"/>
-        </div>
-
-        <div style="margin-left: 30px" id="PDP_table">
-            <table class="styled-table">
-                <thead>
-                <tr>
-                    <th>No.</th>
-                    <th>Item</th>
-                    <th>Priority</th>
-                    <th class="EVT3">EVT3(S1)</th>
-                    <th class="DVT">DVT(S1)</th>
-                    <th class="PVT">PVT(S1)</th>
-                    <th class="MP">MP(S1)</th>
-                    <th class="EVT3">EVT3(S2)</th>
-                    <th class="DVT">DVT(S2)</th>
-                    <th class="PVT">PVT(S2)</th>
-                    <th class="MP">MP(S2)</th>
-                </tr>
-                </thead>
-                <tbody id="PDP_table_body">
-
-<!--                <tr class="active-row">-->
-<!--                    <td>Melissa</td>-->
-<!--                    <td>5150</td>-->
-<!--                </tr>-->
-                <!-- and so on... -->
-                </tbody>
-            </table>
+            <a  class="col-md-9" style="margin-left: 20px; height: 200px">
+                <table id="profile-info" style="margin-left: 20px"></table>
+            </a>
 
         </div>
+
+        <div style="text-align: center">to be designed...</div>
+
+
 
 
         <div id="work_path"></div>
-        <div>
-            <progress id="js-progressbar" class="uk-progress CenteredItems" value="0" max="200" hidden></progress>
-        </div>
 
 
-        <div id="PDP_upload_access_control" class="js-upload uk-placeholder uk-text-center" style="height: 100px; margin-top: 70px">
-            <span uk-icon="icon: cloud-upload"></span>
-            <span class="uk-text-middle">Drop your files here or</span>
-            <div class="uk-form-custom">
-                <input style="font-size: 0" type="file" multiple>
-                <span style="cursor: pointer" class="uk-link">selecting files</span>
-            </div>
-        </div>
 
-
-        <div id="PDP_List" class="CenteredItems" style="overflow: auto; overflow-x: hidden; height: 550px;">
+        <!--        <div class="js-upload uk-placeholder uk-text-center">-->
+        <!--            <span uk-icon="icon: cloud-upload"></span>-->
+        <!--            <span class="uk-text-middle">Drop your files here or</span>-->
+        <!--            <div class="uk-form-custom">-->
+        <!--                <input style="font-size: 0" type="file" multiple>-->
+        <!--                <span style="cursor: pointer" class="uk-link">selecting files</span>-->
+        <!--            </div>-->
+        <!--        </div>-->
 
 
 
@@ -359,17 +226,20 @@
         <!--    <button type="submit"></button>-->
         <!--</form>-->
 
+        <progress id="js-progressbar" class="uk-progress CenteredItems" value="0" max="200" hidden></progress>
+
+
+
+
 
     </div>
+    <!-- /.content-wrapper -->
 
-</div>
-<!-- /.content-wrapper -->
-
-<!-- Control Sidebar -->
-<aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-</aside>
-<!-- /.control-sidebar -->
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
 
@@ -418,32 +288,42 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <!--<script src="dist/js/pages/dashboard.js"></script>-->
 
-<script src="assets/js/jquery.min.js"></script>
-<script src="assets/js/popper.min.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-
-<!-- carousel - jquery plugins collection -->
-<script src="assets/js/jquery-plugins-collection.js"></script>
-
-<!-- google map  -->
-<script src="http://ditu.google.cn/maps/api/js?key=AIzaSyDk2HrmqE4sWSei0XdKGbOMOHN3Mm2Bf-M&ver=2.1.6"></script>
-<script src="assets/js/gmaps.min.js"></script>
-
-<!-- custom - main-js -->
-<script src="assets/js/main.js"></script>
-
-<script src="echarts.js"></script>
 
 
 <script>
     $(document).ready(function (){
         get_token();
-        $("#PDP_table").hide();
-        $("#PDP-controller").hide();
-        $("#pie_chart").hide();
-        $("#PDP_upload_access_control").hide();
-        $("#PDP_checkbox").hide();
+        $.ajax({
+            url: "/api/general/get_profile",
+            type: "GET",
+            error: function () {
+
+            },
+            success: function (data) {
+                $("#badge-photo").append("<img src='https://internal-cdn.amazon.com/badgephotos.amazon.com/?uid=" + data[0] + "' alt=\"User Image\" style='width: 120px;'>");
+                $("#profile-info").append("<tr>");
+                $("#profile-info").append("<td>Login:</td>");
+                $("#profile-info").append("<td>"+data[0]+"</td>");
+                $("#profile-info").append("<td>|         Name:</td>");
+                $("#profile-info").append("<td>"+data[2]+"</td>");
+                $("#profile-info").append("<tr>");
+
+                $("#profile-info").append("<tr>");
+                $("#profile-info").append("<td>Access:</td>");
+                $("#profile-info").append("<td>"+data[1]+"</td>");
+                $("#profile-info").append("<td>|         PDP Access:</td>");
+                $("#profile-info").append("<td>"+data[4]+"</td>");
+                $("#profile-info").append("<tr>");
+            }
+        });
     });
+
+
+
 </script>
+
+
+
+
 </body>
 </html>
