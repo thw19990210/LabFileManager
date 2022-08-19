@@ -199,6 +199,10 @@
 
         </div>
 
+        <div id="user-links" style="margin-left: 20px;">
+
+        </div>
+
         <div style="text-align: center">to be designed...</div>
 
 
@@ -300,19 +304,28 @@
 
             },
             success: function (data) {
+                $("#user-links").append("<a target=\"_blank\" href = 'https://w.amazon.com/bin/view/XWiki/UserContributions/?authors="+data[0]+"'>Your Wiki contributions</a><br>");
+                $("#user-links").append("<a target=\"_blank\" href = 'https://crier.amazon.com/user/"+data[0]+"'>Your Crier profile</a><br>");
+                $("#user-links").append("<a target=\"_blank\" href = 'https://maple-admin-prod.corp.amazon.com/my-support/person/"+data[0]+"'>Your Support Team</a><br>");
+
                 $("#badge-photo").append("<img src='https://internal-cdn.amazon.com/badgephotos.amazon.com/?uid=" + data[0] + "' alt=\"User Image\" style='width: 120px;'>");
                 $("#profile-info").append("<tr>");
                 $("#profile-info").append("<td>Login:</td>");
                 $("#profile-info").append("<td>"+data[0]+"</td>");
-                $("#profile-info").append("<td>|         Name:</td>");
+                $("#profile-info").append("<td>Name:</td>");
                 $("#profile-info").append("<td>"+data[2]+"</td>");
                 $("#profile-info").append("<tr>");
 
                 $("#profile-info").append("<tr>");
                 $("#profile-info").append("<td>Access:</td>");
                 $("#profile-info").append("<td>"+data[1]+"</td>");
-                $("#profile-info").append("<td>|         PDP Access:</td>");
+                $("#profile-info").append("<td>PDP Access:</td>");
                 $("#profile-info").append("<td>"+data[4]+"</td>");
+                $("#profile-info").append("<tr>");
+
+                $("#profile-info").append("<tr>");
+                $("#profile-info").append("<td>Location:</td>");
+                $("#profile-info").append("<td>"+data[5]+"</td>");
                 $("#profile-info").append("<tr>");
             }
         });

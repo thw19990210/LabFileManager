@@ -777,11 +777,13 @@ public class FileController {
                 String photo = rs.getString("prof_pic_path");
                 String tkn = rs.getString("token");
                 String PDP_access = rs.getString("PDP_access");
+                String location = rs.getString("location");
                 returnData.add(tkn);
                 returnData.add(access);
                 returnData.add(name);
                 returnData.add(photo);
                 returnData.add(PDP_access);
+                returnData.add(location);
             }
 
             stmt.close();
