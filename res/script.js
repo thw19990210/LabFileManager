@@ -473,7 +473,7 @@ function save_work_path(){
 function save_work_path_2(){
     var work_path = document.getElementById("path_string").innerHTML;
     work_path = work_path.substring(0, work_path.length - 1);
-    
+
     $.ajax({
         url: "/api/general/save_work_path?work_path=" + work_path,
         type: "GET",
