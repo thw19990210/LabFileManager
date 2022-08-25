@@ -81,9 +81,9 @@ public class HttpInterceptor implements HandlerInterceptor {
             }
         }
 
-        if ("/upload".equals(uri) || "/upload.html".equals(uri)) {
+        if ("/edit".equals(uri) || "/edit.html".equals(uri)) {
             if (login_status.equals("success!")) {
-                uri = "/upload.html";
+                uri = "/edit.html";
             }
             else {
                 uri = "/login.html";

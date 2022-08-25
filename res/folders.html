@@ -124,10 +124,10 @@
 
                     </li>
                     <li class="nav-item ">
-                        <a href="/upload" onclick="display_name()" class="nav-link ">
+                        <a href="/edit" onclick="display_name()" class="nav-link ">
                             <i class="nav-icon fas fa-copy"></i>
                             <p>
-                                Upload Files
+                                Edit Files
                             </p>
                         </a>
                     </li>
@@ -209,10 +209,10 @@
             <div style="float:left; width:28%; text-align: right">
                 <a style="text-align: right" onclick="folders_list()" class="btn btn_primary" style="margin-right: 20px;margin-bottom: 3px">Refresh</a>
 
-                <a style="text-align: right" onclick="get_upload_access()" class="btn btn_primary" style="margin-right: 20px;margin-bottom: 3px">Upload Files</a>
+                <a style="text-align: right" onclick="" class="btn btn_primary" style="margin-right: 20px;margin-bottom: 3px">Download</a>
 
-                <a style="text-align: right" onclick="new_folder_access()" class="btn btn_primary" style="margin-right: 20px;margin-bottom: 3px">Create Folder</a>
             </div>
+
         </div>
 
         <div id="upload_access_control" class="js-upload uk-placeholder uk-text-center" style="height: 100px; margin-top: 55px">
@@ -238,8 +238,15 @@
 <!--        </div>-->
         <progress id="js-progressbar" class="uk-progress CenteredItems" value="0" max="200" hidden></progress>
 
+        <div id="download-button-area" class="CenteredItems" style=" height: 40px;margin-top: 60px">
 
-        <div id="folders_list" class="CenteredItems" style="overflow: auto; overflow-x: hidden; height: 750px; margin-top: 70px">
+            <a style="margin-left: 1259px; margin-bottom: 5px">Select All</a>
+
+
+            <input id="select_all" type="checkbox" onclick="swapCheck()"/>
+        </div>
+
+        <div id="folders_list" class="CenteredItems" style="overflow: auto; overflow-x: hidden; height: 750px; margin-top: 15px">
 
 
 

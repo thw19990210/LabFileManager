@@ -526,7 +526,11 @@ public class FileController {
             }
         }
 
-        String file_path = work_path + "/" + file_name;
+        String file_path;
+        if (work_path.equals("")) {
+            file_path = file_name;
+        }
+        else file_path = work_path + "/" + file_name;
 
         String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost:3306/amazon_lab126?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
@@ -810,8 +814,10 @@ public class FileController {
     }
 
     @GetMapping(value = "/get_PDP_access")
-    public List<String> get_PDP_access(HttpServletRequest request) {
+    public List<String> get_PDP_access(HttpServletRequest request, @RequestParam("project") String project) {
         List<String> returnData = new ArrayList<>();
+
+        String result = "fail";
 
         String token = "";
         Cookie[] cookies = request.getCookies();
@@ -849,8 +855,15 @@ public class FileController {
             // 展开结果集数据库
             while(rs.next()){
                 String PDP_access = rs.getString("PDP_access");
-                returnData.add(PDP_access);
+                String[] access = PDP_access.split(",");
+                for (String a : access) {
+                    if (a.equals(project)) result = "success";
+                }
             }
+
+            returnData.add(result);
+            returnData.add(project);
+
 
 
             stmt.close();
@@ -877,7 +890,7 @@ public class FileController {
     }
 
     @GetMapping(value = "/display_PDP_table")
-    public List<List<String>> display_PDP_table(HttpServletRequest request) {
+    public List<List<String>> display_PDP_table(HttpServletRequest request, @RequestParam("project") String project) {
         List<List<String>> returnData = new ArrayList<>();
 
 
@@ -902,7 +915,7 @@ public class FileController {
             stmt = conn.createStatement();
 
             String sql;
-            sql = "select * from PDP where project='Raspite'";
+            sql = "select * from PDP where project='"+project+"'";
             ResultSet rs = stmt.executeQuery(sql);
             // 展开结果集数据库
 
@@ -960,10 +973,68 @@ public class FileController {
         return returnData;
     }
 
-    @GetMapping(value = "/save_PDP_table")
-    public void save_PDP_table(@RequestParam("serial_num") String serial_num, @RequestParam("PDP_type") String PDP_type, @RequestParam("PDP_content") String PDP_content, @RequestParam("PDP_color") String PDP_color) {
+    @GetMapping(value = "/display_PDP_project")
+    public List<String> display_PDP_project(HttpServletRequest request) {
+        List<String> returnData = new ArrayList<>();
 
-        String PDP_project = "Raspite";
+
+        String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost:3306/amazon_lab126?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+
+        // 数据库的用户名与密码，需要根据自己的设置
+        String USER = "root";
+        String PASS = "dbuserdbuser";
+
+
+        Connection conn = null;
+        Statement stmt = null;
+
+        try{
+            // 注册 JDBC 驱动
+            Class.forName(JDBC_DRIVER);
+
+            // 打开链接
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+            stmt = conn.createStatement();
+
+            String sql;
+            sql = "select distinct project from PDP";
+            ResultSet rs = stmt.executeQuery(sql);
+            // 展开结果集数据库
+
+
+            while(rs.next()){
+                returnData.add(rs.getString("project"));
+            }
+
+
+            stmt.close();
+            conn.close();
+        }catch(SQLException se){
+            // 处理 JDBC 错误
+            se.printStackTrace();
+        }catch(Exception e){
+            // 处理 Class.forName 错误
+            e.printStackTrace();
+        }finally{
+            // 关闭资源
+            try{
+                if(stmt!=null) stmt.close();
+            }catch(SQLException se2){
+            }// 什么都不做
+            try{
+                if(conn!=null) conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+        return returnData;
+    }
+
+    @GetMapping(value = "/save_PDP_table")
+    public void save_PDP_table(@RequestParam("serial_num") String serial_num, @RequestParam("PDP_type") String PDP_type, @RequestParam("PDP_content") String PDP_content, @RequestParam("PDP_color") String PDP_color, @RequestParam("project") String PDP_project) {
+
 
 
         int sn = Integer.parseInt(serial_num);
@@ -996,7 +1067,7 @@ public class FileController {
             if (!PDP_content.equals("")) stmt.execute(sql1);
 
             String sql2 = "update PDP set " + PDP_type + "_status = \'" + PDP_color + "\' where id = @ID";
-            if (PDP_color.equals("green") || PDP_color.equals("yellow") || PDP_color.equals("red")) stmt.execute(sql2);
+            stmt.execute(sql2);
 
 
             stmt.close();
@@ -1023,7 +1094,9 @@ public class FileController {
 
     @GetMapping(value = "/save_work_path")
     public void save_work_path(HttpServletResponse response, @RequestParam("work_path") String work_path) {
-        Cookie cookie = new Cookie("work_path",work_path);
+        String new_work_path;
+        new_work_path = work_path.replace(' ', '%');
+        Cookie cookie = new Cookie("work_path", new_work_path);
         cookie.setPath("/");
         cookie.setMaxAge(3600);
         response.addCookie(cookie);

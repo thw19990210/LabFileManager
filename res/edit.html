@@ -1,0 +1,389 @@
+<html>
+<head>
+    <title>Lab126 Camera Database</title>
+    <meta charset="utf-8">
+    <link rel="icon" type="image/png" href="dist/img/amazon_logo_circle.png"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.18/dist/css/uikit.min.css" />
+
+    <!-- UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.18/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.18/dist/js/uikit-icons.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="styles.css">
+
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="plugins/jqvmap/jqvmap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/adminlte.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
+    <!-- summernote -->
+    <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
+
+
+
+    <!-- icon font - css include -->
+    <link rel="stylesheet" type="text/css" href="assets/css/stroke-gap-icons.css">
+
+
+</head>
+<body style="padding: 0;">
+
+<div class="wrapper">
+
+    <!-- Preloader -->
+    <div class="preloader flex-column justify-content-center align-items-center">
+        <img class="animation__shake" src="dist/img/icons8-amazon-1000.png"  alt="Amazon Logo" width="350">
+    </div>
+
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        <!-- Left navbar links -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="/" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="#" class="nav-link">Contact</a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="login" class="nav-link">Sign Out</a>
+            </li>
+        </ul>
+
+        <!-- Right navbar links -->
+
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <!-- Brand Logo -->
+        <a class="brand-link">
+            <img src="dist/img/amazon_logo.png" alt="Amazon Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+            <span class="brand-text font-weight-light">Amazon Lab126</span>
+        </a>
+
+
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Sidebar user panel (optional) -->
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <div id="welcome_user_photo" class="image">
+
+                </div>
+                <div id="welcome_slogan"  style="margin-top: 6px" class="info">
+
+                </div>
+
+            </div>
+
+<!--            &lt;!&ndash; SidebarSearch Form &ndash;&gt;-->
+<!--            <div class="form-inline">-->
+<!--                <div class="input-group" data-widget="sidebar-search">-->
+<!--                    <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">-->
+<!--                    <div class="input-group-append">-->
+<!--                        <button class="btn btn-sidebar">-->
+<!--                            <i class="fas fa-search fa-fw"></i>-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+            <!-- Sidebar Menu -->
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <!-- Add icons to the links using the .nav-icon class
+                         with font-awesome or any other icon font library -->
+                    <li class="nav-item">
+                        <a href="/dashboard" onclick="display_name()" class="nav-link">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p>
+                                Dashboard
+                            </p>
+                        </a>
+
+                    </li>
+                    <li class="nav-item ">
+                        <a href="/edit" onclick="display_name()" class="nav-link active">
+                            <i class="nav-icon fas fa-copy"></i>
+                            <p>
+                                Edit Files
+                            </p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="/PDP" onclick="display_name()" class="nav-link">
+                            <i class="nav-icon fas fa-chart-pie"></i>
+                            <p>
+                                PDP
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/compare" onclick="display_name()" class="nav-link">
+                            <i class="nav-icon fas fa-table"></i>
+                            <p>
+                                Compare
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/profile" onclick="display_name()" class="nav-link">
+                            <i class="nav-icon fas fa-edit"></i>
+                            <p>
+                                Profile
+                            </p>
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+            <!-- /.sidebar-menu -->
+        </div>
+        <!-- /.sidebar -->
+    </aside>
+
+
+
+    <!-- Content Wrapper. Contains page content -->
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Edit Files</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item active">Edit Files</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+
+        <!-- Main content -->
+        <!--        <div style="text-align:center;margin-top: 30px">-->
+        <!--            <img src="https://amazon-blogs-brightspot-lower.s3.amazonaws.com/about/00/92/0260aab44ee8a2faeafde18ee1da/amazon-logo-inverse.svg" alt="" width="260">-->
+        <!--        </div>-->
+        <div style="margin-bottom: 20px">
+            <div style="float:left; width:60%;">
+                <a onclick="go_back()" class="btn btn_primary" style="margin-left: 30px;margin-bottom: 3px">Back</a>
+                <select id="folder_path_selector" style="height: 37px; width: 250px">
+
+                </select>
+                <a id="path_string" style="font-size: 20px"></a>
+            </div>
+
+
+            <div style="float:left; width:38%; text-align: right">
+                <a style="text-align: right" onclick="folders_list()" class="btn btn_primary" style="margin-right: 20px;margin-bottom: 3px">Refresh</a>
+
+                <a style="text-align: right" onclick="get_upload_access()" class="btn btn_primary" style="margin-right: 20px;margin-bottom: 3px">Upload</a>
+
+                <a style="text-align: right" onclick="" class="btn btn_primary" style="margin-right: 20px;margin-bottom: 3px">Download</a>
+
+                <a style="text-align: right" onclick="" class="btn btn_primary" style="margin-right: 20px;margin-bottom: 3px">Delete</a>
+
+                <a style="text-align: right" onclick="new_folder_access()" class="btn btn_primary" style="margin-right: 20px;margin-bottom: 3px">Create Folder</a>
+            </div>
+        </div>
+
+        <div id="upload_access_control" class="js-upload uk-placeholder uk-text-center" style="height: 100px; margin-top: 55px">
+            <span uk-icon="icon: cloud-upload"></span>
+            <span class="uk-text-middle">Drop your files here or</span>
+            <div class="uk-form-custom">
+                <input style="font-size: 0" type="file" multiple>
+                <span style="cursor: pointer" class="uk-link">selecting files</span>
+            </div>
+        </div>
+
+
+
+        <!--        <div class="form-inline">-->
+        <!--            <div id="folders-list-search-controller" style="margin:auto; margin-bottom: 50px" class="input-group">-->
+        <!--                <input id="folders-list-search" onkeydown="key_enter6(event)" STYLE="width: 880px" class="form-control" type="search" placeholder="Please type in file path" aria-label="Search1">-->
+        <!--                <div class="input-group-append">-->
+        <!--                    <button class="btn" onclick="folders_list()">-->
+        <!--                        <i class="fas fa-search fa-fw"></i>-->
+        <!--                    </button>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <progress id="js-progressbar" class="uk-progress CenteredItems" value="0" max="200" hidden></progress>
+
+        <div id="download-button-area" class="CenteredItems" style=" height: 40px;margin-top: 60px">
+
+            <a style="margin-left: 1259px; margin-bottom: 5px">Select All</a>
+
+
+            <input id="select_all" type="checkbox" onclick="swapCheck()"/>
+        </div>
+
+
+        <div id="folders_list" class="CenteredItems" style="overflow: auto; overflow-x: hidden; height: 700px; margin-top: 10px">
+
+
+
+
+
+            <!--        <div class="js-upload uk-placeholder uk-text-center">-->
+            <!--            <span uk-icon="icon: cloud-upload"></span>-->
+            <!--            <span class="uk-text-middle">Drop your files here or</span>-->
+            <!--            <div class="uk-form-custom">-->
+            <!--                <input style="font-size: 0" type="file" multiple>-->
+            <!--                <span style="cursor: pointer" class="uk-link">selecting files</span>-->
+            <!--            </div>-->
+            <!--        </div>-->
+
+
+            <div id="work_path"></div>
+
+
+            <!--&lt;!&ndash; The form &ndash;&gt;-->
+            <!--<form class="example" action="http://localhost:63300/search">-->
+            <!--    <input type="text" placeholder="color temperature" name="color_temp">-->
+            <!--    <button type="submit"><i class="fa fa-search"></i></button>-->
+            <!--    <button type="submit"></button>-->
+            <!--</form>-->
+
+
+
+
+
+            <!--        <div id="downloadList" class="CenteredItems" style="overflow: auto; overflow-x: hidden; height: 1000px;">-->
+
+        </div>
+    </div>
+    <!-- /.content-wrapper -->
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+
+
+
+
+
+
+
+
+
+<script src="script.js"></script>
+<!-- jQuery -->
+<script src="plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+    $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- ChartJS -->
+<script src="plugins/chart.js/Chart.min.js"></script>
+<!-- Sparkline -->
+<script src="plugins/sparklines/sparkline.js"></script>
+<!-- JQVMap -->
+<script src="plugins/jqvmap/jquery.vmap.min.js"></script>
+<script src="plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+<!-- jQuery Knob Chart -->
+<script src="plugins/jquery-knob/jquery.knob.min.js"></script>
+<!-- daterangepicker -->
+<script src="plugins/moment/moment.min.js"></script>
+<script src="plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Summernote -->
+<script src="plugins/summernote/summernote-bs4.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.js"></script>
+<!-- AdminLTE for demo purposes -->
+
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<!--<script src="dist/js/pages/dashboard.js"></script>-->
+
+<script>
+    $(document).ready(function (){
+        display_name();
+        $("#folders_list").hide();
+        $("#folder_path_selector").on("change", function () {
+            let path = document.getElementById("path_string").innerHTML + $('select option:selected').val() + "/";
+            choose_path (path);
+            folders_list();
+        });
+        choose_path("");
+        folders_list();
+        $("#upload_access_control").hide();
+    });
+
+    function choose_path (path) {
+        $("#folder_path_selector").empty();
+        $("#folder_path_selector").append("<option>--------------  Choose Path  --------------</option>");
+        document.getElementById("path_string").innerHTML = path;
+        $.ajax({
+            url: "/api/general/files/directory?path="+path,
+            type: "GET",
+            error: function (data) {
+                onerror(data);
+            },
+            success: function (data) {
+                for (var key in data) {
+                    $("#folder_path_selector").append("<option value='"+data[key]+"'>"+data[key]+"</option>");
+                }
+            }
+        });
+        save_work_path_2();
+        $("#upload_access_control").hide();
+    }
+
+    function go_back () {
+        let path = document.getElementById("path_string").innerHTML;
+        path = path.substring(0,path.length-1);
+        document.getElementById("path_string").innerHTML = path.substring(0,path.lastIndexOf("/")+1);
+        choose_path(document.getElementById("path_string").innerHTML);
+        folders_list();
+    }
+</script>
+
+
+
+</body>
+</html>

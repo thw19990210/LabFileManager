@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Amazon Asia Camera Lab</title>
+    <title>Lab126 Camera Database</title>
     <meta charset="utf-8">
     <link rel="icon" type="image/png" href="dist/img/amazon_logo_circle.png"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -161,21 +161,14 @@
 
                     </li>
                     <li class="nav-item ">
-                        <a href="/upload" onclick="display_name()" class="nav-link">
+                        <a href="/edit" onclick="display_name()" class="nav-link">
                             <i class="nav-icon fas fa-copy"></i>
                             <p>
-                                Upload Files
+                                Edit Files
                             </p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="/folders" onclick="display_name()" class="nav-link">
-                            <i class="nav-icon fas fa-th"></i>
-                            <p>
-                                Folder Path
-                            </p>
-                        </a>
-                    </li>
+
                     <li class="nav-item">
                         <a href="/PDP" onclick="display_name()" class="nav-link active">
                             <i class="nav-icon fas fa-chart-pie"></i>
@@ -237,24 +230,20 @@
         <!--        <div style="text-align:center;margin-top: 30px">-->
         <!--            <img src="https://amazon-blogs-brightspot-lower.s3.amazonaws.com/about/00/92/0260aab44ee8a2faeafde18ee1da/amazon-logo-inverse.svg" alt="" width="260">-->
         <!--        </div>-->
-        <div class="container">
+        <div style="margin-left: 30px">
             <div class="row align-items-center">
                 <div class="col col-md-3">
                     <div class="allcategories_dropdown">
-                        <button style="border: none" class="allcategories_btn" type="button" data-bs-toggle="collapse" data-bs-target="#allcategories_collapse" aria-expanded="false" aria-controls="allcategories_collapse">
+                        <button id="all_categories_btn" style="border: none" class="allcategories_btn" type="button" data-bs-toggle="collapse" data-bs-target="#allcategories_collapse" aria-expanded="false" aria-controls="allcategories_collapse">
                             <svg role="img" xmlns="http://www.w3.org/2000/svg" width="32px" height="32px" viewBox="0 0 24 24" aria-labelledby="statsIconTitle" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" color="#000">  <path d="M6 7L15 7M6 12L18 12M6 17L12 17"/> </svg>
-                            Project Menu
+                            <a id="project_menu_innerHTML">Project Menu</a>
                         </button>
                         <div class="allcategories_collapse collapse" id="allcategories_collapse">
                             <div style="margin-bottom: auto" class="card card-body">
-                                <ul class="allcategories_list ul_li_block">
-                                    <li onclick="get_PDP_access()" style="margin-left: 20px; margin-right: 20px"><a href="#"><i class="icon icon-Starship"></i> Raspite</a></li>
-                                    <li onclick="get_PDP_access()" style="margin-left: 20px; margin-right: 20px"><a href="#"><i class="icon icon-WorldWide"></i> Trona</a></li>
-                                    <li onclick="get_PDP_access()" style="margin-left: 20px; margin-right: 20px"><a href="#"><i class="icon icon-Star"></i> Project 3</a></li>
-                                    <li onclick="get_PDP_access()" style="margin-left: 20px; margin-right: 20px"><a href="#"><i class="icon icon-Phone"></i> Project 4</a></li>
-                                    <li onclick="get_PDP_access()" style="margin-left: 20px; margin-right: 20px"><a href="#"><i class="icon icon-DesktopMonitor"></i> Project 5</a></li>
-                                    <li onclick="get_PDP_access()" style="margin-left: 20px; margin-right: 20px"><a href="#"><i class="icon icon-Bulb"></i> Project 6</a></li>
-                                    <li onclick="get_PDP_access()" style="margin-left: 20px; margin-right: 20px"><a href="#"><i class="icon icon-Car"></i> Project 7</a></li>
+                                <ul id="project_list" class="allcategories_list ul_li_block">
+<!--                                    <li style="margin-left: 20px; margin-right: 20px"><a ><i class="icon icon-DesktopMonitor"></i>Please choose a project</a></li>-->
+<!--                                    <li id="" value="" onclick="get_PDP_access()" style="margin-left: 20px; margin-right: 20px"><a><i class="icon icon-Star"></i>Project 3</a></li>-->
+<!--                                    <li onclick="get_PDP_access()" style="margin-left: 20px; margin-right: 20px"><a href="#"><i class="icon icon-Car"></i>Project 7</a></li>-->
                                 </ul>
                             </div>
                         </div>
@@ -265,42 +254,66 @@
 
         <div class="form-inline">
             <div id="PDP-controller" style="margin-left: 800px" class="input-group">
-                <input id="serial_num" class="form-control" type="search" placeholder="No." aria-label="Search">
-                <input id="PDP_type" list="list_type" class="form-control" type="search" placeholder="Type" aria-label="Search">
-                <input id="PDP_content" class="form-control" type="search" placeholder="Change to" aria-label="Search">
-                <input id="PDP_color" list="list_color" class="form-control" type="search" placeholder="Change color" aria-label="Search">
-                <datalist id="list_type">
-                    <option>EVT3</option>
-                    <option>DVT</option>
-                    <option>PVT</option>
-                    <option>MP</option>
-                </datalist>
-                <datalist id="list_color">
-                    <option>green</option>
-                    <option>yellow</option>
-                    <option>red</option>
-                </datalist>
-                <div class="input-group-append">
-                    <button id="save_table_button" style="border: none" onclick="save_PDP_table()">Save</button>
-                </div>
+<!--                <input id="serial_num" class="form-control" type="search" placeholder="No." aria-label="Search">-->
+<!--                <input id="PDP_type" list="list_type" class="form-control" type="search" placeholder="Type" aria-label="Search">-->
+<!--                <input id="PDP_content" class="form-control" type="search" placeholder="Change to" aria-label="Search">-->
+<!--                <input id="PDP_color" list="list_color" class="form-control" type="search" placeholder="Change color" aria-label="Search">-->
+<!--                <datalist id="list_type">-->
+<!--                    <option>EVT3</option>-->
+<!--                    <option>DVT</option>-->
+<!--                    <option>PVT</option>-->
+<!--                    <option>MP</option>-->
+<!--                </datalist>-->
+<!--                <datalist id="list_color">-->
+<!--                    <option>green</option>-->
+<!--                    <option>yellow</option>-->
+<!--                    <option>red</option>-->
+<!--                </datalist>-->
+<!--                <div class="input-group-append">-->
+<!--                    <button id="save_table_button" style="border: none" onclick="save_PDP_table()">Save</button>-->
+<!--                </div>-->
             </div>
         </div>
 
-        <div id="pie_chart" style="margin-top: 60px;" class="row">
-            <div class="col-3" id="chart_high" style="width: 600px;height:400px; padding-top: 0px"></div>
-            <div class="col-3" id="chart_mid" style="width: 600px;height:400px;"></div>
-            <div class="col-3" id="chart_low" style="width: 600px;height:400px;"></div>
+        <div id="PDP-switch-controller" style="margin-top: 55px; margin-bottom: 15px; text-align: center">
+            <button id="switch-btn-3" type="button" STYLE="border: none; background-color: #f4f6f9; font-size: 19px" onclick="sel_overview()">Overview</button>
+            <a style="font-size: 19px">|</a>
+            <button id="switch-btn-4" type="button" STYLE="border: none; background-color: #f4f6f9; font-size: 19px; color: #f02757" onclick="sel_details()">Details</button>
         </div>
+
 
 
         <div style="text-align: center; margin-top: 60px" id="PDP_access_alert">You have no access to edit this project!</div>
 
         <div id="PDP_checkbox">
-            <label style="margin-left: 50px">EVT3</label><input id="EVT3_checkbox" type="checkbox" checked onclick="PDP_checkbox()"/>
-            <label style="margin-left: 50px">DVT</label> <input id="DVT_checkbox"  type="checkbox" checked onclick="PDP_checkbox()"/>
-            <label style="margin-left: 50px">PVT</label> <input id="PVT_checkbox"  type="checkbox" checked onclick="PDP_checkbox()"/>
-            <label style="margin-left: 50px">MP</label>  <input id="MP_checkbox"   type="checkbox" checked onclick="PDP_checkbox()"/>
+            <div style="float:left; width: 80%">
+                <label style="margin-left: 30px">EVT3</label><input id="EVT3_checkbox" type="checkbox" checked onclick="PDP_checkbox()"/>
+                <label style="margin-left: 25px">DVT</label> <input id="DVT_checkbox"  type="checkbox" checked onclick="PDP_checkbox()"/>
+                <label style="margin-left: 25px">PVT</label> <input id="PVT_checkbox"  type="checkbox" checked onclick="PDP_checkbox()"/>
+                <label style="margin-left: 25px">MP</label>  <input id="MP_checkbox"   type="checkbox" checked onclick="PDP_checkbox()"/>
+
+                <label style="margin-left: 50px">Priority: </label>
+                <label style="margin-left: 10px">High</label>  <input id="High_checkbox" type="checkbox" checked onclick="PDP_checkbox()"/>
+                <label style="margin-left: 25px">Mid</label>  <input id="Mid_checkbox"   type="checkbox" checked onclick="PDP_checkbox()"/>
+                <label style="margin-left: 25px">Low</label>  <input id="Low_checkbox"   type="checkbox" checked onclick="PDP_checkbox()"/>
+
+                <label style="margin-left: 50px">Supplier: </label>
+                <label style="margin-left: 10px">S1</label>  <input id="S1_checkbox" type="checkbox" checked onclick="PDP_checkbox()"/>
+                <label style="margin-left: 25px">S2</label>  <input id="S2_checkbox" type="checkbox" checked onclick="PDP_checkbox()"/>
+            </div>
+
+            <div id="PDP_save_button" style="margin-bottom: 12px; float:left; width: 19%; text-align: right">
+                <a onclick="refresh()" class="btn btn_primary" style="">Refresh</a>
+                <a onclick="enable_edit()" class="btn btn_primary" style="">Edit</a>
+            </div>
         </div>
+
+        <div id="pie_chart" style="margin-top: 60px;text-align: center" class="row">
+            <div class="col-4" id="chart_high" style="width: 500px;height:500px;"></div>
+            <div class="col-4" id="chart_mid" style="width: 500px;height:500px;"></div>
+            <div class="col-4" id="chart_low" style="width: 500px;height:500px;"></div>
+        </div>
+
 
         <div style="margin-left: 30px" id="PDP_table">
             <table class="styled-table">
@@ -309,14 +322,14 @@
                     <th>No.</th>
                     <th>Item</th>
                     <th>Priority</th>
-                    <th class="EVT3">EVT3(S1)</th>
-                    <th class="DVT">DVT(S1)</th>
-                    <th class="PVT">PVT(S1)</th>
-                    <th class="MP">MP(S1)</th>
-                    <th class="EVT3">EVT3(S2)</th>
-                    <th class="DVT">DVT(S2)</th>
-                    <th class="PVT">PVT(S2)</th>
-                    <th class="MP">MP(S2)</th>
+                    <th class="EVT3 S1">EVT3(S1)</th>
+                    <th class="DVT S1">DVT(S1)</th>
+                    <th class="PVT S1">PVT(S1)</th>
+                    <th class="MP S1">MP(S1)</th>
+                    <th class="EVT3 S2">EVT3(S2)</th>
+                    <th class="DVT S2">DVT(S2)</th>
+                    <th class="PVT S2">PVT(S2)</th>
+                    <th class="MP S2">MP(S2)</th>
                 </tr>
                 </thead>
                 <tbody id="PDP_table_body">
@@ -333,22 +346,39 @@
 
 
         <div id="work_path"></div>
-        <div>
-            <progress id="js-progressbar" class="uk-progress CenteredItems" value="0" max="200" hidden></progress>
-        </div>
 
 
-        <div id="PDP_upload_access_control" class="js-upload uk-placeholder uk-text-center" style="height: 100px; margin-top: 70px">
-            <span uk-icon="icon: cloud-upload"></span>
-            <span class="uk-text-middle">Drop your files here or</span>
-            <div class="uk-form-custom">
-                <input style="font-size: 0" type="file" multiple>
-                <span style="cursor: pointer" class="uk-link">selecting files</span>
+        <div id="PDP-upload-per-item">
+            <div id="go_back" style="margin-top: 70px">
+                <div style="float:left; width:50%">
+                    <a id="go_back2" onclick="sel_details()" class="btn btn_primary" style="margin-left: 30px;margin-bottom: 3px">Back</a>
+                </div>
+                <div style="float:left; width:50%; text-align: right">
+                    <a id="refresh_btn" onclick="folders_list()" class="btn btn_primary" style="margin-right: 20px;margin-bottom: 3px">Refresh</a>
+                </div>
             </div>
+            <div>
+                <div id="item-reminder" style="text-align: center; font-size: 18px"> </div>
+
+                <div>
+            </div>
+
+                <progress id="js-progressbar" class="uk-progress CenteredItems" value="0" max="200" hidden></progress>
+            </div>
+
+            <div id="PDP_upload_access_control" class="js-upload uk-placeholder uk-text-center" style="height: 100px">
+                <span uk-icon="icon: cloud-upload"></span>
+                <span class="uk-text-middle">Drop your files here or</span>
+                <div class="uk-form-custom">
+                    <input style="font-size: 0" type="file" multiple>
+                    <span style="cursor: pointer" class="uk-link">selecting files</span>
+                </div>
+            </div>
+
+
+            <div id="PDP_List" class="CenteredItems" style="overflow: auto; overflow-x: hidden; height: 620px;"></div>
         </div>
 
-
-        <div id="PDP_List" class="CenteredItems" style="overflow: auto; overflow-x: hidden; height: 550px;">
 
 
 
@@ -360,9 +390,9 @@
         <!--</form>-->
 
 
-    </div>
 
-</div>
+
+    </div>
 <!-- /.content-wrapper -->
 
 <!-- Control Sidebar -->
@@ -438,12 +468,101 @@
 <script>
     $(document).ready(function (){
         get_token();
+        project_menu();
         $("#PDP_table").hide();
         $("#PDP-controller").hide();
         $("#pie_chart").hide();
         $("#PDP_upload_access_control").hide();
         $("#PDP_checkbox").hide();
+        $("#PDP-switch-controller").hide();
+        $("#PDP_access_alert").hide();
+        $("#go_back").hide();
+
     });
+
+    function sel_overview() {
+        $("#pie_chart").show();
+        $("#PDP_table").hide();
+        $("#PDP_checkbox").show();
+        $("#PDP_upload_access_control").hide();
+        $("#PDP_List").hide();
+        $("#item-reminder").hide();
+        $("#go_back").hide();
+        $("#PDP_save_button").hide();
+        document.getElementById('switch-btn-3').style.color = "#f02757";
+        document.getElementById('switch-btn-4').style.color = "black";
+    }
+
+    function sel_details() {
+        $("#pie_chart").hide();
+        $("#PDP_table").show();
+        $("#PDP_checkbox").show();
+        $("#PDP_upload_access_control").hide();
+        $("#PDP_List").hide();
+        $("#item-reminder").hide();
+        $("#go_back").hide();
+        $("#PDP-switch-controller").show();
+        $("#PDP_save_button").show();
+        document.getElementById('switch-btn-3').style.color = "black";
+        document.getElementById('switch-btn-4').style.color = "#f02757";
+
+    }
+
+    function enable_edit() {
+        let blocks = [
+            "1-1", "1-2", "1-3", "1-4", "1-5", "1-6", "1-7", "1-8",
+            "2-1", "2-2", "2-3", "2-4", "2-5", "2-6", "2-7", "2-8",
+            "3-1", "3-2", "3-3", "3-4", "3-5", "3-6", "3-7", "3-8",
+            "4-1", "4-2", "4-3", "4-4", "4-5", "4-6", "4-7", "4-8",
+            "5-1", "5-2", "5-3", "5-4", "5-5", "5-6", "5-7", "5-8",
+            "6-1", "6-2", "6-3", "6-4", "6-5", "6-6", "6-7", "6-8",
+            "7-1", "7-2", "7-3", "7-4", "7-5", "7-6", "7-7", "7-8",
+            "8-1", "8-2", "8-3", "8-4", "8-5", "8-6", "8-7", "8-8",
+            "9-1", "9-2", "9-3", "9-4", "9-5", "9-6", "9-7", "9-8",
+            "10-1", "10-2", "10-3", "10-4", "10-5", "10-6", "10-7", "10-8",
+            "11-1", "11-2", "11-3", "11-4", "11-5", "11-6", "11-7", "11-8",
+            "12-1", "12-2", "12-3", "12-4", "12-5", "12-6", "12-7", "12-8",
+            "13-1", "13-2", "13-3", "13-4", "13-5", "13-6", "13-7", "13-8",
+            "14-1", "14-2", "14-3", "14-4", "14-5", "14-6", "14-7", "14-8",
+            "15-1", "15-2", "15-3", "15-4", "15-5", "15-6", "15-7", "15-8",
+            "16-1", "16-2", "16-3", "16-4", "16-5", "16-6", "16-7", "16-8",
+            "17-1", "17-2", "17-3", "17-4", "17-5", "17-6", "17-7", "17-8",
+            "18-1", "18-2", "18-3", "18-4", "18-5", "18-6", "18-7", "18-8",
+            "19-1", "19-2", "19-3", "19-4", "19-5", "19-6", "19-7", "19-8",
+            "20-1", "20-2", "20-3", "20-4", "20-5", "20-6", "20-7", "20-8"
+        ];
+
+        // document.getElementById("1-2").addEventListener('input', function () {
+        //     save_PDP_table(this.id);
+        // });
+
+        for (key in blocks) {
+            document.getElementById(blocks[key]).contentEditable = 'true';
+            document.getElementById(blocks[key]).addEventListener('input', function (){
+                save_PDP_table(this.id);
+            });
+        }
+    }
+
+    function project_menu() {
+        $.ajax({
+            url: "/api/general/display_PDP_project",
+            type: "GET",
+            error: function () {
+
+            },
+            success: function (data) {
+                for (key in data) {
+                    $("#project_list").append("<li id='"+data[key]+"' onclick='get_PDP_access(this.id)' style='margin-left: 20px; margin-right: 20px'><a style='font-size: 15px'><i class=\"icon icon-Star\"></i>"+data[key]+"</a></li>");
+                }
+            }
+        });
+    }
+
+    function refresh() {
+        display_PDP_table(document.getElementById("project_menu_innerHTML").innerHTML);
+        sel_details();
+    }
 </script>
 </body>
 </html>

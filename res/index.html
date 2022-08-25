@@ -1,7 +1,7 @@
 
 <html>
 <head>
-    <title>Amazon Asia Camera Lab</title>
+    <title>Lab126 Camera Database</title>
     <meta charset="utf-8">
     <link rel="icon" type="image/png" href="dist/img/amazon_logo_circle.png"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -124,21 +124,14 @@
 
                     </li>
                     <li class="nav-item ">
-                        <a href="/upload" onclick="display_name()" class="nav-link ">
+                        <a href="/edit" onclick="display_name()" class="nav-link ">
                             <i class="nav-icon fas fa-copy"></i>
                             <p>
-                                Upload Files
+                                Edit Files
                             </p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="/folders" onclick="display_name()" class="nav-link">
-                            <i class="nav-icon fas fa-th"></i>
-                            <p>
-                                Folder Path
-                            </p>
-                        </a>
-                    </li>
+
                     <li class="nav-item">
                         <a href="/PDP" onclick="display_name()" class="nav-link">
                             <i class="nav-icon fas fa-chart-pie"></i>
@@ -209,13 +202,32 @@
             <div class="form-inline">
 
                 <div id="search-controller1" style="margin:auto" class="input-group">
-                    <input onkeydown="key_enter2(event)" id="p1" list="list1" class="form-control" type="search" placeholder="project" aria-label="Search1">
-                    <input onkeydown="key_enter2(event)" id="p2" list="list2" class="form-control" type="search" placeholder="sensor" aria-label="Search1">
+<!--                    <input onkeydown="key_enter2(event)" id="p1" list="list1" class="form-control" type="search" placeholder="project" aria-label="Search1">-->
+                    <select id="p1" style="height: 37px; border: none; width: 170px; margin-left: 3px">
+                        <option>project</option>
+                    </select>
+                    <select id="p2" style="height: 37px; border: none; width: 170px; margin-left: 3px">
+                        <option>sensor</option>
+                    </select>
+                    <select id="p3" style="height: 37px; border: none; width: 170px; margin-left: 3px">
+                        <option>hardware</option>
+                    </select>
+                    <select id="p4" style="height: 37px; border: none; width: 170px; margin-left: 3px">
+                        <option>software</option>
+                    </select>
+                    <select id="p5" style="height: 37px; border: none; width: 170px; margin-left: 3px">
+                        <option>file type</option>
+                    </select>
+                    <select id="p6" style="height: 37px; border: none; width: 170px; margin-left: 3px">
+                        <option>scene</option>
+                    </select>
 
-                    <!--                    <input onkeydown="key_enter2(event)" id="p6" list="list6" class="form-control" type="search" placeholder="serial number" aria-label="Search1">-->
-                    <input onkeydown="key_enter2(event)" id="p7" list="list3" class="form-control" type="search" placeholder="hardware version" aria-label="Search1">
-                    <input onkeydown="key_enter2(event)" id="p8" list="list4" class="form-control" type="search" placeholder="software version" aria-label="Search1">
-                    <input onkeydown="key_enter2(event)" id="p9" list="list5" class="form-control" type="search" placeholder="file type" aria-label="Search1">
+<!--                    <input onkeydown="key_enter2(event)" id="p2" list="list2" class="form-control" type="search" placeholder="sensor" aria-label="Search1">-->
+
+<!--                    &lt;!&ndash;                    <input onkeydown="key_enter2(event)" id="p6" list="list6" class="form-control" type="search" placeholder="serial number" aria-label="Search1">&ndash;&gt;-->
+<!--                    <input onkeydown="key_enter2(event)" id="p7" list="list3" class="form-control" type="search" placeholder="hardware version" aria-label="Search1">-->
+<!--                    <input onkeydown="key_enter2(event)" id="p8" list="list4" class="form-control" type="search" placeholder="software version" aria-label="Search1">-->
+<!--                    <input onkeydown="key_enter2(event)" id="p9" list="list5" class="form-control" type="search" placeholder="file type" aria-label="Search1">-->
 
                     <div class="input-group-append">
                         <button class="btn" onclick="search()">
@@ -223,21 +235,21 @@
                         </button>
                     </div>
 
-                    <datalist id="list1">
+<!--                    <datalist id="list1">-->
 
-                    </datalist>
-                    <datalist id="list2">
+<!--                    </datalist>-->
+<!--                    <datalist id="list2">-->
 
-                    </datalist>
-                    <datalist id="list3">
+<!--                    </datalist>-->
+<!--                    <datalist id="list3">-->
 
-                    </datalist>
-                    <datalist id="list4">
+<!--                    </datalist>-->
+<!--                    <datalist id="list4">-->
 
-                    </datalist>
-                    <datalist id="list5">
+<!--                    </datalist>-->
+<!--                    <datalist id="list5">-->
 
-                    </datalist>
+<!--                    </datalist>-->
                 </div>
             </div>
             <br>
@@ -420,6 +432,31 @@
         display_options();
         $("#no-file-alert").hide();
         $("#download-button-area").hide();
+
+        let color1 = "#949ba1";
+        let color2 = "black";
+        document.getElementById("p1").style.color = color1;
+        document.getElementById("p2").style.color = color1;
+        document.getElementById("p3").style.color = color1;
+        document.getElementById("p4").style.color = color1;
+        document.getElementById("p5").style.color = color1;
+        document.getElementById("p6").style.color = color1;
+        $("#p1, #p2, #p3, #p4, #p5, #p6").on("change", function () {
+            search();
+            if (document.getElementById("p1").value == "project") document.getElementById("p1").style.color = color1;
+            else document.getElementById("p1").style.color = color2;
+            if (document.getElementById("p2").value == "sensor") document.getElementById("p2").style.color = color1;
+            else document.getElementById("p2").style.color = color2;
+            if (document.getElementById("p3").value == "hardware") document.getElementById("p3").style.color = color1;
+            else document.getElementById("p3").style.color = color2;
+            if (document.getElementById("p4").value == "software") document.getElementById("p4").style.color = color1;
+            else document.getElementById("p4").style.color = color2;
+            if (document.getElementById("p5").value == "file type") document.getElementById("p5").style.color = color1;
+            else document.getElementById("p5").style.color = color2;
+            if (document.getElementById("p6").value == "scene") document.getElementById("p6").style.color = color1;
+            else document.getElementById("p6").style.color = color2;
+
+        });
     });
 
     function sel_search() {

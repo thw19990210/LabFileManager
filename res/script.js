@@ -98,15 +98,15 @@ function reload() {
 
 
 function search() {
-    var project   = document.getElementById("p1").value;
-    var sensor    = document.getElementById("p2").value;
+    var project   = document.getElementById("p1").value; project = (project == "project") ? "" : project;
+    var sensor    = document.getElementById("p2").value; sensor = (sensor == "sensor") ? "" : sensor;
     // var color_tem = document.getElementById("p3").value;
     // var illumin   = document.getElementById("p4").value;
     // var ISO       = document.getElementById("p5").value;
     // var serial_n  = document.getElementById("p6").value;
-    var HW_v      = document.getElementById("p7").value;
-    var SW_v      = document.getElementById("p8").value;
-    var file_type = document.getElementById("p9").value;
+    var HW_v      = document.getElementById("p3").value; HW_v = (HW_v == "hardware") ? "" : HW_v;
+    var SW_v      = document.getElementById("p4").value; SW_v = (SW_v == "software") ? "" : SW_v;
+    var file_type = document.getElementById("p5").value; file_type = (file_type == "file type") ? "" : file_type;
 
     var color_tem = document.getElementById("p31").value + "~" + document.getElementById("p32").value;
     var illumin   = document.getElementById("p41").value + "~" + document.getElementById("p42").value;
@@ -178,7 +178,21 @@ function display (data) {
         img.style.height = "114px";
         img.style.marginLeft = "3px";
         img.src = "/storage/" + img_name;
-        img.alt = "  no image"
+        img.alt = "  no image";
+
+        if(!(data[key].name.endsWith(".mp4") ||
+            data[key].name.endsWith(".wmv") ||
+            data[key].name.endsWith(".m4v") ||
+            data[key].name.endsWith(".avi") ||
+            data[key].name.endsWith(".rm")  ||
+            data[key].name.endsWith(".mov") ||
+            data[key].name.endsWith(".jpg") ||
+            data[key].name.endsWith(".png") ||
+            data[key].name.endsWith(".raw") ||
+            data[key].name.endsWith(".jpeg"))
+        ) {
+            img.style.opacity = "0";
+        }
 
         div.append(img);
 
@@ -491,52 +505,66 @@ function save_work_path_2(){
     });
 }
 
-function  get_PDP_access(){
+function  get_PDP_access(project){
+    $("#all_categories_btn").click();
+    document.getElementById('switch-btn-3').style.color = "black";
+    document.getElementById('switch-btn-4').style.color = "#f02757";
+
+    document.getElementById("project_menu_innerHTML").innerHTML = project;
+
+    // console.log(project);
+
     $.ajax({
-        url: "/api/general/get_PDP_access",
+        url: "/api/general/get_PDP_access?project="+project,
         type: "GET",
         error: function () {
 
         },
         success: function (data) {
-            var PDP_access = data[0].split(',');
             var permitted = 0;
-            for (key in PDP_access) {
-                if (true) {
+            if (data[0] == "success") {
                     permitted = 1;
-                }
             }
             if (permitted == 1) {
-                display_PDP_table();
+                display_PDP_table(data[1]);
                 $("#PDP_table").show();
                 $("#PDP-controller").show();
                 $("#PDP_access_alert").hide();
             }
             else {
+                $("#PDP_checkbox").hide();
+                $("#PDP-switch-controller").hide();
+                $("#pie_chart").hide();
                 $("#PDP_table").hide();
                 $("#PDP-controller").hide();
+                $("#PDP_upload_access_control").hide();
+                $("#item-reminder").hide();
+                $("#go_back").hide();
+                $("#PDP_List").hide();
                 $("#PDP_access_alert").show();
             }
         }
     });
+
 }
 
-function display_PDP_table(){
+function display_PDP_table(project) {
 
     $("#PDP_List").hide();
     $("#PDP_upload_access_control").hide();
+    $("#item-reminder").hide();
 
     $("#PDP_checkbox").show();
 
     $.ajax({
-        url: "/api/general/display_PDP_table",
+        url: "/api/general/display_PDP_table?project="+project,
         type: "GET",
         error: function () {
 
         },
         success: function (data) {
             $("#PDP_table_body").empty();
-            $("#PDP_table_body_s2").empty();
+
             var high = [0,0,0];
             var mid  = [0,0,0];
             var low  = [0,0,0];
@@ -574,48 +602,78 @@ function display_PDP_table(){
 
 
 
-                $("#PDP_table_body").append("<tr>");
-                $("#PDP_table_body").append("<td>"+no+"</td>");
-                $("#PDP_table_body").append("<td><a onclick='reload_PDP("+no+")' class='uk-link'>"+row[1]+"</a></td>");
-                $("#PDP_table_body").append("<td>"+row[2]+"</td>");
-                $("#PDP_table_body").append("<td class='EVT3' bgcolor='"+row[4]+"'><div contenteditable='true'>"+row[3]+"</div></td>");
-                $("#PDP_table_body").append("<td class='DVT'  bgcolor='"+row[6]+"'><div contenteditable='true'>"+row[5]+"</div></td>");
-                $("#PDP_table_body").append("<td class='PVT'  bgcolor='"+row[8]+"'><div contenteditable='true'>"+row[7]+"</div></td>");
-                $("#PDP_table_body").append("<td class='MP'   bgcolor='"+row[10]+"'><div contenteditable='true'>"+row[9]+"</div></td>");
-                $("#PDP_table_body").append("<td class='EVT3' bgcolor='"+row[12]+"'><div contenteditable='true'>"+row[11]+"</div></td>");
-                $("#PDP_table_body").append("<td class='DVT'  bgcolor='"+row[14]+"'><div contenteditable='true'>"+row[13]+"</div></td>");
-                $("#PDP_table_body").append("<td class='PVT'  bgcolor='"+row[16]+"'><div contenteditable='true'>"+row[15]+"</div></td>");
-                $("#PDP_table_body").append("<td class='MP'   bgcolor='"+row[18]+"'><div contenteditable='true'>"+row[17]+"</div></td>");
+                $("#PDP_table_body").append("<tr class='"+row[2]+"'>");
+                $("#PDP_table_body").append("<td class='"+row[2]+" ' >"+no+"</td>");
+                $("#PDP_table_body").append("<td class='"+row[2]+" ' ><a id='item"+no+"' onclick='reload_PDP("+no+")' class='uk-link'>"+row[1]+"</a></td>");
+                $("#PDP_table_body").append("<td class='"+row[2]+" ' >"+row[2]+"</td>");
+                $("#PDP_table_body").append("<td class='EVT3 S1 "+row[2]+" ' bgcolor='"+row[4]+"'><div id='"+no+"-1'>"+row[3]+"</div></td>");
+                $("#PDP_table_body").append("<td class='DVT S1 "+row[2]+" '  bgcolor='"+row[6]+"'><div id='"+no+"-2'>"+row[5]+"</div></td>");
+                $("#PDP_table_body").append("<td class='PVT S1 "+row[2]+" '  bgcolor='"+row[8]+"'><div id='"+no+"-3'>"+row[7]+"</div></td>");
+                $("#PDP_table_body").append("<td class='MP S1 "+row[2]+" '   bgcolor='"+row[10]+"'><div id='"+no+"-4'>"+row[9]+"</div></td>");
+                $("#PDP_table_body").append("<td class='EVT3 S2 "+row[2]+" ' bgcolor='"+row[12]+"'><div id='"+no+"-5'>"+row[11]+"</div></td>");
+                $("#PDP_table_body").append("<td class='DVT S2 "+row[2]+" '  bgcolor='"+row[14]+"'><div id='"+no+"-6'>"+row[13]+"</div></td>");
+                $("#PDP_table_body").append("<td class='PVT S2 "+row[2]+" '  bgcolor='"+row[16]+"'><div id='"+no+"-7'>"+row[15]+"</div></td>");
+                $("#PDP_table_body").append("<td class='MP S2 "+row[2]+" '   bgcolor='"+row[18]+"'><div id='"+no+"-8'>"+row[17]+"</div></td>");
                 $("#PDP_table_body").append("</tr>");
 
             }
 
             var matrix = [high, mid, low];
+
             display_pie_chart(matrix);
+            PDP_checkbox();
+            $("#pie_chart").hide();
+            $("#PDP_table").show();
+            $("#PDP_checkbox").show();
+            $("#PDP_upload_access_control").hide();
+            $("#PDP_List").hide();
+            $("#item-reminder").hide();
+            $("#go_back").hide();
+            $("#PDP-switch-controller").show();
+            document.getElementById('switch-btn-3').style.color = "black";
+            document.getElementById('switch-btn-4').style.color = "#f02757";
         }
     });
+
+
 }
 
-function save_PDP_table() {
-    var serial_num=document.getElementById("serial_num").value;
-    var PDP_type =document.getElementById("PDP_type").value;
-    var PDP_content =document.getElementById("PDP_content").value;
-    var PDP_color =document.getElementById("PDP_color").value;
+function save_PDP_table(id) {
 
-    var updatedStr = "serial_num="+serial_num+"&PDP_type="+PDP_type+"&PDP_content="+PDP_content+"&PDP_color="+PDP_color;
+    let project = document.getElementById("project_menu_innerHTML").innerHTML;
+
+    let id_data = id.split("-");
+    let serial_num = id_data[0];
+
+    let PDP_type;
+    switch (id_data[1]) {
+        case "1" : PDP_type = "EVT3"; break;
+        case "2" : PDP_type = "DVT"; break;
+        case "3" : PDP_type = "PVT"; break;
+        case "4" : PDP_type = "MP"; break;
+        case "5" : PDP_type = "_EVT3"; break;
+        case "6" : PDP_type = "_DVT"; break;
+        case "7" : PDP_type = "_PVT"; break;
+        case "8" : PDP_type = "_MP"; break;
+    }
+
+    let PDP_content = document.getElementById(id).innerHTML;
+
+    let PDP_color;
+    if (PDP_content.toUpperCase().startsWith("OK")) PDP_color = "green";
+    else if (PDP_content.toUpperCase().startsWith("WAIT")) PDP_color = "yellow";
+    else if (PDP_content.toUpperCase().startsWith("FAIL")) PDP_color = "red";
+    else PDP_color = "white";
+
+    var updatedStr = "project="+project+"&serial_num="+serial_num+"&PDP_type="+PDP_type+"&PDP_content="+PDP_content+"&PDP_color="+PDP_color;
     $.ajax({
         url: "/api/general/save_PDP_table?"+updatedStr,
         type:"GET",
         error: function () {
-            alert("some error happened!")
+
         },
         success: function () {
-            alert("successfully changed!")
-            display_PDP_table();
-            document.getElementById("serial_num").value='';
-            document.getElementById("PDP_type").value='';
-            document.getElementById("PDP_content").value='';
-            document.getElementById("PDP_color").value='';
+            // display_PDP_table();
         }
     });
 }
@@ -728,7 +786,8 @@ function display_pie_chart(matrix){
         ]
     };
 
-    // 使用刚指定的配置项和数据显示图表。
+    // 使用刚指定的配置
+    // 项和数据显示图表。
     myChart_high.setOption(option1);
     myChart_mid.setOption(option2);
     myChart_low.setOption(option3);
@@ -740,11 +799,20 @@ function reload_PDP(path) {
     $("#PDP_table").hide();
     $("#pie_chart").hide();
     $("#PDP_checkbox").hide();
+    $("#PDP-switch-controller").hide();
     $("#PDP_upload_access_control").show();
+    $("#item-reminder").show();
+    $("#go_back").show();
+
+
+    let item = "item" + path;
+
+
+    document.getElementById("item-reminder").innerHTML = document.getElementById(item).innerHTML;
 
     $("#PDP_List").empty();
     // $("#PDP_List").hide();
-    var project = "Test";
+    var project = document.getElementById("project_menu_innerHTML").innerHTML;
 
     $.ajax({
         url: "/api/general/files/list?path="+project+"/PDP/item"+path,
@@ -786,6 +854,23 @@ function reload_PDP(path) {
                 }
                 img.style.width = "150px";
                 img.style.height = "114px";
+                img.style.marginLeft = "3px";
+
+                if (data[key].isDirectory) img.style.opacity = "0";
+
+                if(!(data[key].name.endsWith(".mp4") ||
+                    data[key].name.endsWith(".wmv") ||
+                    data[key].name.endsWith(".m4v") ||
+                    data[key].name.endsWith(".avi") ||
+                    data[key].name.endsWith(".rm")  ||
+                    data[key].name.endsWith(".mov") ||
+                    data[key].name.endsWith(".jpg") ||
+                    data[key].name.endsWith(".png") ||
+                    data[key].name.endsWith(".raw") ||
+                    data[key].name.endsWith(".jpeg"))
+                ) {
+                    img.style.opacity = "0";
+                }
 
                 img.src = data[key].isDirectory ? "" : "/storage/" + img_name;
                 img.alt = "  no image";
@@ -862,29 +947,42 @@ function reload_PDP(path) {
 }
 
 function PDP_checkbox() {
-    if ($("#EVT3_checkbox").is(":checked")) {
-        $(".EVT3").show();
-    }
-    else {
+    $(".EVT3").show();
+    $(".DVT").show();
+    $(".PVT").show();
+    $(".MP").show();
+    $(".High").show();
+    $(".Mid").show();
+    $(".Low").show();
+    $(".S1").show();
+    $(".S2").show();
+
+    if (!$("#EVT3_checkbox").is(":checked")) {
         $(".EVT3").hide();
     }
-    if ($("#DVT_checkbox").is(":checked")) {
-        $(".DVT").show();
-    }
-    else {
+    if (!$("#DVT_checkbox").is(":checked")) {
         $(".DVT").hide();
     }
-    if ($("#PVT_checkbox").is(":checked")) {
-        $(".PVT").show();
-    }
-    else {
+    if (!$("#PVT_checkbox").is(":checked")) {
         $(".PVT").hide();
     }
-    if ($("#MP_checkbox").is(":checked")) {
-        $(".MP").show();
-    }
-    else {
+    if (!$("#MP_checkbox").is(":checked")) {
         $(".MP").hide();
+    }
+    if (!$("#High_checkbox").is(":checked")) {
+        $(".High").hide();
+    }
+    if (!$("#Mid_checkbox").is(":checked")) {
+        $(".Mid").hide();
+    }
+    if (!$("#Low_checkbox").is(":checked")) {
+        $(".Low").hide();
+    }
+    if (!$("#S1_checkbox").is(":checked")) {
+        $(".S1").hide();
+    }
+    if (!$("#S2_checkbox").is(":checked")) {
+        $(".S2").hide();
     }
 }
 
@@ -938,6 +1036,20 @@ function folders_list() {
                 img.style.marginLeft = "3px";
 
                 if (data[key].isDirectory) img.style.opacity = "0";
+
+                if(!(data[key].name.endsWith(".mp4") ||
+                    data[key].name.endsWith(".wmv") ||
+                    data[key].name.endsWith(".m4v") ||
+                    data[key].name.endsWith(".avi") ||
+                    data[key].name.endsWith(".rm")  ||
+                    data[key].name.endsWith(".mov") ||
+                    data[key].name.endsWith(".jpg") ||
+                    data[key].name.endsWith(".png") ||
+                    data[key].name.endsWith(".raw") ||
+                    data[key].name.endsWith(".jpeg"))
+                ) {
+                    img.style.opacity = "0";
+                }
 
                 img.src = data[key].isDirectory ? "" : "/storage/" + img_name;
                 img.alt = "  no image";
@@ -1017,7 +1129,7 @@ function folders_list() {
 function display_options() {
     var to_display = ["project", "sensor", "hardware_version", "software_version", "file_type"];
     // var list_to_display = ["#list1", "#list2", "#list3", "#list4", "#list5"];
-    var list_to_display = ["list1", "list2", "list3", "list4", "list5"];
+    var list_to_display = ["p1", "p2", "p3", "p4", "p5"];
     for (var i = 0; i < to_display.length; i++) {
         $.ajax({
             url: "/api/general/display_options?option="+to_display[i]+"&list="+list_to_display[i],

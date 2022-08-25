@@ -46,7 +46,21 @@ function display_l (data) {
         img.style.width = "150px";
         img.style.height = "114px";
         img.src = "/storage/" + img_name;
-        img.alt = "  no image"
+        img.alt = "  no image";
+
+        if(!(data[key].name.endsWith(".mp4") ||
+            data[key].name.endsWith(".wmv") ||
+            data[key].name.endsWith(".m4v") ||
+            data[key].name.endsWith(".avi") ||
+            data[key].name.endsWith(".rm")  ||
+            data[key].name.endsWith(".mov") ||
+            data[key].name.endsWith(".jpg") ||
+            data[key].name.endsWith(".png") ||
+            data[key].name.endsWith(".raw") ||
+            data[key].name.endsWith(".jpeg"))
+        ) {
+            img.style.opacity = "0";
+        }
 
         //end
 
@@ -149,7 +163,21 @@ function display_r (data) {
         img.style.width = "150px";
         img.style.height = "114px";
         img.src = "/storage/" + img_name;
-        img.alt = "  no image"
+        img.alt = "  no image";
+
+        if(!(data[key].name.endsWith(".mp4") ||
+            data[key].name.endsWith(".wmv") ||
+            data[key].name.endsWith(".m4v") ||
+            data[key].name.endsWith(".avi") ||
+            data[key].name.endsWith(".rm")  ||
+            data[key].name.endsWith(".mov") ||
+            data[key].name.endsWith(".jpg") ||
+            data[key].name.endsWith(".png") ||
+            data[key].name.endsWith(".raw") ||
+            data[key].name.endsWith(".jpeg"))
+        ) {
+            img.style.opacity = "0";
+        }
 
         //end
 
