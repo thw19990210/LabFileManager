@@ -548,6 +548,7 @@ function  get_PDP_access(project){
 
 }
 
+let matrix_input;
 function display_PDP_table(project) {
 
     $("#PDP_List").hide();
@@ -565,10 +566,12 @@ function display_PDP_table(project) {
         success: function (data) {
             $("#PDP_table_body").empty();
 
-            var high = [0,0,0];
-            var mid  = [0,0,0];
-            var low  = [0,0,0];
-            var cnt = 0;
+            let high = [[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]];
+            let mid  = [[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]];
+            let low  = [[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]];
+
+
+            let cnt = 0;
 
             for (key in data) {
 
@@ -579,26 +582,27 @@ function display_PDP_table(project) {
 
                 if ($.trim(row[2]) == 'High') {
                     for (i in row) {
-                        if (row[i] == 'yellow') high[0]++;
-                        if (row[i] == 'green') high[1]++;
-                        if (row[i] == 'red') high[2]++;
+                        if (row[i] == 'yellow') high[(i-4)/2][0]++;
+                        if (row[i] == 'green') high[(i-4)/2][1]++;
+                        if (row[i] == 'red') high[(i-4)/2][2]++;
                     }
                 }
                 else if ($.trim(row[2]) == 'Mid') {
-                    cnt++;
                     for (i in row) {
-                        if (row[i] == 'yellow') mid[0]++;
-                        if (row[i] == 'green') mid[1]++;
-                        if (row[i] == 'red') mid[2]++;
+                        if (row[i] == 'yellow') mid[(i-4)/2][0]++;
+                        if (row[i] == 'green') mid[(i-4)/2][1]++;
+                        if (row[i] == 'red') mid[(i-4)/2][2]++;
                     }
                 }
                 if ($.trim(row[2]) == 'Low') {
                     for (i in row) {
-                        if (row[i] == 'yellow') low[0]++;
-                        if (row[i] == 'green') low[1]++;
-                        if (row[i] == 'red') low[2]++;
+                        if (row[i] == 'yellow') low[(i-4)/2][0]++;
+                        if (row[i] == 'green') low[(i-4)/2][1]++;
+                        if (row[i] == 'red') low[(i-4)/2][2]++;
                     }
                 }
+
+
 
 
 
@@ -618,9 +622,9 @@ function display_PDP_table(project) {
 
             }
 
-            var matrix = [high, mid, low];
+            matrix_input = [high, mid, low];
 
-            display_pie_chart(matrix);
+            display_pie_chart(matrix_input);
             PDP_checkbox();
             $("#pie_chart").hide();
             $("#PDP_table").show();
@@ -678,15 +682,140 @@ function save_PDP_table(id) {
     });
 }
 
-function display_pie_chart(matrix){
+function display_pie_chart(matrix_input){
     // 基于准备好的dom，初始化echarts实例
     var myChart_high = echarts.init(document.getElementById('chart_high'));
     var myChart_mid  = echarts.init(document.getElementById('chart_mid'));
     var myChart_low  = echarts.init(document.getElementById('chart_low'));
 
-    let high = matrix[0][0] + matrix[0][1] + matrix[0][2];
-    let mid  = matrix[1][0] + matrix[1][1] + matrix[1][2];
-    let low  = matrix[2][0] + matrix[2][1] + matrix[2][2];
+    let matrix = [[0,0,0],[0,0,0],[0,0,0]];
+
+    let EVT3 = $("#EVT3_checkbox").is(":checked");
+    let DVT  = $("#DVT_checkbox").is(":checked");
+    let PVT  = $("#PVT_checkbox").is(":checked");
+    let MP   = $("#MP_checkbox").is(":checked");
+
+    let high = 0;
+    let mid = 0;
+    let low = 0;
+
+    if ($("#S1_checkbox").is(":checked")) {
+        if (EVT3) {
+            high += (matrix_input[0][0][0]+matrix_input[0][0][1]+matrix_input[0][0][2]);
+            matrix[0][0] += matrix_input[0][0][0];
+            matrix[0][1] += matrix_input[0][0][1];
+            matrix[0][2] += matrix_input[0][0][2];
+            mid += (matrix_input[1][0][0]+matrix_input[1][0][1]+matrix_input[1][0][2]);
+            matrix[1][0] += matrix_input[1][0][0];
+            matrix[1][1] += matrix_input[1][0][1];
+            matrix[1][2] += matrix_input[1][0][2];
+            low += (matrix_input[2][0][0]+matrix_input[2][0][1]+matrix_input[2][0][2]);
+            matrix[2][0] += matrix_input[2][0][0];
+            matrix[2][1] += matrix_input[2][0][1];
+            matrix[2][2] += matrix_input[2][0][2];
+        }
+        if (DVT) {
+            high += (matrix_input[0][1][0]+matrix_input[0][1][1]+matrix_input[0][1][2]);
+            matrix[0][0] += matrix_input[0][1][0];
+            matrix[0][1] += matrix_input[0][1][1];
+            matrix[0][2] += matrix_input[0][1][2];
+            mid += (matrix_input[1][1][0]+matrix_input[1][1][1]+matrix_input[1][1][2]);
+            matrix[1][0] += matrix_input[1][1][0];
+            matrix[1][1] += matrix_input[1][1][1];
+            matrix[1][2] += matrix_input[1][1][2];
+            low += (matrix_input[2][1][0]+matrix_input[2][1][1]+matrix_input[2][1][2]);
+            matrix[2][0] += matrix_input[2][1][0];
+            matrix[2][1] += matrix_input[2][1][1];
+            matrix[2][2] += matrix_input[2][1][2];
+        }
+        if (PVT) {
+            high += (matrix_input[0][2][0]+matrix_input[0][2][1]+matrix_input[0][2][2]);
+            matrix[0][0] += matrix_input[0][2][0];
+            matrix[0][1] += matrix_input[0][2][1];
+            matrix[0][2] += matrix_input[0][2][2];
+            mid += (matrix_input[1][2][0]+matrix_input[1][2][1]+matrix_input[1][2][2]);
+            matrix[1][0] += matrix_input[1][2][0];
+            matrix[1][1] += matrix_input[1][2][1];
+            matrix[1][2] += matrix_input[1][2][2];
+            low += (matrix_input[2][2][0]+matrix_input[2][2][1]+matrix_input[2][2][2]);
+            matrix[2][0] += matrix_input[2][2][0];
+            matrix[2][1] += matrix_input[2][2][1];
+            matrix[2][2] += matrix_input[2][2][2];
+        }
+        if (MP) {
+            high += (matrix_input[0][3][0]+matrix_input[0][3][1]+matrix_input[0][3][2]);
+            matrix[0][0] += matrix_input[0][3][0];
+            matrix[0][1] += matrix_input[0][3][1];
+            matrix[0][2] += matrix_input[0][3][2];
+            mid += (matrix_input[1][3][0]+matrix_input[1][3][1]+matrix_input[1][3][2]);
+            matrix[1][0] += matrix_input[1][3][0];
+            matrix[1][1] += matrix_input[1][3][1];
+            matrix[1][2] += matrix_input[1][3][2];
+            low += (matrix_input[2][3][0]+matrix_input[2][3][1]+matrix_input[2][3][2]);
+            matrix[2][0] += matrix_input[2][3][0];
+            matrix[2][1] += matrix_input[2][3][1];
+            matrix[2][2] += matrix_input[2][3][2];
+        }
+    }
+
+    if ($("#S2_checkbox").is(":checked")) {
+        if (EVT3) {
+            high += (matrix_input[0][4][0]+matrix_input[0][4][1]+matrix_input[0][4][2]);
+            matrix[0][0] += matrix_input[0][4][0];
+            matrix[0][1] += matrix_input[0][4][1];
+            matrix[0][2] += matrix_input[0][4][2];
+            mid += (matrix_input[1][4][0]+matrix_input[1][4][1]+matrix_input[1][4][2]);
+            matrix[1][0] += matrix_input[1][4][0];
+            matrix[1][1] += matrix_input[1][4][1];
+            matrix[1][2] += matrix_input[1][4][2];
+            low += (matrix_input[2][4][0]+matrix_input[2][4][1]+matrix_input[2][4][2]);
+            matrix[2][0] += matrix_input[2][4][0];
+            matrix[2][1] += matrix_input[2][4][1];
+            matrix[2][2] += matrix_input[2][4][2];
+        }
+        if (DVT) {
+            high += (matrix_input[0][5][0]+matrix_input[0][5][1]+matrix_input[0][5][2]);
+            matrix[0][0] += matrix_input[0][5][0];
+            matrix[0][1] += matrix_input[0][5][1];
+            matrix[0][2] += matrix_input[0][5][2];
+            mid += (matrix_input[1][5][0]+matrix_input[1][5][1]+matrix_input[1][5][2]);
+            matrix[1][0] += matrix_input[1][5][0];
+            matrix[1][1] += matrix_input[1][5][1];
+            matrix[1][2] += matrix_input[1][5][2];
+            low += (matrix_input[2][5][0]+matrix_input[2][5][1]+matrix_input[2][5][2]);
+            matrix[2][0] += matrix_input[2][5][0];
+            matrix[2][1] += matrix_input[2][5][1];
+            matrix[2][2] += matrix_input[2][5][2];
+        }
+        if (PVT) {
+            high += (matrix_input[0][6][0]+matrix_input[0][6][1]+matrix_input[0][6][2]);
+            matrix[0][0] += matrix_input[0][6][0];
+            matrix[0][1] += matrix_input[0][6][1];
+            matrix[0][2] += matrix_input[0][6][2];
+            mid += (matrix_input[1][6][0]+matrix_input[1][6][1]+matrix_input[1][6][2]);
+            matrix[1][0] += matrix_input[1][6][0];
+            matrix[1][1] += matrix_input[1][6][1];
+            matrix[1][2] += matrix_input[1][6][2];
+            low += (matrix_input[2][6][0]+matrix_input[2][6][1]+matrix_input[2][6][2]);
+            matrix[2][0] += matrix_input[2][6][0];
+            matrix[2][1] += matrix_input[2][6][1];
+            matrix[2][2] += matrix_input[2][6][2];
+        }
+        if (MP) {
+            high += (matrix_input[0][7][0]+matrix_input[0][7][1]+matrix_input[0][7][2]);
+            matrix[0][0] += matrix_input[0][7][0];
+            matrix[0][1] += matrix_input[0][7][1];
+            matrix[0][2] += matrix_input[0][7][2];
+            mid += (matrix_input[1][7][0]+matrix_input[1][7][1]+matrix_input[1][7][2]);
+            matrix[1][0] += matrix_input[1][7][0];
+            matrix[1][1] += matrix_input[1][7][1];
+            matrix[1][2] += matrix_input[1][7][2];
+            low += (matrix_input[2][7][0]+matrix_input[2][7][1]+matrix_input[2][7][2]);
+            matrix[2][0] += matrix_input[2][7][0];
+            matrix[2][1] += matrix_input[2][7][1];
+            matrix[2][2] += matrix_input[2][7][2];
+        }
+    }
 
     // 指定图表的配置项和数据
     var option1 = {
@@ -956,6 +1085,15 @@ function PDP_checkbox() {
     $(".Low").show();
     $(".S1").show();
     $(".S2").show();
+    $("#chart_high").show();
+    $("#chart_mid").show();
+    $("#chart_low").show();
+
+
+    if ($("#switch-btn-3").css("color").toString() == "rgb(240, 39, 87)") {
+        display_pie_chart(matrix_input);
+    }
+
 
     if (!$("#EVT3_checkbox").is(":checked")) {
         $(".EVT3").hide();
@@ -971,12 +1109,15 @@ function PDP_checkbox() {
     }
     if (!$("#High_checkbox").is(":checked")) {
         $(".High").hide();
+        $("#chart_high").hide();
     }
     if (!$("#Mid_checkbox").is(":checked")) {
         $(".Mid").hide();
+        $("#chart_mid").hide();
     }
     if (!$("#Low_checkbox").is(":checked")) {
         $(".Low").hide();
+        $("#chart_low").hide();
     }
     if (!$("#S1_checkbox").is(":checked")) {
         $(".S1").hide();

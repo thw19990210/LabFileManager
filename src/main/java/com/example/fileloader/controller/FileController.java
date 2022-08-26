@@ -1102,50 +1102,6 @@ public class FileController {
         response.addCookie(cookie);
     }
 
-//    @RequestMapping(value = "/setCookies",method = RequestMethod.GET)
-//    public String setCookies(HttpServletResponse response){
-//        //HttpServerletRequest 装请求信息类
-//        //HttpServerletRespionse 装相应信息的类
-//        Cookie cookie=new Cookie("login_status","CookieTestInfo");
-//        cookie.setPath("/");
-//        response.addCookie(cookie);
-//        return "添加cookies信息成功";
-//    }
-//
-//    @RequestMapping(value = "/getCookies",method = RequestMethod.GET)
-//    public String getCookies(HttpServletRequest request){
-//        //HttpServletRequest 装请求信息类
-//        //HttpServletRespionse 装相应信息的类
-//        //   Cookie cookie=new Cookie("sessionId","CookieTestInfo");
-//        String res = "fail";
-//        Cookie[] cookies = request.getCookies();
-//        if(cookies != null){
-//            for(Cookie cookie : cookies){
-//                if(cookie.getName().equals("login_status")){
-//                    res = cookie.getValue();
-//                }
-//            }
-//        }
-//
-//        return res;
-//    }
-//
-//    @RequestMapping("/testCookieValue")
-//    public String testCookieValue(@CookieValue("login_status") String sessionId ) {
-//        //前提是已经创建了或者已经存在cookie了，那么下面这个就直接把对应的key值拿出来了。
-//        System.out.println("testCookieValue,sessionId="+sessionId);
-//
-//
-//        return "SUCCESS";
-//    }
-//    @RequestMapping("/testCookie")
-//    public String testCookieValue2(@CookieValue("token") String sessionId ) {
-//        //前提是已经创建了或者已经存在cookie了，那么下面这个就直接把对应的key值拿出来了。
-//        System.out.println(sessionId);
-//
-//
-//        return sessionId;
-//    }
 
     @GetMapping(value = "/display_options")
     public List display_options(HttpServletResponse response, @RequestParam("option") String option, @RequestParam("list") String list) {

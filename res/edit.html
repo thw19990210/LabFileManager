@@ -207,7 +207,7 @@
 
 
             <div style="float:left; width:38%; text-align: right">
-                <a style="text-align: right" onclick="folders_list()" class="btn btn_primary" style="margin-right: 20px;margin-bottom: 3px">Refresh</a>
+                <a style="text-align: right" onclick="refresh()" class="btn btn_primary" style="margin-right: 20px;margin-bottom: 3px">Refresh</a>
 
                 <a style="text-align: right" onclick="get_upload_access()" class="btn btn_primary" style="margin-right: 20px;margin-bottom: 3px">Upload</a>
 
@@ -353,6 +353,12 @@
         folders_list();
         $("#upload_access_control").hide();
     });
+
+    function refresh() {
+        let path = document.getElementById("path_string").innerHTML;
+        choose_path (path);
+        folders_list();
+    }
 
     function choose_path (path) {
         $("#folder_path_selector").empty();

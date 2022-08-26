@@ -52,7 +52,7 @@
         font-family: sans-serif;
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
     }
-    .styled-table thead tr {
+    .styled-table th {
         background-color: #009879;
         color: #ffffff;
         text-align: left;
@@ -477,6 +477,9 @@
         $("#PDP-switch-controller").hide();
         $("#PDP_access_alert").hide();
         $("#go_back").hide();
+        $("#switch-btn-3").on('click', function () {
+            display_pie_chart(matrix_input);
+        } );
 
     });
 
