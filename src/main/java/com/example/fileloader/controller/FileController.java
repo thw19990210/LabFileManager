@@ -183,7 +183,7 @@ public class FileController {
                                   @RequestParam("color_tem") String color_tem, @RequestParam("illumin") String illumin,
                                   @RequestParam("ISO") String iso, @RequestParam("ET") String et,
                                   @RequestParam("HW_v") String HW_v, @RequestParam("SW_v") String SW_v,
-                                  @RequestParam("file_type") String file_type) {
+                                  @RequestParam("file_type") String file_type, @RequestParam("scene") String scene) {
 
         String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost:3306/amazon_lab126?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
@@ -297,6 +297,10 @@ public class FileController {
             if (!file_type.equals("")) {
                 if (strt) sql = sql + s0 + "file_type="+ t +file_type + t;
                 else {sql = sql + s1 + "file_type="+ t +file_type + t;strt=true;}
+            }
+            if (!scene.equals("")) {
+                if (strt) sql = sql + s0 + "scene="+ t +scene + t;
+                else {sql = sql + s1 + "scene="+ t + scene + t;strt=true;}
             }
 
             sql = sql + " order by file_name";
@@ -505,6 +509,7 @@ public class FileController {
         String ISO = "-1";
         String HW_v = "";
         String SW_v = "";
+        String scene = "";
         for (int i = 0; i < property.length-1; i++) {
             if (property[i].startsWith("PROJ")) {
                 project = property[i+1];
@@ -523,6 +528,9 @@ public class FileController {
             }
             if (property[i].startsWith("ET")) {
                 ET = property[i+1].substring(0,property[i+1].length()-2);
+            }
+            if (property[i].startsWith("Scene")) {
+                scene = property[i+1];
             }
         }
 
@@ -555,7 +563,7 @@ public class FileController {
 
             String sql1 = "SET @ID= (select MAX(id) as id_max from files)";
             stmt.execute(sql1);
-            String sql2 = "insert into files  (id, project, sensor, color_temperature, illuminance, ISO, ET, hardware_version, software_version, file_type, file_name, file_path)" +
+            String sql2 = "insert into files  (id, project, sensor, color_temperature, illuminance, ISO, ET, hardware_version, software_version, scene, file_type, file_name, file_path)" +
                           "values (@ID+1,\'"
                           + project +"\',\'"
                           + sensor + "\',"
@@ -565,6 +573,7 @@ public class FileController {
                           + ET + ",\'"
                           + HW_v + "\',\'"
                           + SW_v + "\',\'"
+                          + scene + "\',\'"
                           + file_type + "\',\'"
                           + file_name + "\',\'"
                           + file_path + "\'  )";

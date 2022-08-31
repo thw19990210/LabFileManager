@@ -549,7 +549,7 @@
         document.getElementById("p5-l").style.color = color1;
         document.getElementById("p6-l").style.color = color1;
         $("#p1-l, #p2-l, #p3-l, #p4-l, #p5-l, #p6-l").on("change", function () {
-            search();
+            search_l();
             if (document.getElementById("p1-l").value == "project") document.getElementById("p1-l").style.color = color1;
             else document.getElementById("p1-l").style.color = color2;
             if (document.getElementById("p2-l").value == "sensor") document.getElementById("p2-l").style.color = color1;
@@ -571,7 +571,7 @@
         document.getElementById("p5-r").style.color = color1;
         document.getElementById("p6-r").style.color = color1;
         $("#p1-r, #p2-r, #p3-r, #p4-r, #p5-r, #p6-r").on("change", function () {
-            search();
+            search_r();
             if (document.getElementById("p1-r").value == "project") document.getElementById("p1-r").style.color = color1;
             else document.getElementById("p1-r").style.color = color2;
             if (document.getElementById("p2-r").value == "sensor") document.getElementById("p2-r").style.color = color1;

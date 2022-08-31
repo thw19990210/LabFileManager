@@ -107,13 +107,14 @@ function search() {
     var HW_v      = document.getElementById("p3").value; HW_v = (HW_v == "hardware") ? "" : HW_v;
     var SW_v      = document.getElementById("p4").value; SW_v = (SW_v == "software") ? "" : SW_v;
     var file_type = document.getElementById("p5").value; file_type = (file_type == "file type") ? "" : file_type;
+    var scene = document.getElementById("p6").value; scene = (scene == "scene") ? "" : scene;
 
     var color_tem = document.getElementById("p31").value + "~" + document.getElementById("p32").value;
     var illumin   = document.getElementById("p41").value + "~" + document.getElementById("p42").value;
     var ISO       = document.getElementById("p51").value + "~" + document.getElementById("p52").value;
     var ET        = document.getElementById("p61").value + "~" + document.getElementById("p62").value;
 
-    var str = "project="+project+"&"+"sensor="+sensor+"&"+"color_tem="+color_tem+"&"+"illumin="+illumin+"&"+"ISO="+ISO+"&"+"ET="+ET+"&"+"HW_v="+HW_v+"&"+"SW_v="+SW_v+"&"+"file_type="+file_type;
+    var str = "project="+project+"&"+"sensor="+sensor+"&"+"color_tem="+color_tem+"&"+"illumin="+illumin+"&"+"ISO="+ISO+"&"+"ET="+ET+"&"+"HW_v="+HW_v+"&"+"SW_v="+SW_v+"&"+"file_type="+file_type+"&"+"scene="+scene;
     $("#downloadList").empty();
     $("#downloadList").hide();
     $("#Spinner").show();
@@ -177,6 +178,7 @@ function display (data) {
         img.style.width = "150px";
         img.style.height = "114px";
         img.style.marginLeft = "3px";
+        img_name = img_name.replace(/\s/g,'%20');
         img.src = "/storage/" + img_name;
         img.alt = "  no image";
 
@@ -1268,9 +1270,13 @@ function folders_list() {
 
 
 function display_options() {
-    var to_display = ["project", "sensor", "hardware_version", "software_version", "file_type"];
+    var to_display = ["project", "sensor", "hardware_version", "software_version", "file_type", "scene",
+        "project", "sensor", "hardware_version", "software_version", "file_type", "scene",
+        "project", "sensor", "hardware_version", "software_version", "file_type", "scene"];
     // var list_to_display = ["#list1", "#list2", "#list3", "#list4", "#list5"];
-    var list_to_display = ["p1", "p2", "p3", "p4", "p5"];
+    var list_to_display = ["p1", "p2", "p3", "p4", "p5", "p6",
+        "p1-l", "p2-l", "p3-l", "p4-l", "p5-l", "p6-l",
+        "p1-r", "p2-r", "p3-r", "p4-r", "p5-r", "p6-r"];
     for (var i = 0; i < to_display.length; i++) {
         $.ajax({
             url: "/api/general/display_options?option="+to_display[i]+"&list="+list_to_display[i],

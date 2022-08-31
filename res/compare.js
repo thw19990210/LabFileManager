@@ -23,13 +23,14 @@ function search_l() {
     var HW_v      = document.getElementById("p3-l").value; HW_v = (HW_v == "hardware") ? "" : HW_v;
     var SW_v      = document.getElementById("p4-l").value; SW_v = (SW_v == "software") ? "" : SW_v;
     var file_type = document.getElementById("p5-l").value; file_type = (file_type == "file type") ? "" : file_type;
+    var scene = document.getElementById("p6-l").value; scene = (scene == "scene") ? "" : scene;
 
     var color_tem = document.getElementById("p31-l").value + "~" + document.getElementById("p32-l").value;
     var illumin   = document.getElementById("p41-l").value + "~" + document.getElementById("p42-l").value;
     var ISO       = document.getElementById("p51-l").value + "~" + document.getElementById("p52-l").value;
     var ET        = document.getElementById("p61-l").value + "~" + document.getElementById("p62-l").value;
 
-    var str = "project="+project+"&"+"sensor="+sensor+"&"+"color_tem="+color_tem+"&"+"illumin="+illumin+"&"+"ISO="+ISO+"&"+"ET="+ET+"&"+"HW_v="+HW_v+"&"+"SW_v="+SW_v+"&"+"file_type="+file_type;
+    var str = "project="+project+"&"+"sensor="+sensor+"&"+"color_tem="+color_tem+"&"+"illumin="+illumin+"&"+"ISO="+ISO+"&"+"ET="+ET+"&"+"HW_v="+HW_v+"&"+"SW_v="+SW_v+"&"+"file_type="+file_type+"&"+"scene="+scene;
     $("#downloadList1").empty();
     $("#downloadList1").hide();
     $("#Spinner").show();
@@ -91,6 +92,7 @@ function display_l (data) {
         img.style.width = "150px";
         img.style.height = "114px";
         img.style.marginLeft = "15px";
+        img_name = img_name.replace(/\s/g,'%20');
         img.src = "/storage/" + img_name;
         img.alt = "  no image";
 
@@ -188,13 +190,14 @@ function search_r() {
     var HW_v      = document.getElementById("p3-r").value; HW_v = (HW_v == "hardware") ? "" : HW_v;
     var SW_v      = document.getElementById("p4-r").value; SW_v = (SW_v == "software") ? "" : SW_v;
     var file_type = document.getElementById("p5-r").value; file_type = (file_type == "file type") ? "" : file_type;
+    var scene = document.getElementById("p6-r").value; scene = (scene == "scene") ? "" : scene;
 
     var color_tem = document.getElementById("p31-r").value + "~" + document.getElementById("p32-r").value;
     var illumin   = document.getElementById("p41-r").value + "~" + document.getElementById("p42-r").value;
     var ISO       = document.getElementById("p51-r").value + "~" + document.getElementById("p52-r").value;
     var ET        = document.getElementById("p61-r").value + "~" + document.getElementById("p62-r").value;
 
-    var str = "project="+project+"&"+"sensor="+sensor+"&"+"color_tem="+color_tem+"&"+"illumin="+illumin+"&"+"ISO="+ISO+"&"+"ET="+ET+"&"+"HW_v="+HW_v+"&"+"SW_v="+SW_v+"&"+"file_type="+file_type;
+    var str = "project="+project+"&"+"sensor="+sensor+"&"+"color_tem="+color_tem+"&"+"illumin="+illumin+"&"+"ISO="+ISO+"&"+"ET="+ET+"&"+"HW_v="+HW_v+"&"+"SW_v="+SW_v+"&"+"file_type="+file_type+"&"+"scene="+scene;
     $("#downloadList2").empty();
     $("#downloadList2").hide();
     $("#Spinner").show();
@@ -256,6 +259,7 @@ function display_r (data) {
         img.style.width = "150px";
         img.style.height = "114px";
         img.style.marginLeft = "15px";
+        img_name = img_name.replace(/\s/g,encodeURIComponent(' '));
         img.src = "/storage/" + img_name;
         img.alt = "  no image";
 
