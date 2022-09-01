@@ -1375,4 +1375,161 @@ public class FileController {
         }
         return returnData;
     }
+
+    @GetMapping(value = "/mysql/execute")
+    public void mysql_execute(HttpServletRequest request, @RequestParam("sql") String sql) {
+
+        String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost:3306/amazon_lab126?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+
+        // 数据库的用户名与密码，需要根据自己的设置
+        String USER = "root";
+        String PASS = "dbuserdbuser";
+
+
+        Connection conn = null;
+        Statement stmt = null;
+
+        try{
+            // 注册 JDBC 驱动
+            Class.forName(JDBC_DRIVER);
+
+            // 打开链接
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+            stmt = conn.createStatement();
+
+
+            stmt.execute(sql);
+
+
+            stmt.close();
+            conn.close();
+        }catch(SQLException se){
+            // 处理 JDBC 错误
+            se.printStackTrace();
+        }catch(Exception e){
+            // 处理 Class.forName 错误
+            e.printStackTrace();
+        }finally{
+            // 关闭资源
+            try{
+                if(stmt!=null) stmt.close();
+            }catch(SQLException se2){
+            }// 什么都不做
+            try{
+                if(conn!=null) conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+    }
+    @GetMapping(value = "/mysql/executeQuery")
+    public ResultSet mysql_executeQuery(HttpServletRequest request, @RequestParam("sql") String sql) {
+
+        String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost:3306/amazon_lab126?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+
+        // 数据库的用户名与密码，需要根据自己的设置
+        String USER = "root";
+        String PASS = "dbuserdbuser";
+
+
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try{
+            // 注册 JDBC 驱动
+            Class.forName(JDBC_DRIVER);
+
+            // 打开链接
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+            stmt = conn.createStatement();
+
+
+            rs = stmt.executeQuery(sql);
+
+
+            stmt.close();
+            conn.close();
+        }catch(SQLException se){
+            // 处理 JDBC 错误
+            se.printStackTrace();
+        }catch(Exception e){
+            // 处理 Class.forName 错误
+            e.printStackTrace();
+        }finally{
+            // 关闭资源
+            try{
+                if(stmt!=null) stmt.close();
+            }catch(SQLException se2){
+            }// 什么都不做
+            try{
+                if(conn!=null) conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+        return rs;
+    }
+
+    @GetMapping(value = "/mysql/forgetPSW")
+    public String mysql_forgetPSW(HttpServletRequest request, @RequestParam("login") String token, @RequestParam("passcode") String passcode) {
+
+        String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost:3306/amazon_lab126?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+
+        // 数据库的用户名与密码，需要根据自己的设置
+        String USER = "root"; String PASS = "dbuserdbuser";
+
+
+        String result = "";
+        String PASSCODE = "dbuserdbuser"; // 管理员权限密码
+
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try{
+            // 注册 JDBC 驱动
+            Class.forName(JDBC_DRIVER);
+
+            // 打开链接
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+            stmt = conn.createStatement();
+
+
+            String sql = "select password from account_info where token = '" + token + "'";
+            rs = stmt.executeQuery(sql);
+
+            while(rs.next()) {
+                if (passcode.equals(PASSCODE)) result = rs.getString("password");
+            }
+
+
+            stmt.close();
+            conn.close();
+        }catch(SQLException se){
+            // 处理 JDBC 错误
+            se.printStackTrace();
+        }catch(Exception e){
+            // 处理 Class.forName 错误
+            e.printStackTrace();
+        }finally{
+            // 关闭资源
+            try{
+                if(stmt!=null) stmt.close();
+            }catch(SQLException se2){
+            }// 什么都不做
+            try{
+                if(conn!=null) conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+        return result;
+    }
 }
