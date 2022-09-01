@@ -822,6 +822,132 @@ public class FileController {
         return returnData;
     }
 
+    @GetMapping(value = "/get_contact")
+    public List<String> get_contact(HttpServletRequest request, @RequestParam("token") String token) {
+        List<String> returnData = new ArrayList<>();
+
+
+//        LoginController status = new LoginController();
+//        String token = status.token;
+        String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost:3306/amazon_lab126?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+
+        // 数据库的用户名与密码，需要根据自己的设置
+        String USER = "root";
+        String PASS = "dbuserdbuser";
+
+
+        Connection conn = null;
+        Statement stmt = null;
+
+        try{
+            // 注册 JDBC 驱动
+            Class.forName(JDBC_DRIVER);
+
+            // 打开链接
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+            stmt = conn.createStatement();
+
+            String sql;
+            sql = "select * from account_info where token=\'"+token+"\'";
+            ResultSet rs = stmt.executeQuery(sql);
+            // 展开结果集数据库
+            while(rs.next()){
+                String access = rs.getString("access");
+                String name = rs.getString("name");
+                String photo = rs.getString("prof_pic_path");
+                String tkn = rs.getString("token");
+                String PDP_access = rs.getString("PDP_access");
+                String location = rs.getString("location");
+                returnData.add(tkn);
+                returnData.add(access);
+                returnData.add(name);
+                returnData.add(photo);
+                returnData.add(PDP_access);
+                returnData.add(location);
+            }
+
+            stmt.close();
+            conn.close();
+        }catch(SQLException se){
+            // 处理 JDBC 错误
+            se.printStackTrace();
+        }catch(Exception e){
+            // 处理 Class.forName 错误
+            e.printStackTrace();
+        }finally{
+            // 关闭资源
+            try{
+                if(stmt!=null) stmt.close();
+            }catch(SQLException se2){
+            }// 什么都不做
+            try{
+                if(conn!=null) conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+        return returnData;
+    }
+
+    @GetMapping(value = "/get_contact_option")
+    public List<String> get_contact(HttpServletRequest request) {
+        List<String> returnData = new ArrayList<>();
+
+
+        String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost:3306/amazon_lab126?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+
+        // 数据库的用户名与密码，需要根据自己的设置
+        String USER = "root";
+        String PASS = "dbuserdbuser";
+
+
+        Connection conn = null;
+        Statement stmt = null;
+
+        try{
+            // 注册 JDBC 驱动
+            Class.forName(JDBC_DRIVER);
+
+            // 打开链接
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+            stmt = conn.createStatement();
+
+            String sql;
+            sql = "select distinct token from account_info";
+            ResultSet rs = stmt.executeQuery(sql);
+            // 展开结果集数据库
+            while(rs.next()){
+                String tkn = rs.getString("token");
+                returnData.add(tkn);
+            }
+
+            stmt.close();
+            conn.close();
+        }catch(SQLException se){
+            // 处理 JDBC 错误
+            se.printStackTrace();
+        }catch(Exception e){
+            // 处理 Class.forName 错误
+            e.printStackTrace();
+        }finally{
+            // 关闭资源
+            try{
+                if(stmt!=null) stmt.close();
+            }catch(SQLException se2){
+            }// 什么都不做
+            try{
+                if(conn!=null) conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+        return returnData;
+    }
+
     @GetMapping(value = "/get_PDP_access")
     public List<String> get_PDP_access(HttpServletRequest request, @RequestParam("project") String project) {
         List<String> returnData = new ArrayList<>();

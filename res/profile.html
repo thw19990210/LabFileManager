@@ -336,6 +336,10 @@
 
             },
             success: function (data) {
+                $("#user-links").empty();
+                $("#badge-photo").empty();
+                $("#profile-info").empty();
+
                 $("#user-links").append("<a target=\"_blank\" href = 'https://w.amazon.com/bin/view/XWiki/UserContributions/?authors="+data[0]+"'>Your Wiki contributions</a><br>");
                 $("#user-links").append("<a target=\"_blank\" href = 'https://crier.amazon.com/user/"+data[0]+"'>Your Crier profile</a><br>");
                 $("#user-links").append("<a target=\"_blank\" href = 'https://maple-admin-prod.corp.amazon.com/my-support/person/"+data[0]+"'>Your Support Team</a><br>");
