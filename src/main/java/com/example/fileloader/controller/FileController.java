@@ -144,7 +144,7 @@ public class FileController {
 
         // 数据库的用户名与密码，需要根据自己的设置
         String USER = "root";
-        String PASS = "dbuserdbuser";
+
 
 
         Connection conn = null;
@@ -241,7 +241,6 @@ public class FileController {
 
         // 数据库的用户名与密码，需要根据自己的设置
         String USER = "root";
-        String PASS = "dbuserdbuser";
 
         String res_fail = "can't find any file";
 
@@ -406,7 +405,6 @@ public class FileController {
 
         // 数据库的用户名与密码，需要根据自己的设置
         String USER = "root";
-        String PASS = "dbuserdbuser";
 
         String res_fail = "can't find any file";
 
@@ -479,7 +477,6 @@ public class FileController {
 
         // 数据库的用户名与密码，需要根据自己的设置
         String USER = "root";
-        String PASS = "dbuserdbuser";
 
 
         Connection conn = null;
@@ -595,7 +592,6 @@ public class FileController {
 
         // 数据库的用户名与密码，需要根据自己的设置
         String USER = "root";
-        String PASS = "dbuserdbuser";
 
 
         Connection conn = null;
@@ -663,7 +659,6 @@ public class FileController {
 
         // 数据库的用户名与密码，需要根据自己的设置
         String USER = "root";
-        String PASS = "dbuserdbuser";
 
 
         Connection conn = null;
@@ -741,7 +736,6 @@ public class FileController {
 
         // 数据库的用户名与密码，需要根据自己的设置
         String USER = "root";
-        String PASS = "dbuserdbuser";
 
 
         Connection conn = null;
@@ -815,7 +809,6 @@ public class FileController {
 
         // 数据库的用户名与密码，需要根据自己的设置
         String USER = "root";
-        String PASS = "dbuserdbuser";
 
 
         Connection conn = null;
@@ -884,7 +877,6 @@ public class FileController {
 
         // 数据库的用户名与密码，需要根据自己的设置
         String USER = "root";
-        String PASS = "dbuserdbuser";
 
 
         Connection conn = null;
@@ -951,7 +943,6 @@ public class FileController {
 
         // 数据库的用户名与密码，需要根据自己的设置
         String USER = "root";
-        String PASS = "dbuserdbuser";
 
 
         Connection conn = null;
@@ -1019,7 +1010,6 @@ public class FileController {
 
         // 数据库的用户名与密码，需要根据自己的设置
         String USER = "root";
-        String PASS = "dbuserdbuser";
 
 
         Connection conn = null;
@@ -1084,7 +1074,6 @@ public class FileController {
 
         // 数据库的用户名与密码，需要根据自己的设置
         String USER = "root";
-        String PASS = "dbuserdbuser";
 
 
         Connection conn = null;
@@ -1168,8 +1157,6 @@ public class FileController {
 
         // 数据库的用户名与密码，需要根据自己的设置
         String USER = "root";
-        String PASS = "dbuserdbuser";
-
 
         Connection conn = null;
         Statement stmt = null;
@@ -1230,8 +1217,6 @@ public class FileController {
 
         // 数据库的用户名与密码，需要根据自己的设置
         String USER = "root";
-        String PASS = "dbuserdbuser";
-
 
         Connection conn = null;
         Statement stmt = null;
@@ -1300,8 +1285,6 @@ public class FileController {
 
         // 数据库的用户名与密码，需要根据自己的设置
         String USER = "root";
-        String PASS = "dbuserdbuser";
-
 
         Connection conn = null;
         Statement stmt = null;
@@ -1373,7 +1356,6 @@ public class FileController {
 
         // 数据库的用户名与密码，需要根据自己的设置
         String USER = "root";
-        String PASS = "dbuserdbuser";
 
 
         Connection conn = null;
@@ -1436,8 +1418,6 @@ public class FileController {
 
         // 数据库的用户名与密码，需要根据自己的设置
         String USER = "root";
-        String PASS = "dbuserdbuser";
-
 
         Connection conn = null;
         Statement stmt = null;
@@ -1484,7 +1464,6 @@ public class FileController {
 
         // 数据库的用户名与密码，需要根据自己的设置
         String USER = "root";
-        String PASS = "dbuserdbuser";
 
 
         Connection conn = null;
@@ -1538,7 +1517,6 @@ public class FileController {
 
         // 数据库的用户名与密码，需要根据自己的设置
         String USER = "root";
-        String PASS = "dbuserdbuser";
 
 
         String result = "";
@@ -1589,4 +1567,6 @@ public class FileController {
     }
 
     public String PASSCODE = "dbuserdbuser";    // 管理员权限密码
+    public String PASS = "DBuser123!@#";  // MySQL数据库密码
+
 }

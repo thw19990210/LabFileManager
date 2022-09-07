@@ -16,13 +16,20 @@ sudo iptables -nvL
 sudo iptables -A INPUT -p tcp --dport 80 --syn -m conntrack --ctstate NEW -j ACCEPT
 sudo iptables -A INPUT -p tcp --dport 443 --syn -m conntrack --ctstate NEW -j ACCEPT
 
-sudo wget dev.mysql.com/get/mysql80-community-release-el8-4.noarch.rpm
-sudo rpm -Uvh mysql80-community-release-el8-4.noarch.rpm
+sudo -s
+sudo wget dev.mysql.com/get/mysql80-community-release-el7-7.noarch.rpm
+sudo rpm -Uvh mysql80-community-release-el7-7.noarch.rpm
 sudo yum install -y mysql-server
+service mysqld start
+chkconfig mysqld on
+sudo mysql_secure_installation
+vim /var/log/mysqld.log
+"DBuser123!@#"
+mysql -u root -p
+grant all privileges on *.* to root@"%" identified by "DBuser123!@#"
+grant all privileges on *.* to root@"localhost" identified by "DBuser123!@#"
+flush privileges
 
-sudo yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
-sudo status amazon-ssm-agent
-sudo yum install -y https://s3.region.amazonaws.com/amazon-ssm-region/latest/linux_amd64/amazon-ssm-agent.rpm
 
 sudo yum install -y git
 sudo yum install -y java
