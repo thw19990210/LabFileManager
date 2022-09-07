@@ -1409,9 +1409,10 @@ public class FileController {
     }
 
     @GetMapping(value = "/mysql/execute")
-    public void mysql_execute(HttpServletRequest request, @RequestParam("passcode") String passcode, @RequestParam("sql") String sql) {
+    public String mysql_execute(HttpServletRequest request, @RequestParam("passcode") String passcode, @RequestParam("sql") String sql) {
 
-        if (!passcode.equals(PASSCODE)) return;
+        String result = "Fail to execute!";
+        if (!passcode.equals(PASSCODE)) return result;
 
         String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost:3306/amazon_lab126?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
@@ -1437,6 +1438,8 @@ public class FileController {
 
             stmt.close();
             conn.close();
+
+            return "Successfully execute!";
         }catch(SQLException se){
             // 处理 JDBC 错误
             se.printStackTrace();
@@ -1455,6 +1458,7 @@ public class FileController {
                 se.printStackTrace();
             }
         }
+        return result;
     }
     @GetMapping(value = "/mysql/executeQuery")
     public String mysql_executeQuery(HttpServletRequest request, @RequestParam("sql") String sql) {
@@ -1567,6 +1571,6 @@ public class FileController {
     }
 
     public String PASSCODE = "dbuserdbuser";    // 管理员权限密码
-    public String PASS = "DBuser123!@#";  // MySQL数据库密码
+    public String PASS = "dbuserdbuser";  // MySQL数据库密码
 
 }

@@ -37,6 +37,9 @@ git clone https://github.com/thw19990210/LabFileManager-amazon
 cd LabFileManager-amazon
 java -jar target/fileloader-0.0.1-SNAPSHOT.jar
 
+/api/general/mysql/execute?passcode=dbuserdbuser&sql=
+insert into account_info (id, user_name, password, token) values (1, "hanwtank", "123456", "hanwtank");
+
 ## About
 
 https://aws.amazon.com/cn/premiumsupport/knowledge-center/ec2-instance-hosting-unresponsive-website/
