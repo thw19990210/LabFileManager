@@ -125,16 +125,66 @@ public class FileController {
         }
     }
 
-    @GetMapping(value = "/files/delete/{name}")
-    public void delete(HttpServletRequest request, HttpServletResponse response, @PathVariable String name) {
+    @GetMapping(value = "/files/delete")
+    public void delete(HttpServletRequest request, HttpServletResponse response, @RequestParam("file_path") String name) {
+
         try {
-            File file = new File(name);
+            File file = new File("res/storage/" + name);
             if (!file.exists()) {
-                throw new RuntimeException("File not found! Name = " + name);
+                throw new RuntimeException("File not found! Path = " + name);
             }
             StreamUtils.delete(file);
         } catch (Exception ioex) {
             throw new RuntimeException("Exception while deleting file: " + name);
+        }
+
+        String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+        String DB_URL = "jdbc:mysql://localhost:3306/amazon_lab126?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+
+
+        // 数据库的用户名与密码，需要根据自己的设置
+        String USER = "root";
+        String PASS = "dbuserdbuser";
+
+
+        Connection conn = null;
+        Statement stmt = null;
+
+        try{
+            // 注册 JDBC 驱动
+            Class.forName(JDBC_DRIVER);
+
+            // 打开链接
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+            // 执行查询
+            stmt = conn.createStatement();
+            String sql;
+            sql = "delete from files where file_path like '" + name +"%'";
+
+            stmt.execute(sql);
+
+
+            // 完成后关闭
+            stmt.close();
+            conn.close();
+        }catch(SQLException se){
+            // 处理 JDBC 错误
+            se.printStackTrace();
+        }catch(Exception e){
+            // 处理 Class.forName 错误
+            e.printStackTrace();
+        }finally{
+            // 关闭资源
+            try{
+                if(stmt!=null) stmt.close();
+            }catch(SQLException se2){
+            }// 什么都不做
+            try{
+                if(conn!=null) conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }
         }
     }
 
@@ -1377,7 +1427,9 @@ public class FileController {
     }
 
     @GetMapping(value = "/mysql/execute")
-    public void mysql_execute(HttpServletRequest request, @RequestParam("sql") String sql) {
+    public void mysql_execute(HttpServletRequest request, @RequestParam("passcode") String passcode, @RequestParam("sql") String sql) {
+
+        if (!passcode.equals(PASSCODE)) return;
 
         String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost:3306/amazon_lab126?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
@@ -1425,7 +1477,7 @@ public class FileController {
         }
     }
     @GetMapping(value = "/mysql/executeQuery")
-    public ResultSet mysql_executeQuery(HttpServletRequest request, @RequestParam("sql") String sql) {
+    public String mysql_executeQuery(HttpServletRequest request, @RequestParam("sql") String sql) {
 
         String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost:3306/amazon_lab126?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
@@ -1438,6 +1490,7 @@ public class FileController {
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
+        String result = "Fail to execute this query!";
 
         try{
             // 注册 JDBC 驱动
@@ -1454,6 +1507,8 @@ public class FileController {
 
             stmt.close();
             conn.close();
+
+            result = "Successfully execute this query!";
         }catch(SQLException se){
             // 处理 JDBC 错误
             se.printStackTrace();
@@ -1472,7 +1527,7 @@ public class FileController {
                 se.printStackTrace();
             }
         }
-        return rs;
+        return result;
     }
 
     @GetMapping(value = "/mysql/forgetPSW")
@@ -1482,11 +1537,11 @@ public class FileController {
         String DB_URL = "jdbc:mysql://localhost:3306/amazon_lab126?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
 
         // 数据库的用户名与密码，需要根据自己的设置
-        String USER = "root"; String PASS = "dbuserdbuser";
+        String USER = "root";
+        String PASS = "dbuserdbuser";
 
 
         String result = "";
-        String PASSCODE = "dbuserdbuser"; // 管理员权限密码
 
         Connection conn = null;
         Statement stmt = null;
@@ -1532,4 +1587,6 @@ public class FileController {
         }
         return result;
     }
+
+    public String PASSCODE = "dbuserdbuser";    // 管理员权限密码
 }

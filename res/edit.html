@@ -211,9 +211,9 @@
 
                 <a style="text-align: right" onclick="get_upload_access()" class="btn btn_primary" style="margin-right: 20px;margin-bottom: 3px">Upload</a>
 
-                <a style="text-align: right" onclick="" class="btn btn_primary" style="margin-right: 20px;margin-bottom: 3px">Download</a>
+                <a style="text-align: right" onclick="download_selected()" class="btn btn_primary" style="margin-right: 20px;margin-bottom: 3px">Download</a>
 
-                <a style="text-align: right" onclick="" class="btn btn_primary" style="margin-right: 20px;margin-bottom: 3px">Delete</a>
+                <a style="text-align: right" onclick="delete_selected()" class="btn btn_primary" style="margin-right: 20px;margin-bottom: 3px">Delete</a>
 
                 <a style="text-align: right" onclick="new_folder_access()" class="btn btn_primary" style="margin-right: 20px;margin-bottom: 3px">Create Folder</a>
             </div>
@@ -386,6 +386,85 @@
         document.getElementById("path_string").innerHTML = path.substring(0,path.lastIndexOf("/")+1);
         choose_path(document.getElementById("path_string").innerHTML);
         folders_list();
+    }
+
+    function download_selected(){
+        $("input[type='checkbox']:checked").each(function (){
+            let lk_id = "#link" + $(this).attr("id").substring(8);
+            // autoclick(lk_id);
+            // console.log($(lk_id).attr("href"));
+            // window.location.href = $(lk_id).attr("href");
+            // location.href = link;
+
+            let id = $(lk_id)[0].innerHTML;
+            alert("Downloading the file: "+id);
+
+            $(lk_id)[0].click();
+
+
+        });
+
+    }
+
+    function delete_selected() {
+        let work_path = document.getElementById("path_string").innerHTML;
+        $.ajax({
+            url: "/api/general/get_token",
+            type: "GET",
+            error: function () {
+
+            },
+            success: function (data) {
+
+                var access = data[0].split(',');
+                var permitted = 0;
+                for (key in access) {
+                    var path = "/" + work_path;
+                    if (path.startsWith(access[key])) {
+                        permitted = 1;
+                    }
+                }
+                if (permitted == 1) {
+                    delete_confirm();
+                }
+                else {
+                    alert("Access Denied!");
+                }
+            }
+        });
+
+    }
+
+    function delete_confirm(){
+        let n = $("input[type='checkbox']:checked").length;
+
+        if (confirm("Confirm to delete the "+n+" file(s)?")) {
+            $("input[type='checkbox']:checked").each(function (){
+                let lk_id = "#link" + $(this).attr("id").substring(8);
+                // autoclick(lk_id);
+                // console.log($(lk_id).attr("href"));
+                // window.location.href = $(lk_id).attr("href");
+                // location.href = link;
+
+                let file = $(lk_id)[0].innerHTML;
+                // alert("Deleting the file: "+file);
+
+                $.ajax({
+                    url: "/api/general/files/delete?file_path="+ file,
+                    type: "GET",
+                    error: function (data) {
+                        onerror(data);
+                    },
+                    success: function (data) {
+
+                    }
+                });
+
+
+            });
+        }
+
+        refresh();
     }
 </script>
 

@@ -50,6 +50,7 @@ $.ajaxSetup({
     contentType: "application/json; charset=utf-8"
 });
 
+
 function humanFileSize(bytes, si = false, dp = 1) {
     const thresh = si ? 1000 : 1024;
     if (Math.abs(bytes) < thresh) {
@@ -112,7 +113,7 @@ function search() {
     var color_tem = document.getElementById("p31").value + "~" + document.getElementById("p32").value;
     var illumin   = document.getElementById("p41").value + "~" + document.getElementById("p42").value;
     var ISO       = document.getElementById("p51").value + "~" + document.getElementById("p52").value;
-    var ET        = document.getElementById("p61").value + "~" + document.getElementById("p62").value;
+    var ET        = document.getElementById("p63").value + "~" + document.getElementById("p62").value;
 
     var str = "project="+project+"&"+"sensor="+sensor+"&"+"color_tem="+color_tem+"&"+"illumin="+illumin+"&"+"ISO="+ISO+"&"+"ET="+ET+"&"+"HW_v="+HW_v+"&"+"SW_v="+SW_v+"&"+"file_type="+file_type+"&"+"scene="+scene;
     $("#downloadList").empty();

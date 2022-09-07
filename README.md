@@ -12,8 +12,13 @@ sudo yum update -y
 sudo yum install -y httpd
 sudo service httpd start
 sudo chkconfig httpd on
+sudo iptables -nvL
 sudo iptables -A INPUT -p tcp --dport 80 --syn -m conntrack --ctstate NEW -j ACCEPT
 sudo iptables -A INPUT -p tcp --dport 443 --syn -m conntrack --ctstate NEW -j ACCEPT
+
+sudo wget dev.mysql.com/get/mysql80-community-release-el8-4.noarch.rpm
+sudo rpm -Uvh mysql80-community-release-el8-4.noarch.rpm
+sudo yum install -y mysql-server
 
 sudo yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
 sudo status amazon-ssm-agent

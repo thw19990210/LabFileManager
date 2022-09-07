@@ -272,7 +272,7 @@
                     <input onkeydown="key_enter2(event)" id="p52" class="form-control" type="search" placeholder="to" aria-label="Search1">
 
                     <label style="margin-right: 12px; margin-left: 88px">ET :</label>
-                    <input onkeydown="key_enter2(event)" id="p61" class="form-control" type="search" placeholder="from" aria-label="Search1">
+                    <input onkeydown="key_enter2(event)" id="p63" class="form-control" type="search" placeholder="from" aria-label="Search1">
                     <input onkeydown="key_enter2(event)" id="p62" class="form-control" type="search" placeholder="to" aria-label="Search1">
 
                 </div>
@@ -318,7 +318,7 @@
 
         <div id="download-button-area" class="CenteredItems" style=" height: 40px;">
 
-            <a class="btn btn_primary" style="margin-left: 1226px; margin-bottom: 5px" onclick="download()">Download</a>
+            <a class="btn btn_primary" style="margin-left: 1226px; margin-bottom: 5px" onclick="download_selected()">Download</a>
 
 
             <input id="select_all" type="checkbox" onclick="swapCheck()"/>
@@ -385,7 +385,7 @@
 <!--<script src="dist/js/pages/dashboard.js"></script>-->
 
 <script type="text/javascript">
-    var isCheckAll = false;
+    let isCheckAll = false;
     function swapCheck() {
         $("input[type='checkbox']").each(function() {
             this.checked = !isCheckAll;
@@ -399,20 +399,21 @@
             ////实际被选中的
             var exact=$("input[type='checkbox']:checked").length;
             ////检测所有的check选项的有多少与总量进行对比
-            $("select_all").checked=(total==exact); //true or false
+            $("#select_all").checked=(total==exact); //true or false
         })
     }
-    listenCheckbox();
-    function download(){
+    // listenCheckbox();
+    function download_selected(){
         $("input[type='checkbox']:checked").each(function (){
-            var lk_id = "#link" + $(this).attr("id").substring(8);
+            let lk_id = "#link" + $(this).attr("id").substring(8);
             // autoclick(lk_id);
             // console.log($(lk_id).attr("href"));
             // window.location.href = $(lk_id).attr("href");
             // location.href = link;
 
+            let id = $(lk_id)[0].innerHTML;
+            alert("Downloading the file: "+id);
 
-            alert("$(lk_id)[0].id");
             $(lk_id)[0].click();
 
 
