@@ -38,7 +38,7 @@ cd LabFileManager-amazon
 java -jar target/fileloader-0.0.1-SNAPSHOT.jar
 
 /api/general/mysql/execute?passcode=dbuserdbuser&sql=
-insert into account_info (id, user_name, password, token) values (1, "hanwtank", "123456", "hanwtank");
+insert into account_info (id, user_name, password, token) values (0, "hanwtank", "123456", "hanwtank");
 
 ## About
 

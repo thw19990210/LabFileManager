@@ -1412,7 +1412,7 @@ public class FileController {
     public String mysql_execute(HttpServletRequest request, @RequestParam("passcode") String passcode, @RequestParam("sql") String sql) {
 
         String result = "Fail to execute!";
-        if (!passcode.equals(PASSCODE)) return result;
+        if (!passcode.equals(PASSCODE)) return "Fail to execute! (wrong passcode)";
 
         String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost:3306/amazon_lab126?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
@@ -1571,6 +1571,6 @@ public class FileController {
     }
 
     public String PASSCODE = "dbuserdbuser";    // 管理员权限密码
-    public String PASS = "dbuserdbuser";  // MySQL数据库密码
+    public String PASS = "DBuser123!@#";  // MySQL数据库密码
 
 }
