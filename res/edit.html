@@ -66,7 +66,7 @@
                 <a href="/" class="nav-link">Home</a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
-                <a href="#" class="nav-link">Contact</a>
+                <a href="/contact" class="nav-link">Contact</a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
                 <a href="login" class="nav-link">Sign Out</a>
@@ -244,7 +244,7 @@
 
         <div id="download-button-area" class="CenteredItems" style=" height: 40px;margin-top: 60px">
 
-            <a style="margin-left: 1259px; margin-bottom: 5px">Select All</a>
+            <a style="margin-left: 1260px; margin-bottom: 5px">Select All</a>
 
 
             <input id="select_all" type="checkbox" onclick="swapCheck()"/>
@@ -343,6 +343,7 @@
 <script>
     $(document).ready(function (){
         display_name();
+        get_token();
         $("#folders_list").hide();
         $("#folder_path_selector").on("change", function () {
             let path = document.getElementById("path_string").innerHTML + $('select option:selected').val() + "/";
@@ -465,6 +466,24 @@
         }
 
         refresh();
+    }
+
+    let isCheckAll = false;
+    function swapCheck() {
+        $("input[type='checkbox']").each(function() {
+            this.checked = !isCheckAll;
+        });
+        isCheckAll = !isCheckAll;
+    }
+    function listenCheckbox(){
+        //总量
+        let total=$("input[type='checkbox']").length;
+        ////实际被选中的
+        let exact=$("input[type='checkbox']:checked").length;
+
+        ////检测所有的check选项的有多少与总量进行对比
+        isCheckAll = (total == exact);
+        document.getElementById("select_all").checked = isCheckAll; //true or false
     }
 </script>
 

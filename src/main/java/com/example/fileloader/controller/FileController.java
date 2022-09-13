@@ -506,12 +506,12 @@ public class FileController {
                     // use cookie to control login status
                     Cookie cookie1=new Cookie("login_status",massage);
                     cookie1.setPath("/");
-                    cookie1.setMaxAge(3600);
+                    cookie1.setMaxAge(COOKIE_EXPIRE_TIME);
                     response.addCookie(cookie1);
 
                     Cookie cookie2=new Cookie("token",token);
                     cookie2.setPath("/");
-                    cookie2.setMaxAge(3600);
+                    cookie2.setMaxAge(COOKIE_EXPIRE_TIME);
                     response.addCookie(cookie2);
 
                     return massage;
@@ -653,7 +653,7 @@ public class FileController {
     @GetMapping(value = "/change")
     public String change_pswd(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("new_password") String new_password) {
 
-        String massage = "fail to change password!";
+        String massage = "Fail to change password!";
         String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost:3306/amazon_lab126?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
 
@@ -685,7 +685,10 @@ public class FileController {
 
                 if (password.equals(pswd)) {
                     correct_pswd = true;
-                    massage = "success!";
+                    massage = "Successfully changed your password!";
+                }
+                else {
+                    massage = "2 passwords didn't match!";
                 }
             }
 
@@ -870,13 +873,13 @@ public class FileController {
         List<String> returnData = new ArrayList<>();
 
 
-//        LoginController status = new LoginController();
-//        String token = status.token;
         String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost:3306/amazon_lab126?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
 
         // 数据库的用户名与密码，需要根据自己的设置
         String USER = "root";
+
+        if (token.equals("")) token = MANAGER_LOGIN;
 
 
         Connection conn = null;
@@ -894,15 +897,15 @@ public class FileController {
             String sql;
             sql = "select * from account_info where token=\'"+token+"\'";
             ResultSet rs = stmt.executeQuery(sql);
+
+            returnData.add(token);
             // 展开结果集数据库
             while(rs.next()){
                 String access = rs.getString("access");
                 String name = rs.getString("name");
                 String photo = rs.getString("prof_pic_path");
-                String tkn = rs.getString("token");
                 String PDP_access = rs.getString("PDP_access");
                 String location = rs.getString("location");
-                returnData.add(tkn);
                 returnData.add(access);
                 returnData.add(name);
                 returnData.add(photo);
@@ -1118,6 +1121,7 @@ public class FileController {
                 row.add(rs.getString("_PVT_status"));
                 row.add(rs.getString("_MP"));
                 row.add(rs.getString("_MP_status"));
+                row.add(rs.getString("jira_link"));
 
 
                 returnData.add(new ArrayList<>(row));
@@ -1205,9 +1209,13 @@ public class FileController {
     }
 
     @GetMapping(value = "/save_PDP_table")
-    public void save_PDP_table(@RequestParam("serial_num") String serial_num, @RequestParam("PDP_type") String PDP_type, @RequestParam("PDP_content") String PDP_content, @RequestParam("PDP_color") String PDP_color, @RequestParam("project") String PDP_project) {
+    public void save_PDP_table(@RequestParam("serial_num") String serial_num, @RequestParam("PDP_type") String PDP_type, @RequestParam("PDP_content") String PDP_content, @RequestParam("project") String PDP_project) {
 
-
+        String PDP_color = "";
+        if (PDP_content.toUpperCase().startsWith(KEYWORD_GREEN)) PDP_color = "green";
+        else if (PDP_content.toUpperCase().startsWith(KEYWORD_YELLOW)) PDP_color = "yellow";
+        else if (PDP_content.toUpperCase().startsWith(KEYWORD_RED)) PDP_color = "red";
+        else PDP_color = "white";
 
         int sn = Integer.parseInt(serial_num);
         sn--;
@@ -1268,7 +1276,7 @@ public class FileController {
         new_work_path = work_path.replace(' ', '%');
         Cookie cookie = new Cookie("work_path", new_work_path);
         cookie.setPath("/");
-        cookie.setMaxAge(3600);
+        cookie.setMaxAge(COOKIE_EXPIRE_TIME);
         response.addCookie(cookie);
     }
 
@@ -1572,5 +1580,7 @@ public class FileController {
 
     public String PASSCODE = "dbuserdbuser";    // 管理员权限密码
     public String PASS = "DBuser123!@#";  // MySQL数据库密码
-
+    public int COOKIE_EXPIRE_TIME = 10000; // 登录状态保存时间 单位：秒
+    public String KEYWORD_GREEN = "OK", KEYWORD_YELLOW = "WAIT", KEYWORD_RED = "FAIL"; //以关键字开头的颜色识别，不区分大小写
+    public String MANAGER_LOGIN = "wentil"; //被联系的管理员的amazon login
 }

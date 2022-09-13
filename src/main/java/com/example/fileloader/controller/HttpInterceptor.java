@@ -127,6 +127,15 @@ public class HttpInterceptor implements HandlerInterceptor {
             }
         }
 
+        if ("/contact".equals(uri) || "/contact.html".equals(uri)) {
+            if (login_status.equals("success!")) {
+                uri = "/contact.html";
+            }
+            else {
+                uri = "/login.html";
+            }
+        }
+
 
 
         if ("/login".equals(uri)) {

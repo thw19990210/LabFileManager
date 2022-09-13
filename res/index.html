@@ -61,7 +61,7 @@
                 <a href="/" class="nav-link">Home</a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
-                <a href="#" class="nav-link">Contact</a>
+                <a href="/contact" class="nav-link">Contact</a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
                 <a href="login" class="nav-link">Sign Out</a>
@@ -393,16 +393,16 @@
         isCheckAll = !isCheckAll;
     }
     function listenCheckbox(){
-        $("input[type='checkbox']").on('change',function(){
-            //总量
-            var total=$("input[type='checkbox']").length;
-            ////实际被选中的
-            var exact=$("input[type='checkbox']:checked").length;
-            ////检测所有的check选项的有多少与总量进行对比
-            $("#select_all").checked=(total==exact); //true or false
-        })
+        //总量
+        let total=$("input[type='checkbox']").length;
+        ////实际被选中的
+        let exact=$("input[type='checkbox']:checked").length;
+
+        ////检测所有的check选项的有多少与总量进行对比
+        isCheckAll = (total == exact);
+        document.getElementById("select_all").checked = isCheckAll; //true or false
     }
-    // listenCheckbox();
+
     function download_selected(){
         $("input[type='checkbox']:checked").each(function (){
             let lk_id = "#link" + $(this).attr("id").substring(8);

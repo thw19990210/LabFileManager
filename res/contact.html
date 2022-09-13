@@ -95,7 +95,7 @@
         <a href="/" class="nav-link">Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
+        <a href="/contact" class="nav-link">Contact</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="login" class="nav-link">Sign Out</a>
@@ -217,10 +217,10 @@
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
-    <div id="search-controller">
+    <div id="search-controller" style="margin-bottom: 15px">
       <div class="form-inline">
 
-        <div id="search-controller1" style="margin:auto" class="input-group">
+        <div id="search-controller1" style="margin-left: 50px" class="input-group">
           <input onkeydown="key_enter_contact(event)" list="contact_list" id="sc" class="form-control" type="search" placeholder="login ID" aria-label="Search1">
 
 
@@ -368,7 +368,7 @@
 <script>
   $(document).ready(function (){
     get_token();
-    display_name();
+    get_contact();
     $.ajax({
       url: "/api/general/get_contact_option",
       type: "GET",
@@ -404,11 +404,12 @@
         $("#badge-photo").empty();
         $("#profile-info").empty();
 
-        $("#user-links").append("<a target=\"_blank\" href = 'https://w.amazon.com/bin/view/XWiki/UserContributions/?authors="+data[0]+"'>Your Wiki contributions</a><br>");
-        $("#user-links").append("<a target=\"_blank\" href = 'https://crier.amazon.com/user/"+data[0]+"'>Your Crier profile</a><br>");
-        $("#user-links").append("<a target=\"_blank\" href = 'https://maple-admin-prod.corp.amazon.com/my-support/person/"+data[0]+"'>Your Support Team</a><br>");
-        $("#user-links").append("<a target=\"_blank\" href = 'https://phonetool.amazon.com/users/"+data[0]+"'>Your Phone Tool</a><br>");
-        $("#user-links").append("<a target=\"_blank\" href = 'mailto:"+data[0]+"@amazon.com'>Your E-mail</a><br>");
+        $("#user-links").append("<a target=\"_blank\" href = 'https://w.amazon.com/bin/view/XWiki/UserContributions/?authors="+data[0]+"'>Wiki contributions</a><br>");
+        $("#user-links").append("<a target=\"_blank\" href = 'https://crier.amazon.com/user/"+data[0]+"'>Crier profile</a><br>");
+        $("#user-links").append("<a target=\"_blank\" href = 'https://maple-admin-prod.corp.amazon.com/my-support/person/"+data[0]+"'>Support Team</a><br>");
+        $("#user-links").append("<a target=\"_blank\" href = 'https://phonetool.amazon.com/users/"+data[0]+"'>Phone Tool</a><br>");
+        $("#user-links").append("<a target=\"_blank\" href = 'mailto:"+data[0]+"@amazon.com'>E-mail</a><br>");
+        $("#user-links").append("<a target=\"_blank\" href = 'https://app.chime.aws/conversations/new?email="+data[0]+"@amazon.com'>Chime</a><br>");
 
         $("#badge-photo").append("<img src='https://internal-cdn.amazon.com/badgephotos.amazon.com/?uid=" + data[0] + "' alt=\"User Image\" style='width: 152px;'>");
 

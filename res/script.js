@@ -253,11 +253,14 @@ function display (data) {
         // };
         // div.append(fileDelete);
 
-        var checkBox = document.createElement('input');
+        let checkBox = document.createElement('input');
         checkBox.type = "checkbox";
         checkBox.style.marginLeft = "10px";
         checkBox.style.marginRight = "10px";
         checkBox.id = "checkbox"+key;
+        checkBox.onclick = function () {
+            listenCheckbox();
+        };
         div.append(checkBox);
 
         div.style.marginBottom = "15px";
@@ -611,7 +614,7 @@ function display_PDP_table(project) {
 
                 $("#PDP_table_body").append("<tr class='"+row[2]+"'>");
                 $("#PDP_table_body").append("<td class='"+row[2]+" ' >"+no+"</td>");
-                $("#PDP_table_body").append("<td class='"+row[2]+" ' ><a id='item"+no+"' onclick='reload_PDP("+no+")' class='uk-link'>"+row[1]+"</a></td>");
+                $("#PDP_table_body").append("<td class='"+row[2]+" ' ><a id='item"+no+"' onclick='reload_PDP("+no+")' class='uk-link'>"+row[1]+"</a><a style='color: #f02757' href=\""+row[19]+"\" target=\"_blank\">Jira-></a></td>");
                 $("#PDP_table_body").append("<td class='"+row[2]+" ' >"+row[2]+"</td>");
                 $("#PDP_table_body").append("<td class='EVT3 S1 "+row[2]+" ' bgcolor='"+row[4]+"'><div id='"+no+"-1'>"+row[3]+"</div></td>");
                 $("#PDP_table_body").append("<td class='DVT S1 "+row[2]+" '  bgcolor='"+row[6]+"'><div id='"+no+"-2'>"+row[5]+"</div></td>");
@@ -1259,6 +1262,9 @@ function folders_list() {
                 checkBox.style.marginLeft = "10px";
                 checkBox.style.marginRight = "10px";
                 checkBox.id = "checkbox"+key;
+                checkBox.onclick = function () {
+                    listenCheckbox();
+                };
                 div.append(checkBox);
 
                 div.style.marginBottom = "15px";
