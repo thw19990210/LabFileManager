@@ -266,6 +266,60 @@
 
     <!-- custom - main-js -->
     <script src="assets/js/main.js"></script>
+    <script>
+        function validation() {
+            var user_name=document.getElementById("username_input").value;
+            var password =document.getElementById("password_input").value;
+            var acct = "username="+user_name+"&password="+password;
+            $.ajax({
+                url: "/api/general/login?"+acct,
+                type: "GET",
+                error: function () {
+                    alert("Sorry! Some error happened");
+                },
+                success: function (data) {
+                    if (data == "success!") {
+                        location.href="/";
+                        get_token();
+                    }
+                    else {
+                        alert(data);
+                    }
+                }
+            });
+        }
+
+        function change_pswd() {
+            var user_name=document.getElementById("username_input2").value;
+            var password =document.getElementById("password_input1").value;
+            var new_password1 =document.getElementById("password_input21").value;
+            var new_password2 =document.getElementById("password_input22").value;
+            var change;
+            if (new_password1 === new_password2) {
+                change = "username="+user_name+"&password="+password+"&new_password="+new_password1;
+            }
+            else {
+                alert("New password didn't match!")
+            }
+
+            $.ajax({
+                url: "/api/general/change?"+change,
+                type: "GET",
+                error: function () {
+                    alert("Sorry! Some error happened");
+                },
+                success: function (data) {
+                    if (data == "success!") {
+                        location.href="/login"
+                        alert(data);
+                    }
+                    else {
+                        alert(data);
+                    }
+                }
+            });
+        }
+    </script>
     
 </body>
 </html>                

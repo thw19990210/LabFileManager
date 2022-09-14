@@ -355,6 +355,35 @@
         $("#upload_access_control").hide();
     });
 
+    function get_upload_access() {
+        var work_path = document.getElementById("path_string").innerHTML;
+        $.ajax({
+            url: "/api/general/get_token",
+            type: "GET",
+            error: function () {
+
+            },
+            success: function (data) {
+
+                var access = data[0].split(',');
+                var permitted = 0;
+                for (key in access) {
+                    var path = "/" + work_path;
+                    if (path.startsWith(access[key])) {
+                        permitted = 1;
+                    }
+                }
+                if (permitted == 1) {
+                    $("#upload_access_control").show();
+                }
+                else {
+                    $("#upload_access_control").hide();
+                    alert("Access Denied!");
+                }
+            }
+        });
+    }
+
     function refresh() {
         let path = document.getElementById("path_string").innerHTML;
         choose_path (path);
@@ -484,6 +513,242 @@
         ////检测所有的check选项的有多少与总量进行对比
         isCheckAll = (total == exact);
         document.getElementById("select_all").checked = isCheckAll; //true or false
+    }
+
+    var bar = document.getElementById('js-progressbar');
+    UIkit.upload('.js-upload', {
+        url: '/api/general/files/upload',
+        multiple: true,
+        name: "file",
+        beforeSend: function () {
+            console.log('beforeSend', arguments);
+        },
+        beforeAll: function () {
+            console.log('beforeAll', arguments);
+        },
+        load: function () {
+            console.log('load', arguments);
+        },
+        error: function () {
+            console.log('error', arguments);
+        },
+        complete: function (e) {
+            console.log('complete', e);
+            console.log('complete', arguments);
+        },
+        loadStart: function (e) {
+            console.log('loadStart', arguments);
+            bar.removeAttribute('hidden');
+            bar.max = e.total;
+            bar.value = e.loaded;
+        },
+        progress: function (e) {
+            console.log('progress', arguments);
+            bar.max = e.total;
+            bar.value = e.loaded;
+        },
+        loadEnd: function (e) {
+            console.log('loadEnd', arguments);
+            bar.max = e.total;
+            bar.value = e.loaded;
+        },
+        completeAll: function () {
+            console.log('completeAll', arguments);
+            setTimeout(function () {
+                bar.setAttribute('hidden', 'hidden');
+            }, 1000);
+            alert("Successfully Uploaded!");
+        }
+    });
+
+    function folders_list() {
+        var list_path = document.getElementById("path_string").innerHTML;
+
+        $("#folders_list").empty();
+        $("#folders_list").hide();
+        $("#upload_access_control").hide();
+
+        $.ajax({
+            url: "/api/general/files/list?path="+list_path,
+            type: "GET",
+            error: function (data, status) {
+                onerror(data);
+            },
+            success: function (data, status) {
+                $("#folders_list").fadeIn(500);
+                for (var key in data) {
+                    var div = document.createElement('div');
+                    div.classList.add("CenteredItems");
+                    div.style.display = "inline-flex";
+                    div.style.flexDirection = "row";
+
+                    var clipboard = document.createElement('div');
+                    // clipboard.data-clipboard-text = data[key].name;
+                    var fileIcon = document.createElement('img');
+                    fileIcon.src = data[key].isDirectory ? "folder.svg" : "file.svg";
+                    var copy = document.createElement('a');
+
+                    //image preview function
+                    var img;
+                    var img_name = data[key].path;
+                    if (data[key].name.endsWith(".mp4") ||
+                        data[key].name.endsWith(".wmv") ||
+                        data[key].name.endsWith(".m4v") ||
+                        data[key].name.endsWith(".avi") ||
+                        data[key].name.endsWith(".rm") ||
+                        data[key].name.endsWith(".mov") ) {
+                        img = document.createElement('video');
+                    }
+                    else if (data[key].name.endsWith(".raw")) {
+                        img = document.createElement('img');
+                        img_name = img_name.slice(0, -4) + ".jpg";
+                    }
+                    else {
+                        img = document.createElement('img');
+                    }
+                    img.style.width = "150px";
+                    img.style.height = "114px";
+                    img.style.marginLeft = "3px";
+
+                    if (data[key].isDirectory) img.style.opacity = "0";
+
+                    if(!(data[key].name.endsWith(".mp4") ||
+                        data[key].name.endsWith(".wmv") ||
+                        data[key].name.endsWith(".m4v") ||
+                        data[key].name.endsWith(".avi") ||
+                        data[key].name.endsWith(".rm")  ||
+                        data[key].name.endsWith(".mov") ||
+                        data[key].name.endsWith(".jpg") ||
+                        data[key].name.endsWith(".png") ||
+                        data[key].name.endsWith(".raw") ||
+                        data[key].name.endsWith(".jpeg"))
+                    ) {
+                        img.style.opacity = "0";
+                    }
+
+                    img.src = data[key].isDirectory ? "" : "/storage/" + img_name;
+                    img.alt = "  no image";
+
+                    div.append(img);
+
+                    //end
+
+                    fileIcon.style.width = "28px";
+                    fileIcon.style.paddingLeft = "5px";
+                    fileIcon.style.paddingRight = "5px";
+                    fileIcon.style.marginRight = "7px";
+                    fileIcon.style.marginLeft = "15px";
+                    fileIcon.data = data[key].name;
+                    fileIcon.style.cursor = "pointer";
+                    fileIcon.onclick = function () {
+                        copy_name(this.data);
+                    };
+
+
+
+                    div.append(fileIcon);
+
+                    var fileLink = document.createElement('a');
+                    fileLink.appendChild(document.createTextNode(data[key].name));
+                    fileLink.href = "/api/general/files/download?file_path=" + data[key].path;
+                    // fileLink.classList.add("HeaderHeight");
+                    fileLink.style.marginTop = "46px"
+                    fileLink.classList.add("FileEntryName");
+                    fileLink.classList.add("BCLinkBlue");
+                    fileLink.id = "link"+key;
+                    div.append(fileLink);
+
+                    if (!data[key].isDirectory) {
+                        var fileSize = document.createElement('span');
+                        // fileSize.classList.add("HeaderHeight");
+                        fileSize.classList.add("FileEntrySize");
+                        fileSize.classList.add("BCCLightGray");
+                        fileSize.style.marginTop = "46px";
+                        fileSize.appendChild(document.createTextNode("" + humanFileSize(data[key].length)));
+                        div.append(fileSize);
+                    }
+
+                    var fileDelete = document.createElement('a');
+                    fileDelete.innerHTML = "&nbsp";
+                    fileDelete.classList.add("HeaderHeight");
+                    fileDelete.classList.add("FileEntryDelete");
+                    var deleteIcon = document.createElement('img');
+                    deleteIcon.src = "delete.svg";
+                    deleteIcon.style.width = "15px";
+                    deleteIcon.style.height = "15px";
+                    deleteIcon.style.marginTop = "50px"
+                    fileDelete.style.textDecoration = "none";
+                    fileDelete.appendChild(deleteIcon);
+                    fileDelete.data = "/api/general/files/delete/" + data[key].name;
+                    // fileDelete.onclick = function () {
+                    //     sendGet(this.data);
+                    // };
+                    // div.append(fileDelete);
+
+                    var checkBox = document.createElement('input');
+                    checkBox.type = "checkbox";
+                    checkBox.style.marginLeft = "10px";
+                    checkBox.style.marginRight = "10px";
+                    checkBox.id = "checkbox"+key;
+                    checkBox.onclick = function () {
+                        listenCheckbox();
+                    };
+                    div.append(checkBox);
+
+                    div.style.marginBottom = "15px";
+
+                    $("#folders_list").append(div);
+                }
+            }
+        });
+    }
+
+    function new_folder_access() {
+        $.ajax({
+            url: "/api/general/get_token",
+            type: "GET",
+            error: function () {
+
+            },
+            success: function (data) {
+
+                var access = data[0].split(',');
+                var permitted = 0;
+                for (key in access) {
+                    var path = "/" + document.getElementById('path_string').innerHTML;
+                    if (path.startsWith(access[key])) {
+                        permitted = 1;
+                    }
+                }
+                if (permitted == 1) {
+                    new_folder();
+                }
+                else {
+                    alert("Access Denied!")
+                }
+            }
+        });
+
+    }
+
+    function new_folder() {
+        var path = document.getElementById('path_string').innerHTML;
+        var folder_name = prompt("Please add the folder's name:");
+        if (folder_name == null) return;
+        if (folder_name == "") alert("name cannot be empty!");
+        $.ajax({
+            url: "/api/general/create_folder?path="+path+"&name="+folder_name,
+            type: "GET",
+            error: function (data) {
+                onerror(data);
+            },
+            success: function (data) {
+
+            }
+        });
+
+        folders_list();
+        choose_path(document.getElementById("path_string").innerHTML);
     }
 </script>
 
