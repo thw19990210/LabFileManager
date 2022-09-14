@@ -107,6 +107,7 @@ public class FileController {
             }
         }
 
+
         if (work_path.equals("empty_path")) work_path = "";
 
         for (MultipartFile file : files) {

@@ -354,13 +354,14 @@
                     <a id="go_back2" onclick="sel_details()" class="btn btn_primary" style="margin-left: 30px;margin-bottom: 3px">Back</a>
                 </div>
                 <div style="float:left; width:50%; text-align: right">
-                    <a id="refresh_btn" onclick="folders_list()" class="btn btn_primary" style="margin-right: 20px;margin-bottom: 3px">Refresh</a>
+                    <a id="refresh_btn" onclick="reload_PDP(document.getElementById('item-reminder-id').innerHTML)" class="btn btn_primary" style="margin-right: 20px;margin-bottom: 3px">Refresh</a>
                 </div>
             </div>
             <div>
+                <div id="item-reminder-id" style="text-align: center; font-size: 18px"></div>
                 <div id="item-reminder" style="text-align: center; font-size: 18px"> </div>
 
-                <div>
+
             </div>
 
                 <progress id="js-progressbar" class="uk-progress CenteredItems" value="0" max="200" hidden></progress>
@@ -490,6 +491,7 @@
         $("#PDP_upload_access_control").hide();
         $("#PDP_List").hide();
         $("#item-reminder").hide();
+        $("#item-reminder-id").hide();
         $("#go_back").hide();
         $("#PDP_save_button").hide();
         document.getElementById('switch-btn-3').style.color = "#f02757";
@@ -503,6 +505,7 @@
         $("#PDP_upload_access_control").hide();
         $("#PDP_List").hide();
         $("#item-reminder").hide();
+        $("#item-reminder-id").hide();
         $("#go_back").hide();
         $("#PDP-switch-controller").show();
         $("#PDP_save_button").show();
@@ -602,6 +605,7 @@
                     $("#PDP-controller").hide();
                     $("#PDP_upload_access_control").hide();
                     $("#item-reminder").hide();
+                    $("#item-reminder-id").hide();
                     $("#go_back").hide();
                     $("#PDP_List").hide();
                     $("#PDP_access_alert").show();
@@ -617,6 +621,7 @@
         $("#PDP_List").hide();
         $("#PDP_upload_access_control").hide();
         $("#item-reminder").hide();
+        $("#item-reminder-id").hide();
 
         $("#PDP_checkbox").show();
 
@@ -695,6 +700,7 @@
                 $("#PDP_upload_access_control").hide();
                 $("#PDP_List").hide();
                 $("#item-reminder").hide();
+                $("#item-reminder-id").hide();
                 $("#go_back").hide();
                 $("#PDP-switch-controller").show();
                 document.getElementById('switch-btn-3').style.color = "black";
@@ -987,6 +993,7 @@
     }
 
     function reload_PDP(path) {
+        save_work_path_3(path);
         $("#PDP_access_alert").hide();
         $("#PDP_table").hide();
         $("#pie_chart").hide();
@@ -994,13 +1001,15 @@
         $("#PDP-switch-controller").hide();
         $("#PDP_upload_access_control").show();
         $("#item-reminder").show();
+        $("#item-reminder-id").hide();
         $("#go_back").show();
 
 
-        let item = "item" + path;
+        let item = "item"+path;
 
 
         document.getElementById("item-reminder").innerHTML = document.getElementById(item).innerHTML;
+        document.getElementById("item-reminder-id").innerHTML = path;
 
         $("#PDP_List").empty();
         // $("#PDP_List").hide();
@@ -1189,6 +1198,69 @@
             $(".S2").hide();
         }
     }
+
+    var bar = document.getElementById('js-progressbar');
+    UIkit.upload('.js-upload', {
+        url: '/api/general/files/upload',
+        multiple: true,
+        name: "file",
+        beforeSend: function () {
+            console.log('beforeSend', arguments);
+        },
+        beforeAll: function () {
+            console.log('beforeAll', arguments);
+        },
+        load: function () {
+            console.log('load', arguments);
+        },
+        error: function () {
+            console.log('error', arguments);
+        },
+        complete: function (e) {
+            console.log('complete', e);
+            console.log('complete', arguments);
+        },
+        loadStart: function (e) {
+            console.log('loadStart', arguments);
+            bar.removeAttribute('hidden');
+            bar.max = e.total;
+            bar.value = e.loaded;
+        },
+        progress: function (e) {
+            console.log('progress', arguments);
+            bar.max = e.total;
+            bar.value = e.loaded;
+        },
+        loadEnd: function (e) {
+            console.log('loadEnd', arguments);
+            bar.max = e.total;
+            bar.value = e.loaded;
+        },
+        completeAll: function () {
+            console.log('completeAll', arguments);
+            setTimeout(function () {
+                bar.setAttribute('hidden', 'hidden');
+            }, 1000);
+            alert("Successfully Uploaded!");
+        }
+    });
+
+    function save_work_path_3(path){
+        var work_path = document.getElementById("project_menu_innerHTML").innerHTML+"/PDP/item"+path;
+
+        $.ajax({
+            url: "/api/general/save_work_path?work_path=" + work_path,
+            type: "GET",
+            error: function () {
+
+            },
+            success: function () {
+
+            }
+        });
+    }
+
+
 </script>
 </body>
 </html>
