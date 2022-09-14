@@ -49,8 +49,8 @@ flush privileges;
 ```
 sudo yum install -y git
 sudo yum install -y java
-git clone https://github.com/thw19990210/LabFileManager-amazon
-cd LabFileManager-amazon
+git clone ssh://git.amazon.com/pkg/Lab126CameraDatabase
+cd Lab126CameraDatabase
 java -jar target/fileloader-0.0.1-SNAPSHOT.jar
 ```
 
@@ -150,7 +150,7 @@ delete from PDP where project = 'test';
 第一次建立请写set @ID = 0;
 ```
 set @ID = (select id from PDP order by -id limit 1);
-set @project = '{project}';
+set @project = 'Test';
 INSERT INTO
 PDP (id,project,item,priority,EVT3_status,DVT_status,PVT_status,MP_status,_EVT3_status,_DVT_status,_PVT_status,_MP_status,EVT3,DVT,PVT,MP,_EVT3,_DVT,_PVT,_MP)
 VALUES

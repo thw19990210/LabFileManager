@@ -535,6 +535,7 @@ function  get_PDP_access(project){
                 display_PDP_table(data[1]);
                 $("#PDP_table").show();
                 $("#PDP-controller").show();
+                $("#PDP-switch-controller").show();
                 $("#PDP_access_alert").hide();
             }
             else {
