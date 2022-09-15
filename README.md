@@ -181,7 +181,7 @@ VALUES
 ```
 #### 复制文件夹PDP到/res/storage/{project}/
 ```
-cp -r PDP res/storage/{project}/PDP
+cp -r PDP res/storage/{project}/
 ```
 #### 网页api方式执行mysql
 >/api/general/mysql/execute?passcode=dbuserdbuser&sql=xxx  //执行mysql语句
