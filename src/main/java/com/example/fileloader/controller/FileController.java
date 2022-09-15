@@ -1580,7 +1580,7 @@ public class FileController {
     }
 
     public String PASSCODE = "dbuserdbuser";    // 管理员权限密码
-    public String PASS = "DBuser123!@#";  // MySQL数据库密码
+    public String PASS = "dbuserdbuser";  // MySQL数据库密码
     public int COOKIE_EXPIRE_TIME = 10000; // 登录状态保存时间 单位：秒
     public String KEYWORD_GREEN = "OK", KEYWORD_YELLOW = "WAIT", KEYWORD_RED = "FAIL"; //以关键字开头的颜色识别，不区分大小写
     public String MANAGER_LOGIN = "wentil"; //被联系的管理员的amazon login

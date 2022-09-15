@@ -467,6 +467,7 @@
 
     function delete_confirm(){
         let n = $("input[type='checkbox']:checked").length;
+        let work_path = document.getElementById("path_string").innerHTML;
 
         if (confirm("Confirm to delete the "+n+" file(s)?")) {
             $("input[type='checkbox']:checked").each(function (){
@@ -480,7 +481,7 @@
                 // alert("Deleting the file: "+file);
 
                 $.ajax({
-                    url: "/api/general/files/delete?file_path="+ file,
+                    url: "/api/general/files/delete?file_path="+ work_path + file,
                     type: "GET",
                     error: function (data) {
                         onerror(data);

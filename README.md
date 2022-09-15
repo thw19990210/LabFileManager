@@ -53,7 +53,11 @@ git clone ssh://git.amazon.com/pkg/Lab126CameraDatabase
 cd Lab126CameraDatabase
 java -jar target/fileloader-0.0.1-SNAPSHOT.jar
 ```
-
+or
+```
+git clone https://github.com/thw19990210/LabFileManager-amazon
+cd LabFileManager-amazon
+```
 ### MySQL query
 ```
 create schema amazon_lab126;
@@ -177,7 +181,7 @@ VALUES
 ```
 #### 复制文件夹PDP到/res/storage/{project}/
 ```
-cp -r PDP res/storage/{project}
+cp -r PDP res/storage/{project}/PDP
 ```
 #### 网页api方式执行mysql
 >/api/general/mysql/execute?passcode=dbuserdbuser&sql=xxx  //执行mysql语句
